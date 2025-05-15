@@ -1,0 +1,15 @@
+- login to the primary
+	-create database my_test_db;(super user)
+	-create user test_user with password 'test_password';(login into new db using super user)
+	-CREATE TABLE confidentia_data (
+	    id SERIAL PRIMARY KEY,
+ 	   info TEXT
+	);
+	-INSERT INTO confidentia_data (info) VALUES ('Top Secret');
+	
+	-GRANT CONNECT ON DATABASE my_test_db TO test_user;
+	-GRANT USAGE ON SCHEMA public TO test_user;
+	-GRANT SELECT ON ALL TABLES IN SCHEMA public TO test_user;
+
+	-REVOKE SELECT ON confidential_data FROM test_user;
+
