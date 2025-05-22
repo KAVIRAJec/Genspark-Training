@@ -1,0 +1,171 @@
+https://learn.microsoft.com/en-us/archive/msdn-magazine/2014/may/csharp-best-practices-dangers-of-violating-solid-principles-in-csharp
+https://github.com/tigerbluejay/FullLINQ101Implementations/tree/main/FullLINQ101ImplementationsSolution
+
+
+ 1. Single Responsibility Principle (SRP)
+	one responsibility — or — only one reason to change
+In real-world software, a class might be handling too many tasks — for example, data processing, logging, file I/O, and UI rendering. If requirements change (say, the logging mechanism changes), you might have to modify that class and risk breaking its unrelated parts.
+SRP helps to keep a class focused on one specific job, making the code:
+Easier to read
+Easier to maintain
+Easier to test
+Less prone to bugs
+🧱 Analogy:
+Imagine a Swiss Army knife — it has many tools, but if one breaks (like the scissors), the whole thing becomes harder to use. Instead, think of having one dedicated tool per job — a screwdriver only screws, scissors only cut.
+📌 Example Case:
+Let’s say you have a ReportManager class:
+It generates a report
+Saves it to disk
+Emails it to a user
+That’s three responsibilities. If email functionality changes, the class must be updated — even though report generation didn’t change. This violates SRP.
+Better: Separate these into different classes: ReportGenerator, ReportSaver, and EmailSender.
+---- Hiring new employee shouldn't affect, the existing employee or customers
+
+CODE:
+public class BookOrder{
+	public void chooseQuantity();
+	public void chooseAddress();
+	public void choosePayment();
+}
+
+2. Open/Closed Principle (OCP)
+	Software should be open for extension but closed for modification.
+This means you should be able to add new behavior without changing existing code.
+📘 Deeper Meaning:
+In software development, requirements evolve — you may need to support new features, rules, or business logic. If every new requirement forces you to edit existing, working code, you risk:
+-Breaking what's already working (regression bugs)
+-Making the code harder to test
+-Violating modularity
+The Open/Closed Principle encourages designing systems where:
+-The core logic remains untouched
+-New behavior is added through inheritance or interfaces
+🧱 Analogy:
+Imagine a car manufacturer building different models. Instead of redesigning the base car every time they want a new model, they just extend the design: different trims, features, or engines. The base "Car" design is closed for modification, but open for extension.
+📌 Common Violation:
+Say you have a method that calculates discounts & salary based on employee type
+Every time a new employee role is added, you modify the function. That’s risky and violates OCP.
+✅ How to Apply OCP:
+Instead of editing the method, define a base class or interface for discount strategies, and create a new class for each type. You extend behavior by adding new classes, not changing existing ones.
+This aligns perfectly with polymorphism — a powerful object-oriented feature in C#.
+---Editing a role in a company, not editing directly, just inherit or use polymorphism
+public interface IDiscountStrategy
+    double GetDiscount();
+public class RegularCustomerDiscount : IDiscountStrategy
+    public double GetDiscount() => 0.1;
+public class PremiumCustomerDiscount : IDiscountStrategy
+    public double GetDiscount() => 0.2;
+public class VIPCustomerDiscount : IDiscountStrategy
+    public double GetDiscount() => 0.3;
+static void Main()
+    {
+        var calculator = new DiscountCalculator();
+        IDiscountStrategy regular = new RegularCustomerDiscount();
+        IDiscountStrategy premium = new PremiumCustomerDiscount();
+        IDiscountStrategy vip = new VIPCustomerDiscount();
+        Console.WriteLine($"Regular: {calculator.Calculate(regular) * 100}% discount");
+        Console.WriteLine($"Premium: {calculator.Calculate(premium) * 100}% discount");
+        Console.WriteLine($"VIP: {calculator.Calculate(vip) * 100}% discount");
+    }
+adding new:
+public class StudentCustomerDiscount : IDiscountStrategy
+    public double GetDiscount() => 0.15;
+
+3. Liskov Substitution Principle (LSP)
+	Objects of a subclass should be replaceable for objects of the base class without affecting the correctness of the program.
+This means that if a piece of code is using a base class, it should be able to work with any of its subclasses without knowing it — and everything should still behave as expected.
+📘 Deeper Meaning:
+This principle was introduced by Barbara Liskov, and it’s a core part of writing reliable object-oriented systems.
+It's not just about extending a class — it's about making sure that the subclass honors the behavior and expectations of the base class.
+If a subclass changes how methods behave in a way that violates the contract of the base class, it breaks LSP and can lead to bugs that are hard to track.
+🧱 Analogy:
+Think of a parent-child relationship. If a parent class represents a Bird with a Fly() method, all subclasses should logically be able to fly. But if you make an Ostrich subclass and it can’t fly, using it in place of a Bird leads to incorrect behavior.
+So, while an ostrich is biologically a bird, in programming terms, it shouldn't inherit from Bird if it can’t fulfill the expectations of being a Bird.
+📌 Common Violation:
+You create a base class Rectangle with Width and Height, and a subclass Square. You override the setters to keep width and height equal. Now when you try to assign Width = 10 and Height = 5, the result is inconsistent and breaks the logic.
+This is a violation of LSP — your subclass (Square) is not honoring the expectations of the base class (Rectangle).
+✅ How to Apply LSP:
+Ensure subclasses don't override behavior in a way that breaks expectations
+Don't override a method to throw an exception unless the base class allows it
+Respect the “is-a” relationship. If Dog is a subclass of Animal, it must behave like an Animal in every place Animal is used.
+---- developer overriding customer feature with violates employee base class
+
+
+4. Interface Segregation Principle (ISP)
+	No client should be forced to depend on methods it does not use.
+This means you should split large, "fat" interfaces into smaller, more specific ones, so that classes only implement what they actually need
+📘 Deeper Meaning:
+In C# and object-oriented programming, interfaces define contracts — a set of methods that a class must implement. If an interface defines too many methods, then every class that implements it is forced to provide an implementation, even if it doesn’t make sense for that class.
+This creates:
+Bloated classes with irrelevant methods
+Code that’s harder to maintain
+Violations of SRP, because a class ends up doing too many unrelated things just to satisfy the interface
+ISP promotes the idea that an interface should be cohesive — focused on one specific role or behavior.
+🧱 Analogy:
+Imagine a plug with ten pins, but your device only uses three. Forcing your device to connect to that interface just because it’s “standard” is a waste — and may cause failure if the other pins carry irrelevant or dangerous signals.
+📌 Common Violation:
+You define an interface like this:
+public interface IMachine {
+    void Print();
+    void Scan();
+    void Fax();
+}
+Now, you create a SimplePrinter class — it only prints. But you’re forced to implement Scan() and Fax() just to satisfy the interface, even though those don’t apply.
+That’s a clear violation of ISP.
+✅ How to Apply ISP:
+Break down large interfaces into smaller ones, each focused on a specific capability:
+public interface IPrinter {
+    void Print();
+}
+public interface IScanner {
+    void Scan();
+}
+public interface IFax {
+    void Fax();
+}
+Now a class can choose to implement only what it needs. This leads to cleaner, more maintainable code and respects SRP at the interface level.
+--- Employee Roles - Privacy Data project - Developer can access it, but HR/ Infra team no need it, if provided, would lead to issue
+
+5. Dependency Inversion Principle (DIP)
+	High-level modules should not depend on low-level modules. Both should depend on abstractions.
+	Abstractions should not depend on functionality. functionality should depend on abstractions.
+📘 Deeper Meaning:
+In traditional programming, it's common to have higher-level components (e.g. business logic) directly use lower-level components (e.g. database access, file I/O). This creates a tight coupling between layers.
+The Dependency Inversion Principle flips that approach by saying:
+High-level modules (like a reporting service) shouldn’t directly depend on the file system, database, email provider, etc.
+Instead, both the high-level module and the low-level module should depend on interfaces or abstract classes.
+This allows for easy swapping of implementations and makes unit testing much easier.
+🧱 Analogy:
+Imagine a smart home controller (the high-level module) that can turn on/off devices. If it's hardcoded to control just Philips Hue lights (low-level module), it can't control any other device brand.
+
+But if the controller depends on a "SmartDevice" interface, then any brand can be used as long as it implements the interface — Philips, Nest, etc. Now the controller is flexible and future-proof.
+📌 Common Violation:
+A class directly creates or uses a concrete implementation:
+public class ReportGenerator {
+    private FileSaver fileSaver = new FileSaver(); // tight coupling
+    public void SaveReport() {
+        fileSaver.Save("report.txt");
+    }
+}
+Here, ReportGenerator is tightly coupled to FileSaver, making it:
+Hard to test (you can't mock it easily)
+Inflexible (you can't swap in a database saver or cloud uploader)
+✅ How to Apply DIP:
+You inject dependencies through interfaces:
+public interface ISaver {
+    void Save(string content);
+}
+Now ReportGenerator depends on ISaver, not the specific implementation:
+public class ReportGenerator {
+    private readonly ISaver saver;
+
+    public ReportGenerator(ISaver saver) {
+        this.saver = saver;
+    }
+
+    public void SaveReport() {
+        saver.Save("report content");
+    }
+}
+Now you can inject any implementation (FileSaver, CloudSaver, MockSaver) — this is powerful, especially when combined with Dependency Injection containers in frameworks like ASP.NET Core.
+---Client request for product, if client class directly uses web app with associate the make class, if client wish to change any other class(mobile app, cloud service), then it is cause issue with other dependent class(SRP)
+

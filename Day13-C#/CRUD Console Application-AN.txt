@@ -1,0 +1,47 @@
+Design a simple console-based application to manage appointments for a cardiologist. The application should allow:
+ 
+Adding a new appointment (Patient info, Appointment date/time, Reason for visit)
+ 
+Searching existing appointments based on filters such as:
+Patient Name (contains)
+Appointment Date (exact match)
+Patient Age (range)
+ 
+This is intended for internal use by the doctor's clinic staff to quickly find upcoming or past appointments.
+ 
+Functional Requirements
+
+Add Appointment
+Input: Patient name, age, appointment date and time, and reason.
+Output: Return appointment ID if successful.
+
+Search Appointments
+Input: Search model containing filters:
+Patient Name (optional)
+Appointment Date (optional)
+Age Range (optional)
+Output: List of matching appointments
+ 
+Patient Class
+public class Appointment
+{
+    public int Id { get; set; }
+    public string PatientName { get; set; } = string.Empty;
+    public int PatientAge { get; set; }
+    public DateTime AppointmentDate { get; set; }
+    public string Reason { get; set; } = string.Empty;
+}
+AppointmentSearchModel class
+public class AppointmentSearchModel
+{
+    public string? PatientName { get; set; }
+    public DateTime? AppointmentDate { get; set; }
+    public Range<int>? AgeRange { get; set; }
+}
+ 
+Make the AppointmentService follow the pattern you used for EmployeeService:
+ 
+Filter chaining: SearchByName(), SearchByDate(), SearchByAge()
+ 
+Handle null or empty filters gracefully
+Handle exceptions

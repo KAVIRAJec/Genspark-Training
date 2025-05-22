@@ -1,0 +1,64 @@
+1) Print all the titles names
+2) Print all the titles that have been published by 1389
+3) Print the books that have price in range of 10 to 15
+4) Print those books that have no price
+5) Print the book names that starts with 'The'
+6) Print the book names that do not have 'v' in their name
+7) print the books sorted by the royalty
+8) print the books sorted by publisher in descending then by types in ascending then by price in descending
+9) Print the average price of books in every type
+10) print all the types in unique
+11) Print the first 2 costliest books
+12) Print books that are of type business and have price less than 20 which also have advance greater than 7000
+13) Select those publisher id and number of books which have price between 15 to 25 and have 'It' in its name. Print only those which have count greater than 2. Also sort the result in ascending order of count
+14) Print the Authors who are from 'CA'
+15) Print the count of authors from every state
+
+
+
+
+Design the database for a shop which sells products
+Points for consideration
+  1) One product can be supplied by many suppliers
+  2) One supplier can supply many products
+  3) All customers details have to present
+  4) A customer can buy more than one product in every purchase
+  5) Bill for every purchase has to be stored
+  6) These are just details of one shop
+ 
+
+--Categories
+--- category_id, name
+
+--Products
+--- product_id, name, description, category, price, quantity, image
+
+--Suppliers
+--- supplier_id, name, contact, email, address
+
+--Product-Supplier
+--- transaction_id, product_id, supplier_id, date_of_supply, quantity
+
+--Customers
+--- id, name, contact, age, dob, email, address
+
+--Purchase
+--- purchase_id, customer_id, purchase_date, total_amount, purchase_status
+
+--Purchase_details
+--- id, purchase_id, product_id, quantity, price
+------------------------------------------------------------------------------------------------
+--country
+--- id,name
+
+--state
+--- id,name, country_id
+
+--city
+--- id,name, state_id
+
+--area 
+--- zipcode, name, city_id
+
+--address
+--- id, door_number, address_line1, zipcode

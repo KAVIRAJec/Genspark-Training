@@ -1,0 +1,5 @@
+- Print the publisher details of the publisher who has never published
+- Select the author_id for all the books. Print the author_id and the book name
+- Print the publisher's name, book name and the order date of the books
+- Print the publisher name and the first book sale date for all the publishers
+- Print the bookname and the store address of the sale

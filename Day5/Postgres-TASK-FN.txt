@@ -1,0 +1,37 @@
+https://neon.tech/postgresql/postgresql-getting-started/postgresql-sample-database
+-----------------------------------------------------------------
+
+SELECT Queries
+List all films with their length and rental rate, sorted by length descending.
+Columns: title, length, rental_rate
+
+Find the top 5 customers who have rented the most films.
+Hint: Use the rental and customer tables.
+
+Display all films that have never been rented.
+Hint: Use LEFT JOIN between film and inventory → rental.
+
+JOIN Queries
+List all actors who appeared in the film ‘Academy Dinosaur’.
+Tables: film, film_actor, actor
+
+List each customer along with the total number of rentals they made and the total amount paid.
+Tables: customer, rental, payment
+
+CTE-Based Queries
+Using a CTE, show the top 3 rented movies by number of rentals.
+Columns: title, rental_count
+
+Find customers who have rented more than the average number of films.
+Use a CTE to compute the average rentals per customer, then filter.
+
+ Function Questions
+Write a function that returns the total number of rentals for a given customer ID.
+Function: get_total_rentals(customer_id INT)
+
+Stored Procedure Questions
+Write a stored procedure that updates the rental rate of a film by film ID and new rate.
+Procedure: update_rental_rate(film_id INT, new_rate NUMERIC)
+
+Write a procedure to list overdue rentals (return date is NULL and rental date older than 7 days).
+Procedure: get_overdue_rentals() that selects relevant columns.

@@ -1,0 +1,30 @@
+Cursor-Based Questions (5)
+Write a cursor that loops through all films and prints titles longer than 120 minutes.
+
+Create a cursor that iterates through all customers and counts how many rentals each made.
+
+Using a cursor, update rental rates: Increase rental rate by $1 for films with less than 5 rentals.
+
+Create a function using a cursor that collects titles of all films from a particular category.
+
+Loop through all stores and count how many distinct films are available in each store using a cursor.
+
+Trigger-Based Questions (5)
+Write a trigger that logs whenever a new customer is inserted.
+
+Create a trigger that prevents inserting a payment of amount 0.
+
+Set up a trigger to automatically set last_update on the film table before update.
+
+Create a trigger to log changes in the inventory table (insert/delete).
+
+Write a trigger that ensures a rental can’t be made for a customer who owes more than $50.
+
+Transaction-Based Questions (5)
+Write a transaction that inserts a customer and an initial rental in one atomic operation.
+
+Simulate a failure in a multi-step transaction (update film + insert into inventory) and roll back.
+
+Create a transaction that transfers an inventory item from one store to another.
+
+Demonstrate SAVEPOINT and ROLLBACK TO SAVEPOINT by updating payment amounts, then undoing one.
