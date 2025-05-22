@@ -1,0 +1,190 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\manageorders.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\manageorders.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\interfaces\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\interfaces\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\22-05-2025\\c#-day4\\c#-day4\\manageproducts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C712822-68F1-4A97-A31F-5A096F1F5062}|C#-Day4\\C#-Day4.csproj|solutionrelative:c#-day4\\manageproducts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrderService.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Services\\OrderService.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\Services\\OrderService.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Services\\OrderService.cs",
+              "RelativeToolTip": "C#-Day4\\Services\\OrderService.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAUwB0AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T11:48:45.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrderRepository.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Repositories\\OrderRepository.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\Repositories\\OrderRepository.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Repositories\\OrderRepository.cs",
+              "RelativeToolTip": "C#-Day4\\Repositories\\OrderRepository.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAA7wBMAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T11:43:09.443Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Repositories\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\Repositories\\ProductRepository.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Repositories\\ProductRepository.cs",
+              "RelativeToolTip": "C#-Day4\\Repositories\\ProductRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T11:02:07.323Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\Services\\ProductService.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Services\\ProductService.cs",
+              "RelativeToolTip": "C#-Day4\\Services\\ProductService.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwBYAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T11:07:15.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Program.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\Program.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Program.cs",
+              "RelativeToolTip": "C#-Day4\\Program.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAvwBsAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:38:35.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ManageOrders.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\ManageOrders.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\ManageOrders.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\ManageOrders.cs",
+              "RelativeToolTip": "C#-Day4\\ManageOrders.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAYwEEAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T11:50:32.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\Models\\Order.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Models\\Order.cs",
+              "RelativeToolTip": "C#-Day4\\Models\\Order.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAxwAsAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T11:32:49.944Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IRepository.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Interfaces\\IRepository.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\Interfaces\\IRepository.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Interfaces\\IRepository.cs",
+              "RelativeToolTip": "C#-Day4\\Interfaces\\IRepository.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAADwvwwAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T11:00:35.38Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ManageProducts.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\ManageProducts.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\ManageProducts.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\ManageProducts.cs",
+              "RelativeToolTip": "C#-Day4\\ManageProducts.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAswHcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T11:23:46.603Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "C#-Day4\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\22-05-2025\\C#-Day4\\C#-Day4\\Models\\Product.cs",
+              "RelativeToolTip": "C#-Day4\\Models\\Product.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAowDkAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T10:41:25.961Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
