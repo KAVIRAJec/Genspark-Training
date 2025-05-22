@@ -10,7 +10,7 @@ namespace C__Day3.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        IRepository<int, Employee> _employeeRepository;
+        readonly IRepository<int, Employee> _employeeRepository;
         public EmployeeService(IRepository<int, Employee> employeeRepository)
         {
             _employeeRepository = employeeRepository;
