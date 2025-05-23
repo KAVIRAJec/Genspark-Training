@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace C__Day4.Interfaces
 {
-    public interface IRepository<T, K> where T : class
+    public interface IRepository<T, K> : IReadableRepository<T, K>, IWritableRepository<T, K>
     {
-        void Add(T item);
-        T GetById(K id);
-        List<T> GetAll();
-        void Update(T item);
-        void Delete(K id);
     }
 }

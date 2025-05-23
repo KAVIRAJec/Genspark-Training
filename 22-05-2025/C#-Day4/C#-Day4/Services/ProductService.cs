@@ -11,24 +11,26 @@ namespace C__Day4.Services
 {
     public class ProductService
     {
-        private readonly IRepository<Product,int> _repository;
+        private readonly IReadableRepository<Product, int> _readRepository;
+        private readonly IWritableRepository<Product, int> _writeRepository;
 
-        public ProductService(ProductRepository repository)
+        public ProductService(IReadableRepository<Product, int> readRepository, IWritableRepository<Product, int> writeRepository)
         {
-            _repository = repository;
+            _readRepository = readRepository;
+            _writeRepository = writeRepository;
         }
 
         public void AddProduct(Product product)
         {
-            _repository.Add(product);
+            _writeRepository.Add(product);
         }
 
-        public Product GetProduct(int id) => _repository.GetById(id);
+        public Product GetProduct(int id) => _readRepository.GetById(id);
 
-        public List<Product> GetAllProducts() => (List<Product>)_repository.GetAll();
+        public List<Product> GetAllProducts() => (List<Product>)_readRepository.GetAll();
 
-        public void UpdateProduct(Product product) => _repository.Update(product);
+        public void UpdateProduct(Product product) => _writeRepository.Update(product);
 
-        public void DeleteProduct(int id) => _repository.Delete(id);
+        public void DeleteProduct(int id) => _writeRepository.Delete(id);
     }
 }

@@ -15,7 +15,7 @@ namespace C__Day4.Models
         public int Quantity { get; set; }
         public string Category { get; set; }
 
-        public void GetProductDetails()
+        public virtual void GetProductDetails()
         {
             Console.Write("Enter Product Name: ");
             Name = Console.ReadLine();
