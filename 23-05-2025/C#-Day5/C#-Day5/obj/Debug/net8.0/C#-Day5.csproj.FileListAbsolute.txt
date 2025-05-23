@@ -1,0 +1,15 @@
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\bin\Debug\net8.0\C#-Day5.exe
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\bin\Debug\net8.0\C#-Day5.deps.json
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\bin\Debug\net8.0\C#-Day5.runtimeconfig.json
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\bin\Debug\net8.0\C#-Day5.dll
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\bin\Debug\net8.0\C#-Day5.pdb
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\C#-Day5.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\C#-Day5.AssemblyInfoInputs.cache
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\C#-Day5.AssemblyInfo.cs
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\C#-Day5.csproj.CoreCompileInputs.cache
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\C#-Day5.sourcelink.json
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\C#-Day5.dll
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\refint\C#-Day5.dll
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\C#-Day5.pdb
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\C#-Day5.genruntimeconfig.cache
+C:\Users\kaviraja\Downloads\Genspark-Training\23-05-2025\C#-Day5\C#-Day5\obj\Debug\net8.0\ref\C#-Day5.dll

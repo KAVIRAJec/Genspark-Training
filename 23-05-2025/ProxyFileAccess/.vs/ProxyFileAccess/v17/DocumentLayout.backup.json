@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\23-05-2025\\proxyfileaccess\\proxyfileaccess\\adapter\\oldfileformat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|solutionrelative:proxyfileaccess\\adapter\\oldfileformat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\23-05-2025\\proxyfileaccess\\proxyfileaccess\\adapter\\adaptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|solutionrelative:proxyfileaccess\\adapter\\adaptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\23-05-2025\\proxyfileaccess\\proxyfileaccess\\proxyfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|solutionrelative:proxyfileaccess\\proxyfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\23-05-2025\\proxyfileaccess\\proxyfileaccess\\interfaces\\ifile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|solutionrelative:proxyfileaccess\\interfaces\\ifile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\23-05-2025\\proxyfileaccess\\proxyfileaccess\\file.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|solutionrelative:proxyfileaccess\\file.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\23-05-2025\\proxyfileaccess\\proxyfileaccess\\files\\secret.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|solutionrelative:proxyfileaccess\\files\\secret.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\23-05-2025\\proxyfileaccess\\proxyfileaccess\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|solutionrelative:proxyfileaccess\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|c:\\users\\kaviraja\\downloads\\genspark-training\\23-05-2025\\proxyfileaccess\\proxyfileaccess\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38FA304-05F7-4311-BDB9-7B8C224982F2}|ProxyFileAccess\\ProxyFileAccess.csproj|solutionrelative:proxyfileaccess\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Adaptor.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Adapter\\Adaptor.cs",
+              "RelativeDocumentMoniker": "ProxyFileAccess\\Adapter\\Adaptor.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Adapter\\Adaptor.cs",
+              "RelativeToolTip": "ProxyFileAccess\\Adapter\\Adaptor.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBkAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T11:05:17.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OldFileFormat.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Adapter\\OldFileFormat.cs",
+              "RelativeDocumentMoniker": "ProxyFileAccess\\Adapter\\OldFileFormat.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Adapter\\OldFileFormat.cs",
+              "RelativeToolTip": "ProxyFileAccess\\Adapter\\OldFileFormat.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAmwCoAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T11:00:58.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "File.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\File.cs",
+              "RelativeDocumentMoniker": "ProxyFileAccess\\File.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\File.cs",
+              "RelativeToolTip": "ProxyFileAccess\\File.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAFUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T09:39:00.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "secret.json",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Files\\secret.json",
+              "RelativeDocumentMoniker": "ProxyFileAccess\\Files\\secret.json",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Files\\secret.json",
+              "RelativeToolTip": "ProxyFileAccess\\Files\\secret.json",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-23T10:34:34.505Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProxyFile.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\ProxyFile.cs",
+              "RelativeDocumentMoniker": "ProxyFileAccess\\ProxyFile.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\ProxyFile.cs",
+              "RelativeToolTip": "ProxyFileAccess\\ProxyFile.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAABAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T09:53:19.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Models\\User.cs",
+              "RelativeDocumentMoniker": "ProxyFileAccess\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Models\\User.cs",
+              "RelativeToolTip": "ProxyFileAccess\\Models\\User.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAgwBkAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T09:22:13.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IFile.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Interfaces\\IFile.cs",
+              "RelativeDocumentMoniker": "ProxyFileAccess\\Interfaces\\IFile.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Interfaces\\IFile.cs",
+              "RelativeToolTip": "ProxyFileAccess\\Interfaces\\IFile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T09:21:30.46Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Program.cs",
+              "RelativeDocumentMoniker": "ProxyFileAccess\\Program.cs",
+              "ToolTip": "C:\\Users\\kaviraja\\Downloads\\Genspark-Training\\23-05-2025\\ProxyFileAccess\\ProxyFileAccess\\Program.cs",
+              "RelativeToolTip": "ProxyFileAccess\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T09:20:05.155Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
