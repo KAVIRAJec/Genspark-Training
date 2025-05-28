@@ -1,0 +1,11 @@
+dotnet new webapi -n FirstApi --no-https
+ cd FirstApi
+❯ dotnet restore
+❯ dotnet build
+❯ dotnet run
+
+http://localhost:5119/swagger/index.html
+
+Task:
+Create a new model class - Patient
+Handle simple CRUD operation in a controller

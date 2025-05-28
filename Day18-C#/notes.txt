@@ -1,0 +1,4 @@
+Changing from Annotation Modeling into Fluent API:
+- Delete the migrations & database 
+- Remove annotation(foreign keys,primary references in model)
+- override 'OnModelCreating' on context & define PK, Framework
