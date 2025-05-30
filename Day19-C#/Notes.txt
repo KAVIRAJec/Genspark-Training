@@ -1,0 +1,13 @@
+DTO
+MISC
+ADO dotnet
+
+
+Explore ADO.net
+Create an application that will do basic banking transaction. Vizualize the endpoints
+In the same application add endpoints for creating an account.
+
+
+-- further implementation:
+Custom Exception
+Data mapping & response model

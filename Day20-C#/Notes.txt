@@ -1,0 +1,3 @@
+AI & MI (Gen AI)
+Task:
+create a chatbot for FAQ system with own models/Open source models
