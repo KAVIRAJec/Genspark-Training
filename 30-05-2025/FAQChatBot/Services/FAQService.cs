@@ -90,26 +90,47 @@ namespace FAQChatBot.Services
         }
         public async Task<string> GetAnswerAsync(string userQuestion)
         {
-            var apiKey = _configuration["HuggingFace:ApiKey"];
-            var modelUrl = "https://api-inference.huggingface.co/models/distilbert-base-uncased-distilled-squad";
+            try{
+                var apiKey = _configuration["HuggingFace:ApiKey"];
+                var modelId = "deepseek-ai/DeepSeek-R1-0528";
+                var apiUrl = "https://router.huggingface.co/nebius/v1/chat/completions";
 
-            var payload = new{inputs = userQuestion};
+                var payload = new
+                {
+                    messages = new[]
+                    {
+                        new {
+                            role = "user",
+                            content = userQuestion
+                        }
+                    },
+                    model = modelId
+                };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, modelUrl);
-            request.Headers.Add("Authorization", $"Bearer {apiKey}");
-            request.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+                var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
+                request.Headers.Add("Authorization", $"Bearer {apiKey}");
+                request.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine($"Error: {response.StatusCode}");
-                return "Sorry, I couldn't get an answer right now.";
+                var response = await _httpClient.SendAsync(request);
+                Console.WriteLine($"Response Status Code: {response}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Error: {response.StatusCode}");
+                    return "Sorry, I couldn't get an answer right now.";
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                var jsonDoc = JsonDocument.Parse(result);
+                var messageContent = jsonDoc.RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content")
+                .GetString();
+                return messageContent;
             }
-            var result = await response.Content.ReadAsStringAsync();
-            var jsonDoc = JsonDocument.Parse(result);
-            var generatedText = jsonDoc.RootElement[0].GetProperty("generated_text").GetString();
-
-            return generatedText;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
