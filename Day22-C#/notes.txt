@@ -1,0 +1,17 @@
+
+Unit Test:
+Test project:
+dotnet new nunit -n FirstAPI.Test
+
+Run test:
+dotnet test
+
+Add reference:
+dotnet add reference ../FirstAPI.csproj
+
+
+Custom Authorization Policy
+Task:
+Policy based Authorization:
+    Please ensure the appointment can be cancelled only be doctor who are 3+ years experienced
+Ref: https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies?view=aspnetcore-9.0
