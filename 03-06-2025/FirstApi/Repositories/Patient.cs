@@ -13,13 +13,19 @@ namespace FirstAPI.Repositories
 
         public override async Task<Patient> Get(int key)
         {
-            var patient = await _clinicContext.Patients.SingleOrDefaultAsync(p => p.Id == key);
+            var patient = await _clinicContext.Patients.
+                                               Include(p => p.User).
+                                               Include(p => p.Appointments).
+                                               SingleOrDefaultAsync(p => p.Id == key);
             return patient ?? throw new KeyNotFoundException($"Patient with ID {key} not found.");
         }
 
         public override async Task<IEnumerable<Patient>> GetAll()
         {
-            var patients = await _clinicContext.Patients.Include(p => p.User).ToListAsync();
+            var patients = await _clinicContext.Patients.
+                                               Include(p => p.User).
+                                               Include(p => p.Appointments).
+                                               ToListAsync();
             if (patients == null || patients.Count() == 0)
                 throw new KeyNotFoundException("No patients in the database.");
             return patients;

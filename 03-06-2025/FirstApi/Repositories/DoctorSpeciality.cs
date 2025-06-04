@@ -13,13 +13,19 @@ namespace FirstAPI.Repositories
 
         public override async Task<DoctorSpeciality> Get(int key)
         {
-            var speciality = await _clinicContext.DoctorSpecialities.SingleOrDefaultAsync(ds => ds.SerialNumber == key);
+            var speciality = await _clinicContext.DoctorSpecialities.
+                                                  Include(ds => ds.Doctor).
+                                                  Include(ds => ds.Speciality).
+                                                  SingleOrDefaultAsync(ds => ds.SerialNumber == key);
             return speciality ?? throw new KeyNotFoundException($"Doctor Speciality with ID {key} not found.");
         }
 
         public override async Task<IEnumerable<DoctorSpeciality>> GetAll()
         {
-            var specialities = await _clinicContext.DoctorSpecialities.ToListAsync();
+            var specialities = await _clinicContext.DoctorSpecialities.
+                                                  Include(ds => ds.Doctor).
+                                                  Include(ds => ds.Speciality).
+                                                  ToListAsync();
             if (specialities == null || specialities.Count() == 0)
                 throw new KeyNotFoundException("No doctor specialities in the database.");
             return specialities;
