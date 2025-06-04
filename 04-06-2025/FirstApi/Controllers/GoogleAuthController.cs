@@ -24,7 +24,7 @@ public class GoogleAuthController : Controller
     {
         var properties = new AuthenticationProperties
         {
-            RedirectUri = Url.Action("GoogleResponse")
+            RedirectUri = Url.Action("GoogleResponse", "GoogleAuth")
         };
         return Challenge(properties, GoogleDefaults.AuthenticationScheme);
     }
