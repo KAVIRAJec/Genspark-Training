@@ -1,0 +1,29 @@
+<html>
+  <body>
+      <h2>Employee Listening to the File Uploads</h2>
+       <p>When a file is uploaded, the employee will be notified.</p>
+       <div id="msgs">
+       </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+        <script>
+            const connection = new signalR.HubConnectionBuilder()
+                                .withUrl("http://localhost:5167/notificationHub",{
+                                    withCredentials:true
+                                })
+                                .withAutomaticReconnect()
+                                .build();
+            connection.on("ReceiveMessage",(message)=>{
+                console.log(`New message: ${message}`)
+                const placeHolder = document.getElementById("msgs");
+                const content = document.createElement("p")
+                content.innerHTML = `New message: ${message}`;
+                placeHolder.append(content);
+            });
+
+            connection.start()
+                .then(() => console.log("SignalR connected"))
+                .catch(err => console.error("SignalR connection error:", err));
+        </script>
+  </body>
+</html>
