@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Clinic</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <header>
+        <div class="intro">
+            <i data-lucide="square-activity" color="#42a1e3" class="icon"></i>
+            <h1>Doctor's Clinic</h1>
+        </div>
+        <nav>
+            <ul>
+                <input type="radio" name="nav" id="home" checked>
+                <label for="home" class="nav-btn">Home</label>
+                <input type="radio" name="nav" id="services">
+                <label for="services" class="nav-btn">Services</label>
+                <input type="radio" name="nav" id="login">
+                <label for="login" class="nav-btn">Log in</label>
+                <input type="radio" name="nav" id="register">
+                <label for="register" class="nav-btn">Register</label>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Quality Care for Your Health</h1>
+                <p>Our clinic provides the best medical services for you and your family.</p>
+                <button class="btn">Book an Appointment</button>
+            </div>
+            <div>
+                <img src="doctor.png" alt="Doctor Image">
+            </div>
+        </section>
+        <section class="services-section">
+            <h1>Our Services</h1>
+            <div class="services">
+                <div class="service">
+                    <i data-lucide="clipboard-list" color="#42a1e3" class="icon"></i>
+                    <h2>Primary Care</h2>
+                    <p>Provide doctor early care or consultation.</p>
+                </div>
+                <div class="service">
+                    <i data-lucide="stethoscope" color="#42a1e3" class="icon"></i>
+                    <h2>Pediatrics</h2>
+                    <p>Specialized care for infants and children.</p>
+                </div>
+                <div class="service">
+                    <i data-lucide="heart-pulse" color="#42a1e3" class="icon"></i>
+                    <h2>Speciality Care</h2>
+                    <p>Expert treatment for bone and joint issues.</p>
+                </div>
+            </div>
+        </section>
+        <section class="Testimonial">
+            <h1>What Our Patients Are Saying</h1>
+            <div>
+                <i data-lucide="quote" color="#42a1e3" class="icon"></i>
+                <div>
+                    <p>"The staff was incredibly friendly and the doctor was very attentive. I felt well taken care of during my visit."</p>
+                    <p>- Sarah Johnson</p>
+                </div>
+            </div>
+
+        </section>
+        <section class="clinic-timing">
+            <div class="timings">
+                <h1>Clinic Hours</h1>
+                <div class="timing">
+                    <p>Monday to Friday</p>
+                    <p>8:00 AM - 6:00 PM</p>
+                    <p>Saturday</p>
+                    <p>9:00 AM - 1:00 PM</p>
+                </div>
+            </div>
+            <div class="timings">
+                <h1>Clinic Hours</h1>
+                <div class="timing">
+                    <p>Monday to Friday</p>
+                    <p>9:00 AM - 5:00 PM</p>
+                    <p>Saturday</p>
+                    <p>10:00 AM - 2:00 PM</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+<footer>
+    <script>
+        feather.replace();
+        lucide.createIcons();
+    </script>
+</footer>
+</html>
