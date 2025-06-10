@@ -1,0 +1,16 @@
+<h2>Customer Ratings</h2>
+<section>
+    <div *ngFor="let customer of Customers" class="customer-rating-block">
+        <h4>Name: {{customer.name}}</h4>
+        <h5>Rating: {{customer.Rating}}</h5>
+        <p>Email: {{customer.email}}</p>
+        <p>Project Count: {{customer.ProjectCount}}</p>
+        <p>Years of Experience: {{customer.YearsOfExperience}}</p>
+        <p>Likes: {{customer.Likes}}</p>
+        <p>Dislikes: {{customer.Dislikes}}</p>
+        <div>
+            <button (click)="AddLikes(customer.customer_id)">Like</button>
+            <button (click)="AddDislikes(customer.customer_id)">Dislike</button>
+        </div>
+    </div>  
+</section>

@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1",
+        "name": "Mobile Phone",
+        "description": "this is a mobile phone",
+        "price": 299.99,
+        "image": "https://img.freepik.com/premium-photo/phone-search-hands-woman-home-office-connection-networking-online-chat-smartphone-remote-work-girl-mobile-app-business-schedule-contact-freelance-project-management_590464-498006.jpg?semt=ais_items_boosted&w=740"
+    },
+    {
+        "id": "2",
+        "name": "Laptop",
+        "description": "this is a laptop",
+        "price": 899.99,
+        "image": "https://img.freepik.com/free-photo/still-life-books-versus-technology_23-2150062920.jpg?ga=GA1.1.813422115.1749539909&semt=ais_items_boosted&w=740"
+    },
+    {
+        "id": "3",
+        "name": "Headphones",
+        "description": "this is a pair of headphones",
+        "price": 199.99,
+        "image": "https://img.freepik.com/free-photo/close-up-metallic-headphones_23-2151113104.jpg?ga=GA1.1.813422115.1749539909&semt=ais_items_boosted&w=740"
+    }
+]

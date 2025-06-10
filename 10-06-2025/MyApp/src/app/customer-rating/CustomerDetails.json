@@ -1,0 +1,32 @@
+[
+    {
+        "customer_id": 1,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "ProjectCount": 5,
+        "YearsOfExperience": 3,
+        "Likes": 10,
+        "Dislikes": 2,
+        "Rating": 4.5
+    },
+    {
+        "customer_id": 2,
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "ProjectCount": 8,
+        "YearsOfExperience": 5,
+        "Likes": 15,
+        "Dislikes": 3,
+        "Rating": 4.2
+    },
+    {
+        "customer_id": 3,
+        "name": "Alice Johnson",
+        "email": "alice.johnson@example.com",
+        "ProjectCount": 10,
+        "YearsOfExperience": 7,
+        "Likes": 20,
+        "Dislikes": 1,
+        "Rating": 4.8
+    }
+]

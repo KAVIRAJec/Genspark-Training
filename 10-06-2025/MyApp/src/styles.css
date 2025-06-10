@@ -1,0 +1,79 @@
+@import url('bootstrap-icons/font/bootstrap-icons.css');
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&family=Roboto:wght@400&display=swap');
+
+:root {
+  --primary-gray: #333333;
+  --medium-gray: #666666;
+  --light-gray: #CCCCCC;
+  --background: #d3eae6;
+  --white: #FFFFFF;
+  --accent-blue: #42a1e3;
+  --font-main: 'Inter', 'Roboto', 'Poppins', Arial, sans-serif;
+  --font-heading: 'Poppins', 'Inter', Arial, sans-serif;
+}
+/* General body and font styles */
+body {
+    font-family: var(--font-main);
+    background: var(--background);
+    color: var(--primary-gray);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    font-family: var(--font-heading);
+    color: var(--primary-gray);
+    font-size: 32px;
+    font-weight: 600;
+    margin: 24px 0 12px 0;
+}
+
+h2 {
+    font-family: var(--font-heading);
+    color: var(--primary-gray);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 18px 0 10px 0;
+}
+
+h4, h5 {
+    font-family: var(--font-heading);
+    margin: 8px 0;
+}
+
+p {
+    font-family: var(--font-main);
+    color: var(--medium-gray);
+    font-size: 16px;
+    margin: 6px 0;
+}
+
+hr {
+    border: none;
+    border-top: 1.5px solid var(--light-gray);
+    margin: 24px 0;
+}
+
+button {
+    font-family: var(--font-main);
+    font-size: 16px;
+    font-weight: 500;
+    background: var(--accent-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 7px 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1);
+}
+button:hover {
+    background: var(--white);
+    color: var(--accent-blue);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}

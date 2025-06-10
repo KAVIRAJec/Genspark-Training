@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "name": "Alice Johnson",
+        "email": "alice.johnson@example.com",
+        "phone": "+1-555-1234",
+        "address": {
+            "street": "123 Maple Street",
+            "city": "Springfield",
+            "state": "IL",
+            "zip": "62704"
+        },
+        "registeredDate": "2023-01-15"
+    },
+    {
+        "id": 2,
+        "name": "Bob Smith",
+        "email": "bob.smith@example.com",
+        "phone": "+1-555-5678",
+        "address": {
+            "street": "456 Oak Avenue",
+            "city": "Lincoln",
+            "state": "NE",
+            "zip": "68508"
+        },
+        "registeredDate": "2023-03-22"
+    },
+    {
+        "id": 3,
+        "name": "Carol Lee",
+        "email": "carol.lee@example.com",
+        "phone": "+1-555-9012",
+        "address": {
+            "street": "789 Pine Road",
+            "city": "Madison",
+            "state": "WI",
+            "zip": "53703"
+        },
+        "registeredDate": "2023-05-10"
+    }
+]

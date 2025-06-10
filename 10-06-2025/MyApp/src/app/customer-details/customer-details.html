@@ -1,0 +1,23 @@
+<h2>Customer Details</h2>
+<p>Here you can find the details of our customers.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Customer ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customers">
+      <td>{{ customer.id }}</td>
+      <td>{{ customer.name }}</td>
+      <td>{{ customer.email }}</td>
+      <td>{{ customer.phone }}</td>
+      <td>Address: {{ customer.address.street }}, {{ customer.address.city }}, {{ customer.address.state }} {{ customer.address.zip }}</td>
+    </tr>
+  </tbody>
+</table>
