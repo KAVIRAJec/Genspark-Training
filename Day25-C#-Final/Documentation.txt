@@ -1,0 +1,15 @@
+Project setup:
+1. TLS 1.2+ with https:
+    Configure & trust https, use HTTPs redirection & check TLS:
+    ❯ openssl s_client -connect localhost:5001
+
+2. Model definition, DTO & Mapper definition
+
+3. Interfaces & Repository Implementation
+
+4. Serilog Configurations & Global Custom Exception Handling Middleware, Base Controller Configuration for success state
+
+5. DTO validation(Input validation) & Mapper
+
+6. Services & its controller(versioning, base controller designing(message format))
+

@@ -1,0 +1,14 @@
+Dependency injection 
+Observability
+
+Create a service that fetches dummy JSON recipe data.
+Display the list of recipes using the @for directive.
+Show a "No recipes found" message using @if when the list is empty.
+
+Use signals to store and manage recipe data in the component.
+Display the following recipe details:
+Recipe Name
+Cuisine
+Cooking Time (in minutes)
+Ingredients (as comma-separated text)
+ 

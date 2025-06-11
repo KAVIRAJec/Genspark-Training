@@ -1,0 +1,6 @@
+Case Study 15: Freelance Project Board
+Roles: Client, Freelancer
+Features:
+Post project requirements
+Submit proposals
+JWT authentication with role checks
