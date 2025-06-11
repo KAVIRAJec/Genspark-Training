@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Freelancer Notifications</title>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.0/dist/browser/signalr.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        #notifications { margin-top: 1em; }
+        .notification { background: #e3f7e3; border: 1px solid #b2d8b2; padding: 10px; margin-bottom: 8px; border-radius: 4px; }
+        #status { color: #888; }
+    </style>
+</head>
+<body>
+    <h2>Freelancer Notifications</h2>
+    <div id="status">Connecting...</div>
+    <ul id="notifications"></ul>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:5001/notificationhub", {
+                withCredentials: true,
+                accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJrYXZpcmFqQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkZyZWVsYW5jZXIiLCJJZCI6ImM3MzNjYmRjLTUzMjktNDg1ZC05Y2I5LTNiYjUxNjE1NzQwZCIsImV4cCI6MTc0OTY1NTQ0OX0.RVj72CyHpdeFDMW9dFNlZiaFHHGkpPRDHEZaqSpx50Y"
+            })
+            .withAutomaticReconnect()
+            .build();
+
+        connection.on("FreelancerNotification", function (message) {
+            console.log("Notification received: ", message);
+            const li = document.createElement("li");
+            li.className = "notification";
+            li.textContent = message;
+            document.getElementById("notifications").appendChild(li);
+        });
+
+        connection.start()
+            .then(() => {
+                document.getElementById("status").textContent = "Connected. Waiting for notifications...";
+            })
+            .catch(err => {
+                document.getElementById("status").textContent = "Connection failed: " + err;
+                console.error(err.toString());
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client Notifications</title>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.0/dist/browser/signalr.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        #notifications { margin-top: 1em; }
+        .notification { background: #e3e7f7; border: 1px solid #b2b8d8; padding: 10px; margin-bottom: 8px; border-radius: 4px; }
+        #status { color: #888; }
+    </style>
+</head>
+<body>
+    <h2>Client Notifications</h2>
+    <div id="status">Connecting...</div>
+    <ul id="notifications"></ul>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:5001/notificationhub", {
+                withCredentials: true,
+                accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJIUkBwcmVzaWRpby5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJDbGllbnQiLCJJZCI6ImFhYzEyMjEzLWRkMjctNGFjZS1iOTZhLWUxNTEyNmY3ZjhiZSIsImV4cCI6MTc0OTY1NTQyM30.4v2a_eoUT2O9ppBfwEH6K_-cc-SKJsBiQenLjjzoOsA"
+            })
+            .withAutomaticReconnect()
+            .build();
+
+        connection.on("ClientNotification", function (message) {
+            console.log("Notification received: ", message);
+            const li = document.createElement("li");
+            li.className = "notification";
+            li.textContent = message;
+            document.getElementById("notifications").appendChild(li);
+        });
+
+        connection.start()
+            .then(() => {
+                document.getElementById("status").textContent = "Connected. Waiting for notifications...";
+            })
+            .catch(err => {
+                document.getElementById("status").textContent = "Connection failed: " + err;
+                console.error(err.toString());
+            });
+    </script>
+</body>
+</html>
