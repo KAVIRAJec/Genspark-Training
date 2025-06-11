@@ -1,0 +1,73 @@
+/* Card style for each recipe */
+.recipe-card {
+  background: var(--white);
+  border-radius: 14px;
+  box-shadow: 10px 6px 12px rgba(51,51,51,0.10);
+  padding: 18px;
+  margin: 18px auto;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid var(--accent-blue);
+  position: relative;
+  transition: all 0.3s ease;
+}
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 12px 8px 16px rgba(51,51,51,0.15);
+}
+
+.recipe-card h2 {
+  font-size: 26px;
+  color: var(--accent-blue);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recipe-card .bi-egg-fried {
+  color: #f7b731;
+  font-size: 1.3em;
+}
+
+.recipe-card .bi-clock {
+  color: #42a1e3;
+  margin-right: 4px;
+}
+
+.recipe-card .bi-globe2 {
+  color: #42a1e3;
+  margin-right: 4px;
+}
+
+.recipe-card ul {
+  background-color: var(--light-gray);
+  border-radius: 8px;
+  list-style: none;
+  padding: 10px 20px;
+}
+
+.recipe-card ul li {
+  text-align: left;
+  padding-left: 24px;
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.recipe-card ul li::before {
+  content: '\F6EE';
+  font-family: 'bootstrap-icons';
+  color: var(--accent-blue);
+  position: absolute;
+  left: 0;
+  font-size: 1em;
+}
+
+.recipe-card img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 10px;
+  margin-top: 12px;
+  box-shadow: 0 1px 6px rgba(51,51,51,0.08);
+}

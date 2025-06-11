@@ -1,0 +1,12 @@
+<div class="recipe-card">
+    <img [src]="recipe?.image" alt="{{ recipe?.name }}" />
+    <h2><i class="bi bi-egg-fried"></i> {{ recipe?.name }}</h2>
+    <p><i class="bi bi-globe2"></i> Cuisine: {{ recipe?.cuisine }}</p>
+    <p><i class="bi bi-clock"></i> Cook Time: {{ recipe?.cookTimeMinutes }} minutes</p>
+    <h3>Ingredients:</h3>
+    <ul>
+        @for (item of recipe?.ingredients; track $index) {
+            <li>{{ item }}</li>
+        }
+    </ul>
+</div>
