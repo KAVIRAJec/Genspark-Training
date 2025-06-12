@@ -85,8 +85,10 @@ public class ClientProjectService : IClientProjectService
         var project = await _projectRepository.Get(projectId);
         if (project == null || project.IsActive == false) throw new AppException("Project not found/ inactive.", 404);
         //Pending, InProgress, Completed, Cancelled
-        if (updateProjectDTO.Status != null && updateProjectDTO.Status != "Pending" && updateProjectDTO.Status != "InProgress" && updateProjectDTO.Status != "Completed" && updateProjectDTO.Status != "Cancelled")
-            throw new AppException("Invalid project status.", 400);
+        // if (updateProjectDTO.Status == null || (updateProjectDTO.Status != "Pending" && updateProjectDTO.Status != "Completed" && updateProjectDTO.Status != "Cancelled"))
+        //     throw new AppException("Invalid project status.", 400);
+        // if (updateProjectDTO.Status == "In Progress") 
+        //     throw new AppException("Project status cannot be set to 'In Progress' directly. Use AcceptProposal to change status.", 400);
             
         var requiredSkills = new List<Skill>();
         if (updateProjectDTO.RequiredSkills != null && updateProjectDTO.RequiredSkills.Count() > 0)
@@ -96,9 +98,9 @@ public class ClientProjectService : IClientProjectService
         project.Description = updateProjectDTO.Description ?? project.Description;
         project.Budget = updateProjectDTO.Budget ?? project.Budget;
         project.Duration = updateProjectDTO.Duration ?? project.Duration;
-        project.ClientId = updateProjectDTO.ClientId ?? project.ClientId;
-        project.FreelancerId = updateProjectDTO.FreelancerId ?? project.FreelancerId;
-        project.Status = updateProjectDTO.Status ?? project.Status;
+        // project.ClientId = updateProjectDTO.ClientId ?? project.ClientId;
+        // project.FreelancerId = updateProjectDTO.FreelancerId ?? project.FreelancerId;
+        // project.Status = updateProjectDTO.Status ?? project.Status;
         project.RequiredSkills = requiredSkills.Count > 0 ? requiredSkills : project.RequiredSkills;
         project.UpdatedAt = DateTime.UtcNow;
 

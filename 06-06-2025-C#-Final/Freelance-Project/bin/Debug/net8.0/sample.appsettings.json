@@ -1,0 +1,26 @@
+{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+        }
+    },
+    "AllowedHosts": "*",
+    "ConnectionStrings": {
+        "DefaultConnection": "User ID=sampleuser;Password=samplepass;Host=samplehost;Port=5432;Database=SampleDB;"
+    },
+    "JWT": {
+        "Key": "SampleJWTSecretKey",
+        "ExpiresInHours": 1,
+        "RefreshTokenExpiresInDays": 1
+    },
+    "CloudinarySettings": {
+        "CloudName": "samplecloud",
+        "ApiKey": "123456789012345",
+        "ApiSecret": "sampleApiSecret",
+        "EnvironmentVariable": "CLOUDINARY_URL=cloudinary://123456789012345:sampleApiSecret@samplecloud"
+    },
+    "RateLimiting": {
+        "PermitLimit": 100
+    }
+}

@@ -11,7 +11,7 @@ public class CreateProjectDTO
     [Required(ErrorMessage = "Budget is required.")]
     public decimal Budget { get; set; }
     public TimeSpan? Duration { get; set; }
-    public Guid ClientId { get; set; } = Guid.Empty;
+    public Guid ClientId { get; set; }
     public ICollection<SkillDTO>? RequiredSkills { get; set; }
 }
 public class UpdateProjectDTO
@@ -20,14 +20,14 @@ public class UpdateProjectDTO
     public string? Description { get; set; }
     public decimal? Budget { get; set; }
     public TimeSpan? Duration { get; set; }
-    public Guid? ClientId { get; set; }
-    public Guid? FreelancerId { get; set; }
-    public string? Status { get; set; }
+    // public Guid? ClientId { get; set; }
+    // public Guid? FreelancerId { get; set; }
+    // public string? Status { get; set; }
     public ICollection<SkillDTO>? RequiredSkills { get; set; }
 }
 public class ProjectResponseDTO
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
     public decimal Budget { get; set; }

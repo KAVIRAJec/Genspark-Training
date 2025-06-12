@@ -21,7 +21,7 @@ public static class UserMapper
 
         return new User
         {
-            Email = createUserDTO.Email,
+            Email = createUserDTO.Email.ToLower(),
             Password = hashedData.HashedData,
             HashKey = hashedData.HashKey,
             Role = "Client",
@@ -44,7 +44,7 @@ public static class UserMapper
 
         return new User
         {
-            Email = createUserDTO.Email,
+            Email = createUserDTO.Email.ToLower(),
             Password = hashedData.HashedData,
             HashKey = hashedData.HashKey,
             Role = "Freelancer",

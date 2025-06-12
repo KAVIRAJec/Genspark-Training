@@ -31,7 +31,7 @@ public class AuthenticationService : IAuthenticationService
     public async Task<LoginResponseDTO> Login(LoginRequestDTO user)
     {
         if (user == null) throw new AppException("User login request cannot be null", 400);
-
+        user.Email = user.Email.ToLower();
         var existingUser = await _userRepository.Get(user.Email);
         if (existingUser == null || existingUser.IsActive == false)
             throw new AppException("User not found or inactive", 404);
@@ -63,6 +63,7 @@ public class AuthenticationService : IAuthenticationService
     public async Task<bool> Logout(string email)
     {
         if (string.IsNullOrEmpty(email)) throw new AppException("Email is required", 400);
+        email = email.ToLower();
         var user = await _userRepository.Get(email);
         if (user == null) throw new AppException("User not found", 404);
         var expiredTokens = _appContext.RefreshTokens.Where(rt => rt.Email == email);
@@ -99,6 +100,7 @@ public class AuthenticationService : IAuthenticationService
     public async Task<T> GetDetails<T>(string email) where T : class
     {
         if (string.IsNullOrEmpty(email)) throw new AppException("Email is required", 400);
+        email = email.ToLower();
         var user = await _userRepository.Get(email);
         if (user == null || user.IsActive == false)
             throw new AppException("User not found or inactive", 404);

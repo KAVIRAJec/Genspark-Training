@@ -119,6 +119,8 @@ public class ProjectProposalService : IProjectProposalService
 
         var proposal = await _proposalRepository.Get(proposalId);
         if (proposal == null || proposal.IsActive == false) throw new AppException("Proposal not found/ inactive.", 404);
+        if (proposal.Id == proposalId && proposal.ProjectId != projectId) 
+            throw new AppException("Proposal does not belong to the specified project.", 400);
         if (proposal.IsAccepted == true) throw new AppException("Cannot reject an accepted proposal.", 400);
 
         var project = await _projectRepository.Get(projectId);

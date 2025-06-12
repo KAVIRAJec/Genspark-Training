@@ -45,6 +45,7 @@ public class FreelancerController : BaseApiController
     public async Task<IActionResult> UpdateFreelancer([FromRoute] Guid freelancerId, [FromBody] UpdateFreelancerDTO updateFreelancerDTO)
     {
         var Id = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+        Console.WriteLine($"User ID from claims: {Id}");
         if (Id != freelancerId.ToString()) return BadRequest("You are not authorized to update other freelancer");
         
         var result = await _freelancerService.UpdateFreelancer(freelancerId, updateFreelancerDTO);

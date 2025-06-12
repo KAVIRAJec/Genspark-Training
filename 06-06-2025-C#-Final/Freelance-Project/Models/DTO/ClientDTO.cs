@@ -28,7 +28,7 @@ public class UpdateClientDTO
 }
 public class ClientResponseDTO
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; set; }
     public string? ProfileUrl { get; set; }
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;

@@ -35,6 +35,11 @@ public class FreelancerProposalService : IFreelancerProposalService
         var project = await _projectRepository.Get(proposalRequestDto.ProjectId);
         if (project == null || project.IsActive == false) throw new AppException("Project not found/ inactive.", 404);
 
+        if (project.FreelancerId != null && project.FreelancerId == proposalRequestDto.FreelancerId)
+            throw new AppException("Freelancer cannot submit a proposal for their own project.", 400);
+
+        if (project.FreelancerId != null) throw new AppException("Project already has an assigned freelancer.", 400);
+
         if (project.Proposals != null && project.Proposals.Any(p => p.FreelancerId == proposalRequestDto.FreelancerId && p.IsActive == true))
             throw new AppException("Freelancer has already submitted a proposal for this project.", 400);
 

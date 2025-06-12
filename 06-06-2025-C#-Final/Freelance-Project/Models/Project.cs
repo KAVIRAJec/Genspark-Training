@@ -16,7 +16,7 @@ public class Project
     public DateTime? DeletedAt { get; set; }
     public Guid? ClientId { get; set; }
     public Guid? FreelancerId { get; set; }
-    public string Status { get; set; } = "Pending"; // Pending, InProgress, Completed, Cancelled
+    public string Status { get; set; } = "Pending"; // Pending, In Progress, Completed, Cancelled
 
     public Client? Client { get; set; }
     public Freelancer? Freelancer { get; set; }
