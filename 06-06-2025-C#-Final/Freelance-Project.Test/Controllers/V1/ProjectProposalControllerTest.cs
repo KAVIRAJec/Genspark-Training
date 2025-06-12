@@ -7,6 +7,8 @@ using Freelance_Project.Misc;
 using Freelance_Project.Models;
 using Freelance_Project.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
 using NUnit.Framework;
@@ -20,6 +22,7 @@ namespace Freelance_Project.Test.Controllers.V1
         private Mock<IHubContext<NotificationHub>> _hubContextMock;
         private Mock<IClientProxy> _clientProxyMock;
         private ProjectProposalController _controller;
+        private Mock<IClientProjectService> _clientProjectServiceMock;
 
         [SetUp]
         public void SetUp()
@@ -27,12 +30,30 @@ namespace Freelance_Project.Test.Controllers.V1
             _serviceMock = new Mock<IProjectProposalService>();
             _hubContextMock = new Mock<IHubContext<NotificationHub>>();
             _clientProxyMock = new Mock<IClientProxy>();
+            _clientProjectServiceMock = new Mock<IClientProjectService>();
 
             var clientsMock = new Mock<IHubClients>();
             clientsMock.Setup(c => c.User(It.IsAny<string>())).Returns(_clientProxyMock.Object);
             _hubContextMock.SetupGet(h => h.Clients).Returns(clientsMock.Object);
 
-            _controller = new ProjectProposalController(_serviceMock.Object, _hubContextMock.Object);
+            _controller = new ProjectProposalController(
+                                        _serviceMock.Object,
+                                        _clientProjectServiceMock.Object,
+                                        _hubContextMock.Object
+                                    );
+        }
+        private void SetUser(ProjectProposalController controller, Guid clientId)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("Id", clientId.ToString())
+            };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            var principal = new ClaimsPrincipal(identity);
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = principal }
+            };
         }
 
         [Test]
@@ -55,10 +76,16 @@ namespace Freelance_Project.Test.Controllers.V1
         {
             var proposalId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
+            var clientId = Guid.NewGuid();
             var dto = new ProposalRequestDTO { ProposalId = proposalId, ProjectId = projectId };
             var projectResponse = new ProjectResponseDTO { FreelancerId = Guid.NewGuid(), Title = "Test" };
 
+            _clientProjectServiceMock.Setup(s => s.GetProjectById(projectId))
+                .ReturnsAsync(new ProjectResponseDTO { Id = projectId, ClientId = clientId });
+
             _serviceMock.Setup(s => s.AcceptProposal(proposalId, projectId)).ReturnsAsync(projectResponse);
+
+            SetUser(_controller, clientId);
 
             var result = await _controller.AcceptProposal(dto);
             Assert.IsInstanceOf<OkObjectResult>(result);

@@ -160,3 +160,4 @@
 /Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project.Test/bin/Debug/net8.0/Freelance-Project.pdb
 /Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project.Test/bin/Debug/net8.0/Microsoft.Extensions.ObjectPool.dll
 /Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project.Test/bin/Debug/net8.0/System.Net.WebSockets.WebSocketProtocol.dll
+/Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project.Test/bin/Debug/net8.0/sample.appsettings.json

@@ -7,6 +7,8 @@ using Freelance_Project.Misc;
 using Freelance_Project.Models;
 using Freelance_Project.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
 using NUnit.Framework;
@@ -16,6 +18,20 @@ namespace Freelance_Project.Test.Controllers.V1
     [TestFixture]
     public class ProjectControllerTest
     {
+        private void SetUser(ControllerBase controller, Guid userId)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("Id", userId.ToString())
+            };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            var principal = new ClaimsPrincipal(identity);
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = principal }
+            };
+        }
+
         private Mock<IClientProjectService> _serviceMock;
         private Mock<IHubContext<NotificationHub>> _hubContextMock;
         private Mock<IHubClients> _hubClientsMock;
@@ -40,10 +56,12 @@ namespace Freelance_Project.Test.Controllers.V1
         [Test]
         public async Task PostProject_ReturnsSuccess_WhenValid()
         {
-            var dto = new CreateProjectDTO { Title = "Test Project" };
+            var clientId = Guid.NewGuid();
+            var dto = new CreateProjectDTO { Title = "Test Project", ClientId = clientId };
             var response = new ProjectResponseDTO { Title = "Test Project" };
             _serviceMock.Setup(s => s.PostProject(dto)).ReturnsAsync(response);
 
+            SetUser(_controller, clientId);
             var result = await _controller.PostProject(dto);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
@@ -96,10 +114,13 @@ namespace Freelance_Project.Test.Controllers.V1
         public async Task UpdateProject_ReturnsSuccess_AndSendsNotification()
         {
             var projectId = Guid.NewGuid();
+            var clientId = Guid.NewGuid();
             var dto = new UpdateProjectDTO { Title = "Updated" };
-            var response = new ProjectResponseDTO { Id = projectId, Title = "Updated", FreelancerId = Guid.NewGuid() };
+            var response = new ProjectResponseDTO { Id = projectId, Title = "Updated", ClientId = clientId, FreelancerId = Guid.NewGuid() };
+            _serviceMock.Setup(s => s.GetProjectById(projectId)).ReturnsAsync(response);
             _serviceMock.Setup(s => s.UpdateProject(projectId, dto)).ReturnsAsync(response);
 
+            SetUser(_controller, clientId);
             var result = await _controller.UpdateProject(projectId, dto);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
@@ -111,9 +132,12 @@ namespace Freelance_Project.Test.Controllers.V1
         public async Task DeleteProject_ReturnsSuccess_AndSendsNotification()
         {
             var projectId = Guid.NewGuid();
-            var response = new ProjectResponseDTO { Id = projectId, Title = "Deleted", FreelancerId = Guid.NewGuid() };
+            var clientId = Guid.NewGuid();
+            var dto = new UpdateProjectDTO { Title = "Deleted" };
+            var response = new ProjectResponseDTO { Id = projectId, Title = "Deleted", ClientId = clientId, FreelancerId = Guid.NewGuid() };
+            _serviceMock.Setup(s => s.GetProjectById(projectId)).ReturnsAsync(response);
             _serviceMock.Setup(s => s.DeleteProject(projectId)).ReturnsAsync(response);
-
+            SetUser(_controller, clientId);
             var result = await _controller.DeleteProject(projectId);
 
             Assert.IsInstanceOf<OkObjectResult>(result);

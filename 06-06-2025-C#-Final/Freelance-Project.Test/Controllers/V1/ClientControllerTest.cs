@@ -6,6 +6,8 @@ using Freelance_Project.Interfaces;
 using Freelance_Project.Models;
 using Freelance_Project.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using NUnit.Framework;
 
@@ -24,6 +26,19 @@ namespace Freelance_Project.Test.Controllers.V1
             _controller = new ClientController(_clientServiceMock.Object);
         }
 
+        private void SetUser(ClientController controller, Guid clientId)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("Id", clientId.ToString())
+            };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            var principal = new ClaimsPrincipal(identity);
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = principal }
+            };
+        }
         [Test]
         public async Task CreateClient_ReturnsSuccess_WhenValid()
         {
@@ -113,6 +128,7 @@ namespace Freelance_Project.Test.Controllers.V1
             var response = new ClientResponseDTO { Id = id, CompanyName = "Updated Company" };
             _clientServiceMock.Setup(s => s.UpdateClient(id, dto)).ReturnsAsync(response);
 
+            SetUser(_controller, id);
             var result = await _controller.UpdateClient(id, dto);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
@@ -125,6 +141,7 @@ namespace Freelance_Project.Test.Controllers.V1
             var dto = new UpdateClientDTO { CompanyName = "Updated Company" };
             _clientServiceMock.Setup(s => s.UpdateClient(id, dto)).ReturnsAsync((ClientResponseDTO)null);
 
+            SetUser(_controller, id);
             var result = await _controller.UpdateClient(id, dto);
 
             Assert.IsInstanceOf<NotFoundObjectResult>(result);
@@ -137,6 +154,7 @@ namespace Freelance_Project.Test.Controllers.V1
             var response = new ClientResponseDTO { Id = id, Username = "deleteduser" };
             _clientServiceMock.Setup(s => s.DeleteClient(id)).ReturnsAsync(response);
 
+            SetUser(_controller, id);
             var result = await _controller.DeleteClient(id);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
@@ -148,6 +166,7 @@ namespace Freelance_Project.Test.Controllers.V1
             var id = Guid.NewGuid();
             _clientServiceMock.Setup(s => s.DeleteClient(id)).ReturnsAsync((ClientResponseDTO)null);
 
+            SetUser(_controller, id);
             var result = await _controller.DeleteClient(id);
 
             Assert.IsInstanceOf<NotFoundObjectResult>(result);

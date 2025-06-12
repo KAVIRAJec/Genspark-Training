@@ -11,15 +11,12 @@ namespace Freelance_Project.Test.Controllers
         [Test]
         public void Success_ReturnsOkObjectResult_WithExpectedStructure()
         {
-            // Arrange
             var controller = new TestController();
             var data = new { Id = 1, Name = "Test" };
             var message = "Custom success message";
 
-            // Act
             var result = controller.Success(data, message) as OkObjectResult;
 
-            // Assert
             Assert.IsNotNull(result);
             var value = result.Value;
             var type = value.GetType();

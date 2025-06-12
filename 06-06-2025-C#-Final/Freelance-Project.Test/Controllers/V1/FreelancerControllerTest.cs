@@ -5,6 +5,8 @@ using Freelance_Project.Controllers.V1;
 using Freelance_Project.Interfaces;
 using Freelance_Project.Models;
 using Freelance_Project.Models.DTO;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -14,6 +16,19 @@ namespace Freelance_Project.Test.Controllers.V1
     [TestFixture]
     public class FreelancerControllerTest
     {
+        private void SetUser(ControllerBase controller, Guid userId)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("Id", userId.ToString())
+            };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            var principal = new ClaimsPrincipal(identity);
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = principal }
+            };
+        }
         private Mock<IFreelancerService> _freelancerServiceMock;
         private FreelancerController _controller;
 
@@ -141,7 +156,7 @@ namespace Freelance_Project.Test.Controllers.V1
                 Location = "Remote"
             };
             _freelancerServiceMock.Setup(s => s.UpdateFreelancer(id, dto)).ReturnsAsync(response);
-
+            SetUser(_controller, id);
             var result = await _controller.UpdateFreelancer(id, dto);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
@@ -160,7 +175,7 @@ namespace Freelance_Project.Test.Controllers.V1
                 Location = "Remote"
             };
             _freelancerServiceMock.Setup(s => s.UpdateFreelancer(id, dto)).ReturnsAsync((FreelancerResponseDTO)null);
-
+            SetUser(_controller, id);
             var result = await _controller.UpdateFreelancer(id, dto);
 
             Assert.IsInstanceOf<NotFoundObjectResult>(result);
@@ -181,7 +196,7 @@ namespace Freelance_Project.Test.Controllers.V1
                 Location = "Remote"
             };
             _freelancerServiceMock.Setup(s => s.DeleteFreelancer(id)).ReturnsAsync(response);
-
+            SetUser(_controller, id);
             var result = await _controller.DeleteFreelancer(id);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
@@ -192,7 +207,7 @@ namespace Freelance_Project.Test.Controllers.V1
         {
             var id = Guid.NewGuid();
             _freelancerServiceMock.Setup(s => s.DeleteFreelancer(id)).ReturnsAsync((FreelancerResponseDTO)null);
-
+            SetUser(_controller, id);
             var result = await _controller.DeleteFreelancer(id);
 
             Assert.IsInstanceOf<NotFoundObjectResult>(result);

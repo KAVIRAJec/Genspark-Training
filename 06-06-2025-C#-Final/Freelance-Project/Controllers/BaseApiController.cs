@@ -4,7 +4,7 @@ namespace Freelance_Project.Controllers;
 
 public class BaseApiController : ControllerBase
 {
-    protected IActionResult Success(object data, string message = "Success")
+    public IActionResult Success(object data, string message = "Success")
     {
         return Ok(new
         {

@@ -13,6 +13,7 @@ namespace Freelance_Project.Controllers.V1;
 [Route("api/v{version:apiVersion}/[controller]")]
 public class ProjectProposalController : BaseApiController
 {
+    
     private readonly IProjectProposalService _projectProposalService;
     private readonly IClientProjectService _clientProjectService;
     private readonly IHubContext<NotificationHub> _hubContext;
