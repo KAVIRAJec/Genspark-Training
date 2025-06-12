@@ -97,9 +97,14 @@ namespace Freelance_Project.Test.Controllers.V1
         public async Task CancelProject_ReturnsSuccess_WhenValid()
         {
             var projectId = Guid.NewGuid();
+            var clientId = Guid.NewGuid();
             var projectResponse = new ProjectResponseDTO { FreelancerId = Guid.NewGuid(), Title = "Test" };
 
+            _clientProjectServiceMock.Setup(s => s.GetProjectById(projectId))
+                .ReturnsAsync(new ProjectResponseDTO { Id = projectId, ClientId = clientId });
+
             _serviceMock.Setup(s => s.CancelProject(projectId)).ReturnsAsync(projectResponse);
+            SetUser(_controller, clientId);
 
             var result = await _controller.CancelProject(projectId);
             Assert.IsInstanceOf<OkObjectResult>(result);
@@ -112,6 +117,7 @@ namespace Freelance_Project.Test.Controllers.V1
         {
             var proposalId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
+            var clientId = Guid.NewGuid();
             var dto = new ProposalRequestDTO { ProposalId = proposalId, ProjectId = projectId };
             var proposalResponse = new ProposalResponseDTO
             {
@@ -119,6 +125,9 @@ namespace Freelance_Project.Test.Controllers.V1
                 Project = new Freelance_Project.Models.DTO.ProjectSummaryDTO { Title = "Test" }
             };
 
+            _clientProjectServiceMock.Setup(s => s.GetProjectById(projectId))
+                .ReturnsAsync(new ProjectResponseDTO { Id = projectId, ClientId = clientId });
+            SetUser(_controller, clientId);
             _serviceMock.Setup(s => s.RejectProposal(proposalId, projectId)).ReturnsAsync(proposalResponse);
 
             var result = await _controller.RejectProposal(dto);

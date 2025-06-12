@@ -6,6 +6,9 @@ using Freelance_Project.Misc;
 using Freelance_Project.Models.DTO;
 using Freelance_Project.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
 using NUnit.Framework;
@@ -33,16 +36,32 @@ namespace Freelance_Project.Test.Controllers.V1
 
             _controller = new ProposalController(_serviceMock.Object, _hubContextMock.Object);
         }
+        private void SetUser(ProposalController controller, Guid clientId)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("Id", clientId.ToString())
+            };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            var principal = new ClaimsPrincipal(identity);
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = principal }
+            };
+        }
 
         [Test]
         public async Task CreateProposal_ValidRequest_ReturnsSuccess()
         {
-            var dto = new CreateProposalDTO();
+            var freelancerId = Guid.NewGuid();
+            var clientId = Guid.NewGuid();
+            var dto = new CreateProposalDTO { FreelancerId = freelancerId };
             var response = new ProposalResponseDTO
             {
-                Project = new ProjectSummaryDTO { ClientId = Guid.NewGuid() }
+                Project = new ProjectSummaryDTO { ClientId = clientId }
             };
             _serviceMock.Setup(s => s.CreateProposal(dto)).ReturnsAsync(response);
+            SetUser(_controller, freelancerId); // Set user claim to FreelancerId
 
             var result = await _controller.CreateProposal(dto) as OkObjectResult;
 
@@ -54,6 +73,8 @@ namespace Freelance_Project.Test.Controllers.V1
         [Test]
         public async Task CreateProposal_NullDto_ReturnsBadRequest()
         {
+            var clientId = Guid.NewGuid();
+            SetUser(_controller, clientId);
             var result = await _controller.CreateProposal(null) as BadRequestObjectResult;
             Assert.IsNotNull(result);
         }
@@ -105,6 +126,8 @@ namespace Freelance_Project.Test.Controllers.V1
         [Test]
         public async Task DeleteProposal_EmptyId_ReturnsBadRequest()
         {
+            SetUser(_controller, Guid.NewGuid());
+            _serviceMock.Setup(s => s.GetProposalById(It.IsAny<Guid>())).ReturnsAsync((ProposalResponseDTO)null);
             var result = await _controller.DeleteProposal(Guid.Empty) as BadRequestObjectResult;
             Assert.IsNotNull(result);
         }

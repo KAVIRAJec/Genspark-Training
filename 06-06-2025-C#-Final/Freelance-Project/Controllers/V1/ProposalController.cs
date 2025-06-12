@@ -27,12 +27,12 @@ public class ProposalController : BaseApiController
     [Authorize(Roles = "Freelancer")]
     public async Task<IActionResult> CreateProposal([FromBody] CreateProposalDTO createProposalDTO)
     {
+        if (createProposalDTO == null) return BadRequest("CreateProposalDTO cannot be null");
+
         var id = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
         if (id != createProposalDTO.FreelancerId.ToString())
             return BadRequest("You are not authorized to create a proposal using others' ID.");
         
-        if (createProposalDTO == null) return BadRequest("CreateProposalDTO cannot be null");
-
         var result = await _freelancerProposalService.CreateProposal(createProposalDTO);
 
         await _hubContext.Clients.User(result.Project.ClientId.ToString())
@@ -69,13 +69,13 @@ public class ProposalController : BaseApiController
     [Authorize(Roles = "Freelancer")]
     public async Task<IActionResult> UpdateProposal([FromRoute] Guid proposalId, [FromBody] UpdateProposalDTO updateProposalDTO)
     {
+        if (proposalId == Guid.Empty) return BadRequest("Proposal ID is required.");
+        if (updateProposalDTO == null) return BadRequest("UpdateProposalDTO cannot be null.");
+
         var id = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
         var proposal = await _freelancerProposalService.GetProposalById(proposalId);
         if (proposal == null || proposal.Freelancer.Id.ToString() != id)
             return BadRequest("You are not authorized to update this proposal.");
-
-        if (proposalId == Guid.Empty) return BadRequest("Proposal ID is required.");
-        if (updateProposalDTO == null) return BadRequest("UpdateProposalDTO cannot be null.");
 
         var result = await _freelancerProposalService.UpdateProposal(proposalId, updateProposalDTO);
 
