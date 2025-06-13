@@ -1,0 +1,25 @@
+<div class="city-search-container" [class.loading]="searching">
+  <mat-form-field appearance="outline" class="city-input">
+    <mat-label>Enter City</mat-label>
+    <input matInput [(ngModel)]="city" (keyup.enter)="onSearch()" placeholder="e.g. London" [disabled]="searching" >
+    <button mat-icon-button matSuffix (click)="onSearch()" [disabled]="searching">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+  @if (searching) {
+    <div class="search-anim">
+        <mat-icon class="spin">autorenew</mat-icon>
+        <span>Searching...</span>
+    </div>
+  }
+  @if (searchHistory.length > 0) {
+    <div class="search-history">
+      <span>Recent:</span>
+      @for( item of searchHistory; track item) {
+        <button mat-stroked-button color="primary" class="history-btn" (click)="selectHistory(item)">
+          <mat-icon>history</mat-icon> {{ item }}
+        </button>
+      }
+    </div>
+  }
+</div>

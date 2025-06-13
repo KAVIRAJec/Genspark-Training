@@ -1,0 +1,38 @@
+@if (errorMessage) {
+  <div class="error-popup">
+    <span class="error-icon">⚠️</span>
+    <p>{{ errorMessage }}</p>
+  </div>
+} @else if (!weatherData || !city) {
+  <div class="loading-message">
+    <span class="loading-spinner"></span>
+    <p>Loading weather data...</p>
+  </div>
+} @else {
+  <div class="weather-card">
+    <h2>
+      <mat-icon class="weather-icon" style="padding-bottom: 5px; font-size: 28px;">location_on</mat-icon>
+      {{ city }}
+    </h2>
+    <div class="weather-temp">
+      <mat-icon color="warn">thermostat</mat-icon>
+      {{ weatherData.temperature }}°C
+    </div>
+    <div class="weather-condition">
+      <mat-icon>
+        {{
+          weatherData.weatherCondition === 'Clear' ? 'wb_sunny' :
+          weatherData.weatherCondition === 'Clouds' ? 'cloud' :
+          weatherData.weatherCondition === 'Rain' ? 'rainy' :
+          weatherData.weatherCondition === 'Snow' ? 'ac_unit' :
+          'blur_on'
+        }}
+      </mat-icon>
+      {{ weatherData.weatherCondition }}
+    </div>
+    <div class="weather-coords-tag">
+      <mat-icon>explore</mat-icon>
+      <span>Lat: {{ weatherData.coordinates.lat }}, Lon: {{ weatherData.coordinates.lon }}</span>
+    </div>
+  </div>
+}

@@ -1,0 +1,16 @@
+h2 {
+  color: #42a1e3;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 14px;
+  margin: 4px 0;
+}
+
+button {
+  margin-top: 8px;
+}

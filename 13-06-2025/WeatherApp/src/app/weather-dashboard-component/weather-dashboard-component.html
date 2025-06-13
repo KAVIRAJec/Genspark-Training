@@ -1,0 +1,52 @@
+@if (errorMessage) {
+  <div class="error-popup">
+    <span class="error-icon">⚠️</span>
+    <p>{{ errorMessage }}</p>
+  </div>
+} @else if (!weatherData || !city) {
+  <div class="loading-message">
+    <span class="loading-spinner"></span>
+    <p>Loading weather data...</p>
+  </div>
+} @else {
+    <div class="weather-card">
+      <h2>
+        <mat-icon class="weather-icon" style="padding-bottom: 5px; font-size: 28px;">location_on</mat-icon>
+        {{ city }}
+      </h2>
+      <div class="weather-temp">
+        <mat-icon color="warn">thermostat</mat-icon>
+        {{ weatherData.temperature }}°C
+      </div>
+      <div class="weather-condition">
+        <mat-icon>
+          {{
+            weatherData.weatherCondition === 'Clear' ? 'wb_sunny' :
+            weatherData.weatherCondition === 'Clouds' ? 'cloud' :
+            weatherData.weatherCondition === 'Rain' ? 'rainy' :
+            weatherData.weatherCondition === 'Snow' ? 'ac_unit' :
+            'blur_on'
+          }}
+        </mat-icon>
+        {{ weatherData.weatherCondition }}
+      </div>
+      <div class="weather-details">
+        <div class="weather-detail-row">
+          <mat-icon>water_drop</mat-icon>
+          Humidity: {{ weatherData.humidity }}%
+        </div>
+        <div class="weather-detail-row">
+          <mat-icon>air</mat-icon>
+          Wind Speed: {{ weatherData.windSpeed }} km/h
+        </div>
+        <div class="weather-detail-row">
+          <mat-icon>speed</mat-icon>
+          Pressure: {{ weatherData.pressure }} hPa
+        </div>
+        <div class="weather-detail-row">
+          <mat-icon>waves</mat-icon>
+          Sea Level: {{ weatherData.seaLevel }} hPa
+        </div>
+      </div>
+    </div>
+}
