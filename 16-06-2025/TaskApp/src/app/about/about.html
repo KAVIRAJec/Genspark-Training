@@ -1,0 +1,23 @@
+<div class="about-card">
+  <h2>{{aboutInfo.appName}}</h2>
+  <p class="desc">{{aboutInfo.description}}</p>
+  <p><strong>Version:</strong> {{aboutInfo.version}}</p>
+  <p><strong>Team:</strong> {{aboutInfo.team.join(', ')}}</p>
+
+  <div class="cart-section">
+    <h3>Cart Summary</h3>
+    @if (cart.length > 0){
+         <ul>
+        @for (item of cart; track $index) {
+          <li>
+            <span>{{item.title}} (x{{item.quantity}})</span>
+            <button (click)="addToCart(item)">+</button>
+            <button (click)="removeFromCart(item)">-</button>
+          </li>
+        }
+      </ul>
+    } @else {
+        <p>Your cart is empty.</p>
+    }
+  </div>
+</div>

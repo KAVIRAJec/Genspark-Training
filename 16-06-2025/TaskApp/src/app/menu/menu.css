@@ -1,0 +1,70 @@
+.menu-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7em 1.5em;
+  background: #42a1e3;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(66,161,227,0.07);
+}
+
+.menu-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.03em;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  color: #ececec;
+}
+
+.menu-links {
+  display: flex;
+  gap: 12px;
+}
+
+.menu-links a[mat-button] {
+  display: flex;
+  align-items: center;
+  font-size: 1.08rem;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  background: transparent;
+}
+
+.menu-links a[mat-button]:hover,
+.menu-links a[mat-button].active-link {
+  transform: scaleX(1.06);
+}
+
+.menu-links mat-icon {
+  font-size: 1.2rem;
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+  .menu-toolbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+  }
+  .menu-links {
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 6px;
+  }
+  .p-8.text-2xl.font-bold.text-white {
+    font-size: 1.1rem;
+  }
+}
+
