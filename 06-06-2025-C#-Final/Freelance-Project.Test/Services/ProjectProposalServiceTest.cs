@@ -20,6 +20,7 @@ namespace Freelance_Project.Test.Services
         private Mock<IRepository<Guid, Project>> _projectRepoMock;
         private Mock<IRepository<Guid, Proposal>> _proposalRepoMock;
         private Mock<IRepository<Guid, Freelancer>> _freelancerRepoMock;
+        private Mock<IRepository<Guid, ChatRoom>> _chatRoomRepoMock;
         private FreelanceDBContext _dbContext;
         private ProjectProposalService _service;
 
@@ -34,11 +35,13 @@ namespace Freelance_Project.Test.Services
             _projectRepoMock = new Mock<IRepository<Guid, Project>>();
             _proposalRepoMock = new Mock<IRepository<Guid, Proposal>>();
             _freelancerRepoMock = new Mock<IRepository<Guid, Freelancer>>();
+            _chatRoomRepoMock = new Mock<IRepository<Guid, ChatRoom>>();
 
             _service = new TestableProjectProposalService(
             _projectRepoMock.Object,
             _proposalRepoMock.Object,
             _freelancerRepoMock.Object,
+            _chatRoomRepoMock.Object,
             _dbContext
 );
         }
@@ -104,9 +107,9 @@ namespace Freelance_Project.Test.Services
             var proposalId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             _proposalRepoMock.Setup(r => r.Get(proposalId))
-                .ReturnsAsync(new Proposal { Id = proposalId, IsActive = true, IsAccepted = true });
-            _projectRepoMock.Setup(r => r.Get(It.IsAny<Guid>()))
-                .ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Pending" }); // <-- add this
+                .ReturnsAsync(new Proposal { Id = proposalId, IsActive = true, IsAccepted = true, ProjectId = projectId });
+            _projectRepoMock.Setup(r => r.Get(projectId))
+                .ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Pending" });
 
             var ex = Assert.ThrowsAsync<AppException>(async () => await _service.AcceptProposal(proposalId, projectId));
             Assert.That(ex.Message, Does.Contain("already accepted"));
@@ -118,12 +121,12 @@ namespace Freelance_Project.Test.Services
             var proposalId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             _proposalRepoMock.Setup(r => r.Get(proposalId))
-                .ReturnsAsync(new Proposal { Id = proposalId, IsActive = true, IsAccepted = false });
-            _projectRepoMock.Setup(r => r.Get(It.IsAny<Guid>()))
+                .ReturnsAsync(new Proposal { Id = proposalId, IsActive = true, IsAccepted = false, ProjectId = projectId });
+            _projectRepoMock.Setup(r => r.Get(projectId))
                 .ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Pending" });
 
             var ex = Assert.ThrowsAsync<AppException>(async () => await _service.AcceptProposal(proposalId, projectId));
-            Assert.That(ex.Message, Does.Contain("rejected"));
+            Assert.That(ex.Message, Does.Contain("Proposal has been rejected"));
         }
 
         [Test]
@@ -185,10 +188,21 @@ namespace Freelance_Project.Test.Services
         }
 
         [Test]
+        public void CancelProject_NotApprovedOrInProgress_ThrowsAppException()
+        {
+            var projectId = Guid.NewGuid();
+            _projectRepoMock.Setup(r => r.Get(projectId))
+                .ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Pending" }); // Not "In Progress"
+            var ex = Assert.ThrowsAsync<AppException>(async () => await _service.CancelProject(projectId));
+            Assert.That(ex.Message, Does.Contain("Project is not Approved or In Progress, cannot cancel"));
+        }
+
+        [Test]
         public void CancelProject_AlreadyCancelled_ThrowsAppException()
         {
             var projectId = Guid.NewGuid();
-            _projectRepoMock.Setup(r => r.Get(projectId)).ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Cancelled" });
+            _projectRepoMock.Setup(r => r.Get(projectId))
+                .ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Cancelled" });
             var ex = Assert.ThrowsAsync<AppException>(async () => await _service.CancelProject(projectId));
             Assert.That(ex.Message, Does.Contain("already cancelled"));
         }
@@ -197,7 +211,8 @@ namespace Freelance_Project.Test.Services
         public void CancelProject_AlreadyCompleted_ThrowsAppException()
         {
             var projectId = Guid.NewGuid();
-            _projectRepoMock.Setup(r => r.Get(projectId)).ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Completed" });
+            _projectRepoMock.Setup(r => r.Get(projectId))
+                .ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Completed" });
             var ex = Assert.ThrowsAsync<AppException>(async () => await _service.CancelProject(projectId));
             Assert.That(ex.Message, Does.Contain("already completed"));
         }
@@ -246,8 +261,9 @@ namespace Freelance_Project.Test.Services
             var proposalId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             _proposalRepoMock.Setup(r => r.Get(proposalId))
-                .ReturnsAsync(new Proposal { Id = proposalId, IsActive = true, IsAccepted = true, ProjectId = projectId }); // MATCH projectId!
-            _projectRepoMock.Setup(r => r.Get(projectId)).ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Pending" });
+                .ReturnsAsync(new Proposal { Id = proposalId, IsActive = true, IsAccepted = true, ProjectId = projectId });
+            _projectRepoMock.Setup(r => r.Get(projectId))
+                .ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "Pending" });
 
             var ex = Assert.ThrowsAsync<AppException>(async () => await _service.RejectProposal(proposalId, projectId));
             Assert.That(ex.Message, Does.Contain("Cannot reject an accepted proposal"));
@@ -271,8 +287,10 @@ namespace Freelance_Project.Test.Services
         {
             var proposalId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
-            _proposalRepoMock.Setup(r => r.Get(proposalId)).ReturnsAsync(new Proposal { Id = proposalId, IsActive = true, ProjectId = projectId });
-            _projectRepoMock.Setup(r => r.Get(projectId)).ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "In Progress" });
+            _proposalRepoMock.Setup(r => r.Get(proposalId))
+                .ReturnsAsync(new Proposal { Id = proposalId, IsActive = true, ProjectId = projectId });
+            _projectRepoMock.Setup(r => r.Get(projectId))
+                .ReturnsAsync(new Project { Id = projectId, IsActive = true, Status = "In Progress" }); // Not "Pending"
 
             var ex = Assert.ThrowsAsync<AppException>(async () => await _service.RejectProposal(proposalId, projectId));
             Assert.That(ex.Message, Does.Contain("not in pending state"));
@@ -311,17 +329,21 @@ namespace Freelance_Project.Test.Services
             private readonly IRepository<Guid, Project> _projectRepository;
             private readonly IRepository<Guid, Proposal> _proposalRepository;
             private readonly IRepository<Guid, Freelancer> _freelancerRepo;
+            private readonly IRepository<Guid, ChatRoom> _chatRoomRepository;
             private readonly FreelanceDBContext _dbContext;
+
             public TestableProjectProposalService(
                 IRepository<Guid, Project> projectRepository,
                 IRepository<Guid, Proposal> proposalRepository,
                 IRepository<Guid, Freelancer> freelancerRepository,
+                IRepository<Guid, ChatRoom> chatRoomRepository,
                 FreelanceDBContext dbContext)
-                : base(projectRepository, proposalRepository, freelancerRepository, dbContext)
+                : base(projectRepository, proposalRepository, freelancerRepository, chatRoomRepository, dbContext)
             {
                 _projectRepository = projectRepository;
                 _proposalRepository = proposalRepository;
                 _freelancerRepo = freelancerRepository;
+                _chatRoomRepository = chatRoomRepository;
                 _dbContext = dbContext;
             }
 

@@ -18,4 +18,5 @@ public class Client
     public DateTime? DeletedAt { get; set; }
     public User User { get; set; }
     public ICollection<Project>? Projects { get; set; }
+    public ICollection<ChatRoom>? ChatRooms { get; set; }
 }

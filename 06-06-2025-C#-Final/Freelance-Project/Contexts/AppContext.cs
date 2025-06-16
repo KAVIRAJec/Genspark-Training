@@ -17,6 +17,8 @@ public class FreelanceDBContext : DbContext
     public DbSet<Project> Projects { get; set; }
     public DbSet<Proposal> Proposals { get; set; }
     public DbSet<Skill> Skills { get; set; }
+    public DbSet<ChatRoom> ChatRooms { get; set; }
+    public DbSet<ChatMessage> ChatMessages { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -94,6 +96,34 @@ public class FreelanceDBContext : DbContext
                 .WithMany(p => p.Proposals)
                 .HasForeignKey(pr => pr.ProjectId)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+        modelBuilder.Entity<ChatRoom>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.HasOne(cr => cr.Client)
+                .WithMany(c => c.ChatRooms)
+                .HasForeignKey(cr => cr.ClientId)
+                .OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(cr => cr.Freelancer)
+                .WithMany(f => f.ChatRooms)
+                .HasForeignKey(cr => cr.FreelancerId)
+                .OnDelete(DeleteBehavior.Restrict);
+            entity.HasMany(cr => cr.Messages)
+                .WithOne(cm => cm.ChatRoom)
+                .HasForeignKey(cm => cm.ChatRoomId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        modelBuilder.Entity<ChatMessage>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Content).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.SentAt).IsRequired();
+            entity.HasOne(cm => cm.ChatRoom)
+                .WithMany(cr => cr.Messages)
+                .HasForeignKey(cm => cm.ChatRoomId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

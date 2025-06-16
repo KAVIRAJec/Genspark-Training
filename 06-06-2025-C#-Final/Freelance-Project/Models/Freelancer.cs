@@ -20,4 +20,6 @@ public class Freelancer
     public User User { get; set; }
     public ICollection<Skill>? Skills { get; set; }
     public ICollection<Proposal>? Proposals { get; set; }
+    public ICollection<ChatRoom>? ChatRooms { get; set; }
+
 }

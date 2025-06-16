@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.0/dist/browser/signalr.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        #chat { margin-top: 1em; }
+        .message { background: #e3e7f7; border: 1px solid #b2b8d8; padding: 10px; margin-bottom: 8px; border-radius: 4px; }
+        #status { color: #888; }
+        #inputRow { margin-top: 1em; }
+        #inputRow input { padding: 6px; width: 250px; }
+        #inputRow button { padding: 6px 12px; }
+    </style>
+</head>
+<body>
+    <h2>Client Chat</h2>
+    <div id="status">Connecting...</div>
+    <div id="chat"></div>
+    <div id="inputRow">
+        <input type="text" id="messageInput" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <script>
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJzb3BoaWFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ2xpZW50IiwiSWQiOiI4NzE0MGNiYy04ZGE0LTQzMzYtOGUwNS0yZjVjNWVmZGZhNjgiLCJleHAiOjE3NTAwNDg1MjZ9.9jIt2gjfM1TJZTCHr25YoQTKi3AcjjdZBUas0UFgg40";
+        const chatRoomId = "317628f0-86b4-4d0f-985a-d0aae3e7394c";
+        const senderId = "87140cbc-8da4-4336-8e05-2f5c5efdfa68";
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:5001/notificationhub", {
+                withCredentials: true,
+                accessTokenFactory: () => token
+            })
+            .withAutomaticReconnect()
+            .build();
+
+        connection.on("ChatNotification", function (message) {
+            const div = document.createElement("div");
+            div.className = "message";
+            div.textContent = typeof message === "string" ? message : JSON.stringify(message);
+            document.getElementById("chat").appendChild(div);
+        });
+
+        connection.start()
+            .then(() => {
+                document.getElementById("status").textContent = "Connected. You can chat now.";
+            })
+            .catch(err => {
+                document.getElementById("status").textContent = "Connection failed: " + err;
+                console.error(err.toString());
+            });
+
+        function sendMessage() {
+            const content = document.getElementById("messageInput").value;
+            if (!content) return;
+            fetch("https://localhost:5001/api/v1/Chat/SendMessage", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    content,
+                    chatRoomId,
+                    senderId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("messageInput").value = "";
+            });
+        }
+    </script>
+</body>
+</html>

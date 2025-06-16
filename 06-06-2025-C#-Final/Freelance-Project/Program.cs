@@ -142,6 +142,8 @@ builder.Services.AddTransient<IRepository<Guid, Project>, ProjectRepository>();
 builder.Services.AddTransient<IRepository<Guid, Proposal>, ProposalRepository>();
 builder.Services.AddTransient<IRepository<Guid, Skill>, SkillRepository>();
 builder.Services.AddTransient<IRepository<string, User>, UserRepository>();
+builder.Services.AddTransient<IRepository<Guid, ChatRoom>, ChatRoomRepository>();
+builder.Services.AddTransient<IRepository<Guid, ChatMessage>, ChatMessageRepository>();
 #endregion
 
 #region Services
@@ -154,6 +156,7 @@ builder.Services.AddTransient<IClientProjectService, ClientProjectService>();
 builder.Services.AddTransient<IFreelancerProposalService, FreelancerProposalService>();
 builder.Services.AddTransient<IProjectProposalService, ProjectProposalService>();
 builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
+builder.Services.AddTransient<IChatService, ChatService>();
 #endregion
 
 #region Image Upload Configuration

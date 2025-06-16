@@ -10,4 +10,5 @@ public interface IProjectProposalService
     // Change status to cancelled & set IsActive to false(Track delete after accept proposal)
     public Task<ProjectResponseDTO> CancelProject(Guid projectId);
     public Task<ProposalResponseDTO> RejectProposal(Guid proposalId, Guid projectId);
+    public Task<ProjectResponseDTO> CompleteProject(Guid projectId);
 } 
