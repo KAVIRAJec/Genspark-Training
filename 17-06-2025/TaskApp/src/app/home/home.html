@@ -1,0 +1,10 @@
+<section>
+  @if (userProfile && userProfile.firstName) {
+    <h2>Welcome, {{userProfile.firstName}} {{userProfile.lastName}}!</h2>
+    <p>Email: {{userProfile.email}}</p>
+    <p>Username: {{userProfile.username}}</p>
+  } @else {
+    <h2>Welcome to the App!</h2>
+    <p>Please <a routerLink="/login">login</a> to access your profile and features.</p>
+  }
+</section>

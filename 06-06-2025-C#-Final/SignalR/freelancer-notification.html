@@ -18,7 +18,7 @@
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("https://localhost:5001/notificationhub", {
                 withCredentials: true,
-                accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJoYXJpbmlAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRnJlZWxhbmNlciIsIklkIjoiM2VjYjlkMDAtNjQxZi00OTkzLTgzMjAtOTZjM2ZkYTc5NzA2IiwiZXhwIjoxNzUwMDQ4NDc4fQ.TEoXZDnIgLrUe9VEverooEB831pSf6iWsP16Qy3JVKc"
+                accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJoYXJpbmlAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRnJlZWxhbmNlciIsIklkIjoiMWExNjQyZmQtZGM2MC00MTU5LWE0NmEtYjE2NmEzMDIzZTJiIiwiZXhwIjoxNzUwMTY3NzEzfQ.0JNHdRJRYH0twBXyn38HFQUchJE5_Nm2MyG2INJU-2M"
             })
             .withAutomaticReconnect()
             .build();

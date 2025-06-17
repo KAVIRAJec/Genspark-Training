@@ -1,0 +1,10 @@
+<section class="product-details-card">
+@if(product){
+  <h2>{{product.title}}</h2>
+  <img [src]="product.thumbnail" alt="{{product.title}}">
+  <p>{{product.description}}</p>
+  <p><strong>Price:</strong> ${{product.price}}</p>
+} @else {
+  <p>No product details available.</p>
+}
+</section>

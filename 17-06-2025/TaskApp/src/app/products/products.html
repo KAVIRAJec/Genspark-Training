@@ -1,0 +1,28 @@
+<section>
+    <button (click)="scrollToTop()" class="scroll-top-btn">
+        <i class="bi bi-arrow-up-circle"></i>
+    </button>
+    <h1>Product List</h1>
+
+    <input [(ngModel)]="searchString" (input)="handleSearchProducts()" placeholder="Search products...">
+
+    @if (!loading) {
+        @if (products.length > 0) {
+            <div class="products-container fade-in">
+                @for (item of products; track item.id) {
+                    <app-product [Product]="item"></app-product>
+                }
+            </div>
+        } @else {
+            <div class="no-products">
+                <p>No products found.</p>
+            </div>
+        }
+    } @else {
+        <div class="loading-spinner">
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only"></span>
+            </div>
+        </div>
+    }
+</section>
