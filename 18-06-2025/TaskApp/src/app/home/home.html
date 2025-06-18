@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="dashboard-header d-flex justify-content-between align-items-center">
+    <h1 class="dashboard-title align-items-center">DASHBOARD</h1>
+    <input type="text" class="search-input mb-5" placeholder="Search..." [(ngModel)]="searchText" (ngModelChange)="onSearchChange()" />
+  </div>
+  <div class="dashboard-row">
+    <div class="dashboard-card">
+      <h4>Gender</h4>
+      <div class="chart-container">
+        <canvas id="genderChart"></canvas>
+      </div>
+      <div class="legend align-items-center">
+        <span class="legend-dot female"></span> Female &nbsp;
+        <span class="legend-dot male"></span> Male
+      </div>
+    </div>
+    <div class="dashboard-card">
+      <h4>Role</h4>
+      <div class="chart-container">
+        <canvas id="roleChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard-row">
+    <div class="dashboard-card full-width">
+      <h4>State</h4>
+      <div id="map" class="us-map-placeholder">World Map</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

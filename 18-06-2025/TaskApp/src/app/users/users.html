@@ -1,0 +1,91 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">Add New User</h3>
+          <form [formGroup]="createUserForm" (ngSubmit)="handleCreateUser()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" id="firstName" class="form-control" formControlName="firstName">
+                <div *ngIf="createUserForm.get('firstName')?.invalid && createUserForm.get('firstName')?.touched" class="text-danger small">First name is required.</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" id="lastName" class="form-control" formControlName="lastName">
+                <div *ngIf="createUserForm.get('lastName')?.invalid && createUserForm.get('lastName')?.touched" class="text-danger small">Last name is required.</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" formControlName="email">
+                <div *ngIf="createUserForm.get('email')?.invalid && createUserForm.get('email')?.touched" class="text-danger small">Valid email is required.</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" class="form-control" formControlName="password">
+                <div *ngIf="createUserForm.get('password')?.invalid && createUserForm.get('password')?.touched" class="text-danger small">Password is required.</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" id="phone" class="form-control" formControlName="phone">
+                <div *ngIf="createUserForm.get('phone')?.invalid && createUserForm.get('phone')?.touched" class="text-danger small">Phone is required.</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" id="age" class="form-control" formControlName="age">
+                <div *ngIf="createUserForm.get('age')?.invalid && createUserForm.get('age')?.touched" class="text-danger small">Valid age is required.</div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select id="role" class="form-select" formControlName="role">
+                  <option value="">Select Role</option>
+                  <option value="admin">Admin</option>
+                  <option value="moderator">Moderator</option>
+                  <option value="user">User</option>
+                </select>
+                <div *ngIf="createUserForm.get('role')?.invalid && createUserForm.get('role')?.touched" class="text-danger small">Role is required.</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" id="address" class="form-control" formControlName="address">
+                <div *ngIf="createUserForm.get('address')?.invalid && createUserForm.get('address')?.touched" class="text-danger small">Address is required.</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" id="city" class="form-control" formControlName="city">
+                <div *ngIf="createUserForm.get('city')?.invalid && createUserForm.get('city')?.touched" class="text-danger small">City is required.</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="state" class="form-label">State</label>
+                <input type="text" id="state" class="form-control" formControlName="state">
+                <div *ngIf="createUserForm.get('state')?.invalid && createUserForm.get('state')?.touched" class="text-danger small">State is required.</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="postalCode" class="form-label">Postal Code</label>
+                <input type="text" id="postalCode" class="form-control" formControlName="postalCode">
+                <div *ngIf="createUserForm.get('postalCode')?.invalid && createUserForm.get('postalCode')?.touched" class="text-danger small">Postal code is required.</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" id="country" class="form-control" formControlName="country">
+                <div *ngIf="createUserForm.get('country')?.invalid && createUserForm.get('country')?.touched" class="text-danger small">Country is required.</div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success w-100 mt-3" [disabled]="createUserForm.invalid">
+              <i class="bi bi-person-plus"></i> Add User
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
