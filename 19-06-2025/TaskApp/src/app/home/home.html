@@ -1,0 +1,19 @@
+<section class="user-list-section">
+    <input #searchInput type="text" placeholder="Search users..." class="search-input" />
+    @if (filteredUsers()) {
+        <div class="user-card-list">
+            @for (user of filteredUsers(); track $index) {
+                <div class="user-card">
+                    <div class="user-card-header">
+                        <span class="user-avatar">{{ user.Username.charAt(0) }}</span>
+                        <span class="user-name">{{ user.Username }}</span>
+                    </div>
+                    <div class="user-card-body">
+                        <div class="user-email">{{ user.Email }}</div>
+                        <div class="user-role">Role: {{ user.Role }}</div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</section>

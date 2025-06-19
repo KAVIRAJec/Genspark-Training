@@ -1,0 +1,33 @@
+.menu-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #f0f0f0;
+}
+.menu-container nav {
+    display: flex;
+    align-items: center;
+}
+.menu-container ul {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+.menu-container li {
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.menu-container li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+.menu-container li:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}

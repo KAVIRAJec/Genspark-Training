@@ -1,0 +1,58 @@
+<section>
+    @if(isError()) {
+    <div class="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
+        <div class="alert alert-danger">
+            Error adding user. Please try again.
+        </div>
+    } @else if(isAdded()) {
+        <div class="alert alert-info">
+            User added successfully!
+        </div>
+    }
+    <form [formGroup]="userForm" (ngSubmit)="HandleFormSubmit()" class="user-manage-form">
+        <h2>User Management</h2>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" formControlName="username" class="form-control">
+            <div *ngIf="userForm.get('username')?.touched && userForm.get('username')?.invalid" class="alert alert-danger">
+                <div *ngIf="userForm.get('username')?.errors?.['required']">Username is required.</div>
+                <div *ngIf="userForm.get('username')?.errors?.['userName']">{{ userForm.get('username')?.errors?.['userName'] }}</div>
+            </div>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" formControlName="email" class="form-control">
+            <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid" class="alert alert-danger">
+                <div *ngIf="userForm.get('email')?.errors?.['required']">Email is required.</div>
+                <div *ngIf="userForm.get('email')?.errors?.['email']">Invalid email format.</div>
+            </div>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" formControlName="password" class="form-control">
+            <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid" class="alert alert-danger">
+                <div *ngIf="userForm.get('password')?.errors?.['required']">Password is required.</div>
+                <div *ngIf="userForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</div>
+                <div *ngIf="userForm.get('password')?.errors?.['passwordStrength']">{{ userForm.get('password')?.errors?.['passwordStrength'] }}</div>
+            </div>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control">
+            <div *ngIf="userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid" class="alert alert-danger">
+                <div *ngIf="userForm.get('confirmPassword')?.errors?.['required']">Confirm Password is required.</div>
+            </div>
+            <!-- Group-level error for password match -->
+            <div *ngIf="userForm.errors?.['mustMatch'] && (userForm.get('confirmPassword')?.touched || userForm.get('password')?.touched)" class="alert alert-danger">
+                Passwords must match.
+            </div>
+
+            <label for="role">Role:</label>
+            <select id="role" formControlName="role" class="form-control">
+                <option value="">Select Role</option>
+                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+            </select>
+            <div *ngIf="userForm.get('role')?.touched && userForm.get('role')?.invalid" class="alert alert-danger">
+                <div *ngIf="userForm.get('role')?.errors?.['required']">Role is required.</div>
+            </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</section>

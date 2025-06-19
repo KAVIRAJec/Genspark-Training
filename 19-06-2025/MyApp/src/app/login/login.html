@@ -1,0 +1,18 @@
+<form [formGroup]="loginForm" class="loginDiv" (ngSubmit)="handleLogin()">
+    <label class="form-control">Username</label>
+    <input class="form-control" type="text" formControlName="un"/>
+    @if (un.touched && un.errors){
+        <div class="alert alert-danger">Username is required</div>
+    }
+    <label class="form-control">Password</label>
+    <input class="form-control" type="password" formControlName="pass"/>
+    @if (pass.touched && pass.errors){
+        @if (pass.errors?.required) {
+            <span class="alert alert-danger">Password cannot be empty</span>
+        }
+        @if (pass.errors?.lenError) {
+            <span class="alert alert-danger">Password cannot be less than 5 chars</span>
+        }
+    }
+    <button class="btn btn-success" [disabled]="loginForm.invalid">Login</button>
+</form>
