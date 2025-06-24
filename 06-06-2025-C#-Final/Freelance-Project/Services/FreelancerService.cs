@@ -3,6 +3,7 @@ using Freelance_Project.Interfaces;
 using Freelance_Project.Misc;
 using Freelance_Project.Models;
 using Freelance_Project.Models.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Freelance_Project.Services;
 
@@ -32,6 +33,8 @@ public class FreelancerService : IFreelancerService
         try
         {
             var user = await UserMapper.CreateUserFromCreateFreelancerDTO(createDto);
+            var existing = await _appContext.Users.SingleOrDefaultAsync(u => u.Email == user.Email);
+            if (existing != null) throw new AppException("User with this email already exist", 400);
             var newUser = await _userRepository.Add(user);
             if (newUser == null) throw new AppException("Unable to create user.", 500);
 

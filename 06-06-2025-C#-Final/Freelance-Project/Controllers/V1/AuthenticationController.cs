@@ -24,6 +24,16 @@ public class AuthenticationController : BaseApiController
         if (loginRequest == null) return BadRequest("Login request cannot be null");
 
         var response = await _authenticationService.Login(loginRequest);
+
+        //set HttpOnly cookie for the refresh token
+        Response.Cookies.Append("refreshToken", response.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = response.RefreshExpiresAt,
+        });
+        response.RefreshToken = string.Empty; // Clear the refresh token from the response to avoid sending it in the body
         return response != null ? Success(response) : BadRequest("Login failed");
     }
 
@@ -40,11 +50,21 @@ public class AuthenticationController : BaseApiController
 
     [Authorize]
     [HttpPost("refresh")]
-    public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
+    public async Task<IActionResult> RefreshToken()
     {
+        var refreshToken = Request.Cookies["refreshToken"];
         if (string.IsNullOrEmpty(refreshToken)) return BadRequest("Refresh token cannot be null or empty");
 
         var response = await _authenticationService.RefreshToken(refreshToken);
+        Response.Cookies.Append("refreshToken", response.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = response.RefreshExpiresAt
+        });
+
+        response.RefreshToken = string.Empty;
         return response != null ? Success(response) : BadRequest("Token refresh failed");
     }
 

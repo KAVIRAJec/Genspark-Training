@@ -119,7 +119,7 @@ public class ChatController : BaseApiController
     }
 
     [HttpGet("RoomsByUser/{userId}")]
-    public async Task<IActionResult> GetChatRoomsByUserId(Guid userId)
+    public async Task<IActionResult> GetChatRoomsByUserId(Guid userId, [FromQuery] PaginationParams paginationParams)
     {
         var Id = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
         if (userId != Guid.Parse(Id))
@@ -127,7 +127,7 @@ public class ChatController : BaseApiController
 
         if (userId == Guid.Empty) return BadRequest("User ID cannot be empty.");
         
-        var result = await _chatService.GetChatRoomByUserId(userId);
+        var result = await _chatService.GetChatRoomByUserId(userId, paginationParams);
         return Success(result);
     }
 }

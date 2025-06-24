@@ -14,5 +14,5 @@ public interface IChatService
     public Task<ChatRoomResponseDTO> GetChatById(Guid chatRoomId);
 
     public Task<ChatRoomResponseDTO> GetChatRoomByProjectId(Guid projectId);
-    public Task<PagedResponse<ChatRoomResponseDTO>> GetChatRoomByUserId(Guid userId);
+    public Task<PagedResponse<ChatRoomResponseDTO>> GetChatRoomByUserId(Guid userId, PaginationParams paginationParams);
 }

@@ -1,0 +1,13 @@
+<app-add-user></app-add-user>
+<hr/>
+@if((loading$ | async) && !(error$ | async)) {
+  <div>Loading...</div>
+} @else if(error$ | async) {
+  <div>Error: {{ error$ | async }}</div>
+} @else {
+  <ul>
+    <li *ngFor="let user of users$ | async">
+      {{ user.username }}
+    </li>
+  </ul>
+}

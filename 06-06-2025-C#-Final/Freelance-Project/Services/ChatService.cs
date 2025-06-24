@@ -116,8 +116,8 @@ public class ChatService : IChatService
 
         return ChatRoomMapper.ToResponseDTO(chatRoom);
     }
-    
-    public async Task<PagedResponse<ChatRoomResponseDTO>> GetChatRoomByUserId(Guid userId)
+
+    public async Task<PagedResponse<ChatRoomResponseDTO>> GetChatRoomByUserId(Guid userId, PaginationParams paginationParams)
     {
         if (userId == Guid.Empty) throw new AppException("User ID is required.", 400);
 
