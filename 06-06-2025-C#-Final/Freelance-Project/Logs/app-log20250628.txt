@@ -1,0 +1,20 @@
+2025-06-28 21:07:36.315 +05:30 [ERR] Unhandled exception occurred
+Freelance_Project.Misc.AppException: Page 2 does not exist. Max page is 1.
+   at Freelance_Project.Misc.IQueryableExtensions.ToPagedResponse[T](IQueryable`1 query, PaginationParams paginationParams) in /Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project/Misc/PaginationFunctionality.cs:line 21
+   at Freelance_Project.Services.ChatService.GetMessagesByChatRoomId(Guid chatRoomId, PaginationParams paginationParams) in /Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project/Services/ChatService.cs:line 112
+   at Freelance_Project.Controllers.V1.ChatController.GetMessagesByChatRoomId(Guid chatRoomId, PaginationParams paginationParams) in /Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project/Controllers/V1/ChatController.cs:line 130
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in /Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project/Exceptions/ExceptionMiddleware.cs:line 27
