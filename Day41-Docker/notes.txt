@@ -1,0 +1,13 @@
+Docker installation & basics
+
+docker --version
+docker info
+docker run hello-world
+docker run -d -p 8080:80 nginx
+Docker whalesay - yourname
+docker images
+docker ps, docker ps -a
+docker run -it alpine /bin/sh
+docker rmi, docker rm
+docker logs, docker stop
+docker prune

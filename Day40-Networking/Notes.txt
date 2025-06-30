@@ -1,0 +1,19 @@
+Basic Networking Commands:
+1. ping
+ping google.com
+ping google.com -c 4
+ping google.com -i 4
+
+ping 8.8.8.8
+2. nslookup
+3. ip
+4. ifconfig (Deprecated but still in use)
+Prefer ip over ifconfig.
+
+Docs:
+https://www.geeksforgeeks.org/umask-command-in-linux-with-examples/
+https://dev.to/kcdchennai/useradd-vs-adduser-which-command-to-use-3mb4
+https://www.geeksforgeeks.org/linux-unix/ping-command-in-linux-with-examples/
+https://www.geeksforgeeks.org/linux-unix/nslookup-command-in-linux-with-examples/
+https://www.geeksforgeeks.org/linux-unix/ip-command-in-linux-with-examples/
+https://www.geeksforgeeks.org/linux-unix/ifconfig-command-in-linux-with-examples/

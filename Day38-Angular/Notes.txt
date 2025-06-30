@@ -1,0 +1,7 @@
+Angular Directives
+Unit test - Spy,mock
+
+Task:
+Create a component that will read data from the Recipe end point of DummyJson. 
+Handle with service, model and child component as required. 
+Create unit testing for all(service, child component and parent)
