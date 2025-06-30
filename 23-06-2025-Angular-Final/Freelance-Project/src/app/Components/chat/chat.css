@@ -1,0 +1,206 @@
+/* --- Chat Page Modern Color Palette --- */
+:host {
+  --chat-bg: #f6f8fa;
+  --sidebar-bg: #40287d;
+  --header-bg: #6d54ac;
+  --sidebar-accent: #fff;
+  --sidebar-hover: rgba(171, 71, 188, 0.15);
+  --bubble-user: #e3eefe;
+  --bubble-user-text: #222;
+  --bubble-other: theme("colors.clr-DeepPlum");
+  --bubble-other-text: #fff;
+  --input-bg: #fff;
+  --input-border: #cbd5e1;
+  --input-focus: #4f8cff;
+  --send-btn-bg: #594196;
+  --send-btn-hover: #40287d;
+  --send-btn-text: #fff;
+  --header-text: #fff;
+}
+
+.message-group {
+  position: relative;
+}
+.message-group .msg-actions {
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.message-group:hover .msg-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Optional: Add hover effect for buttons */
+.msg-actions .edit:hover {
+  background: rgb(44, 144, 194);
+  border-color: #d1d5db;
+}
+.msg-actions .delete:hover {
+  background: rgb(194, 44, 44);
+  border-color: #d1d5db;
+}
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1 !important;
+}
+
+.chat-container {
+    height: calc(100dvh - var(--chat-header-footer-height, 90px));
+    min-height: 0;
+    background: var(--chat-bg);
+    display: flex;
+    flex-direction: row;
+}
+
+/* Sidebar */
+.w-80 {
+  background: var(--sidebar-bg) !important;
+  color: var(--sidebar-accent) !important;
+  border-right: 1px solid #e5e7eb;
+}
+.w-80 .font-semibold,
+.w-80 .text-primary-cta {
+  color: var(--sidebar-accent) !important;
+}
+.w-80 li {
+  transition: background 0.2s;
+}
+.w-80 li:hover, .w-80 .bg-clr-LightIvory {
+  background: var(--sidebar-hover) !important;
+}
+
+/* Chat Bubbles */
+.bg-primary-cta\/90 {
+  background: var(--bubble-user) !important;
+  color: var(--bubble-user-text) !important;
+}
+.bg-clr-LightIvory {
+  background: var(--bubble-other) !important;
+  color: var(--bubble-other-text) !important;
+}
+
+/* Message area scroll */
+.flex-1.overflow-y-auto {
+  overflow-y: auto !important;
+  max-height: calc(100dvh - 120px);
+}
+
+/* Message input bar */
+.input {
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+  transition: border 0.2s, box-shadow 0.2s;
+  font-size: 1rem;
+  color: #222;
+}
+.input:focus {
+  border-color: var(--input-focus);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--input-focus)22;
+}
+.btn.btn-primary {
+  background: var(--send-btn-bg);
+  color: var(--send-btn-text);
+  border: none;
+  transition: all 0.2s;
+}
+.btn.btn-primary:hover {
+  background: var(--send-btn-hover);
+  transform: scale(1.05);
+  transition: all 0.2s;
+}
+
+/* Send bar layout */
+.send-bar {
+  background: #fff;
+  border-top: 1.5px solid #e5e7eb;
+  padding: 1rem 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.input::-webkit-input-placeholder { color: #b0b8c1; }
+.input:-ms-input-placeholder { color: #b0b8c1; }
+.input::placeholder { color: #b0b8c1; }
+
+/* Header */
+.header-deepplum {
+  background: var(--header-bg) !important;
+  color: var(--header-text) !important;
+}
+.header-deepplum .text-primary-cta {
+  color: var(--header-text) !important;
+}
+
+.no-messages-img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  margin: 0 auto 1rem auto;
+  display: block;
+}
+.no-messages-text {
+  text-align: center;
+  color: #6a0572;
+  font-size: 1.5rem;
+  font-family: 'Lora', serif;
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* Attractive mobile chat select styling */
+.chat-select-mobile {
+  background: #f8f6fa;
+  border: 2px solid #ab47bc;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #6a0572;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(171,71,188,0.08);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.chat-select-mobile:focus {
+  border-color: #6a0572;
+  outline: none;
+  box-shadow: 0 0 0 2px #ab47bc33;
+}
+.chat-select-mobile option[disabled] {
+  color: #b0b0b0;
+}
+
+/* Responsive tweaks */
+/* @media (max-width: 900px) {
+  .chat-container { flex-direction: column; }
+  .w-80 { width: 100vw; border-right: none; border-bottom: 1px solid #e5e7eb; }
+} */
+
+/* Fix for mobile message area not scrollable to bottom */
+@media (max-width: 767px) {
+  .flex-1.overflow-y-auto {
+    max-height: 73vh !important;
+    min-height: 200px !important;
+    height: 60vh !important;
+    padding-bottom: 6rem !important; /* extra space for input bar */
+    overflow-y: auto !important;
+  }
+  .send-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    width: 100vw;
+    border-radius: 0;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+  }
+  .chat-container {
+    padding-bottom: 6rem !important;
+  }
+}

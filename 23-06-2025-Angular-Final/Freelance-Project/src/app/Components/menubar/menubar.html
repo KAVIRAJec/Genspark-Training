@@ -1,0 +1,170 @@
+<section class="bg-clr-DeepPlum text-center font-raleway flex flex-col justify-center md:flex-row md:justify-between px-4 py-3 items-center">
+    <div class="flex items-center justify-between py-2 px-1">
+        <img ngSrc="assets/logo.png" alt="Logo" height="48" width="42" class="h-10 rounded-full border-2 mr-2 hover:scale-105 duration-300">
+        <h1 class="text-clr-LightIvory text-2xl font-raleway p-0 m-0 hover:scale-105 duration-300">Freelancing Platform</h1>
+        <!-- Notification Bell -->
+        @if(authenticated()) {
+          <div class="md:hidden relative flex items-center ml-4">
+              <button (click)="toggleNotificationDropdown()" class="relative focus:outline-none transition-transform duration-200 hover:scale-110" aria-label="Notifications">
+                <i class="bi bi-bell text-white font-bold" style="font-size: 1.5rem; text-shadow: 0 2px 8px #0002;"></i>
+                <span *ngIf="unreadCount > 0" class="absolute -top-1 -right-1 bg-red-500 text-white font-bold rounded-full text-xs px-1.5 py-0.5 shadow-lg border-2 border-white animate-pulse">
+                  {{ unreadCount }}
+                </span>
+                <span class="absolute inset-0 rounded-full transition"></span>
+              </button>
+              <div *ngIf="showNotificationDropdown" class="absolute right-0 mt-2 z-50">
+                <app-notification></app-notification>
+              </div>
+          </div>
+        }
+
+        <nav class="hidden md:flex pl-6">
+            <ul class="flex justify-start items-center gap-x-2 p-0 m-0 text-base">
+                <li>
+                    <a routerLink="home" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105">Home</a>
+                </li>
+                <li class="dropdown relative">
+                    <a routerLink="findexpert" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105 flex items-center gap-1">
+                      Find Expert <i class="bi bi-chevron-down align-middle"></i>
+                    </a>
+                    <div class="dropdown-content absolute left-0 top-full mt-0 w-96 bg-white text-black p-5 rounded-xl shadow-xl">
+                      <h4 class="font-semibold mb-2 text-primary-section">Browse by Technology</h4>
+                      <ul class="mb-4 grid grid-cols-2 gap-2 text-sm">
+                        <li><a (click)="navigateWithSearch('findexpert', 'Web Development')" class="hover:text-primary-cta cursor-pointer">Web Development</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'App Development')" class="hover:text-primary-cta cursor-pointer">App Development</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'IoT')" class="hover:text-primary-cta cursor-pointer">IoT</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'Cloud')" class="hover:text-primary-cta cursor-pointer">Cloud</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'DevOps')" class="hover:text-primary-cta cursor-pointer">DevOps</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'AI/ML')" class="hover:text-primary-cta cursor-pointer">AI/ML</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'GenAI')" class="hover:text-primary-cta cursor-pointer">GenAI</a></li>
+                      </ul>
+                      <h4 class="font-semibold mb-2 text-primary-section">Expert by Region</h4>
+                      <ul class="mb-4 grid grid-cols-2 gap-2 text-sm">
+                        <li><a (click)="navigateWithSearch('findexpert', 'Asia')" class="hover:text-primary-cta cursor-pointer">Asia</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'Europe')" class="hover:text-primary-cta cursor-pointer">Europe</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'North America')" class="hover:text-primary-cta cursor-pointer">North America</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'Australia')" class="hover:text-primary-cta cursor-pointer">Australia</a></li>
+                      </ul>
+                      <h4 class="font-semibold mb-2 text-primary-section">Expert by Skill</h4>
+                      <ul class="mb-4 grid grid-cols-2 gap-2 text-sm">
+                        <li><a (click)="navigateWithSearch('findexpert', 'UI/UX Design')" class="hover:text-primary-cta cursor-pointer">UI/UX Design</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'SEO')" class="hover:text-primary-cta cursor-pointer">SEO</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'Content Writing')" class="hover:text-primary-cta cursor-pointer">Content Writing</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'Mobile Apps')" class="hover:text-primary-cta cursor-pointer">Mobile Apps</a></li>
+                      </ul>
+                      <h4 class="font-semibold mb-2 text-primary-section">Filter by</h4>
+                      <ul class="grid grid-cols-1 gap-2 text-sm">
+                        <li><a (click)="navigateWithSearch('findexpert', 'Years of Experience')" class="hover:text-primary-cta cursor-pointer">Years of Experience</a></li>
+                        <li><a (click)="navigateWithSearch('findexpert', 'Highest Projects Finished')" class="hover:text-primary-cta cursor-pointer">Highest Projects Finished</a></li>
+                      </ul>
+                    </div>
+                </li>
+                <li class="dropdown relative">
+                    <a routerLink="findwork" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105 flex items-center gap-1">
+                      Find Work <i class="bi bi-chevron-down align-middle"></i>
+                    </a>
+                    <div class="dropdown-content absolute left-0 top-full mt-0 w-96 bg-white text-black p-5 rounded-xl shadow-xl">
+                      <h4 class="font-semibold mb-2 text-primary-section">Projects by Technology</h4>
+                      <ul class="mb-4 grid grid-cols-2 gap-2 text-sm">
+                        <li><a (click)="navigateWithSearch('findwork', 'Web Development')" class="hover:text-primary-cta cursor-pointer">Web Development</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'App Development')" class="hover:text-primary-cta cursor-pointer">App Development</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'IoT')" class="hover:text-primary-cta cursor-pointer">IoT</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'Cloud')" class="hover:text-primary-cta cursor-pointer">Cloud</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'DevOps')" class="hover:text-primary-cta cursor-pointer">DevOps</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'AI/ML')" class="hover:text-primary-cta cursor-pointer">AI/ML</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'GenAI')" class="hover:text-primary-cta cursor-pointer">GenAI</a></li>
+                      </ul>
+                      <h4 class="font-semibold mb-2 text-primary-section">Filter by Region</h4>
+                      <ul class="mb-4 grid grid-cols-2 gap-2 text-sm">
+                        <li><a (click)="navigateWithSearch('findwork', 'Asia')" class="hover:text-primary-cta cursor-pointer">Asia</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'Europe')" class="hover:text-primary-cta cursor-pointer">Europe</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'North America')" class="hover:text-primary-cta cursor-pointer">North America</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'Australia')" class="hover:text-primary-cta cursor-pointer">Australia</a></li>
+                      </ul>
+                      <h4 class="font-semibold mb-2 text-primary-section">Filter by Skill</h4>
+                      <ul class="mb-4 grid grid-cols-2 gap-2 text-sm">
+                        <li><a (click)="navigateWithSearch('findwork', 'UI/UX Design')" class="hover:text-primary-cta cursor-pointer">UI/UX Design</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'SEO')" class="hover:text-primary-cta cursor-pointer">SEO</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'Content Writing')" class="hover:text-primary-cta cursor-pointer">Content Writing</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'Mobile Apps')" class="hover:text-primary-cta cursor-pointer">Mobile Apps</a></li>
+                      </ul>
+                      <h4 class="font-semibold mb-2 text-primary-section">Filter by</h4>
+                      <ul class="grid grid-cols-1 gap-2 text-sm">
+                        <li><a (click)="navigateWithSearch('findwork', 'Years of Experience')" class="hover:text-primary-cta cursor-pointer">Years of Experience</a></li>
+                        <li><a (click)="navigateWithSearch('findwork', 'Highest Projects Finished')" class="hover:text-primary-cta cursor-pointer">Highest Projects Finished</a></li>
+                      </ul>
+                    </div>
+                </li>
+                @if (authRole() === 'freelancer') {
+                    <li><a routerLink="myproject" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105">My Project</a></li>
+                    <li><a routerLink="myproposal" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105">My Proposal</a></li>
+                    <li><a routerLink="chat" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105">Chat</a></li>
+                }
+                @if (authRole() === 'client') {
+                    <li><a routerLink="myproject" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105">My Project</a></li>
+                    <li><a routerLink="myproposal" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105">My Proposal</a></li>
+                    <li><a routerLink="chat" class="text-white px-2 py-1 rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105">Chat</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+    @if (!authenticated()) {
+    <div class="md:flex hidden items-center gap-4">
+        <div [routerLink]="['/auth']" [queryParams]="{ mode: 'register' }" class="text-white transition-transform duration-200 hover:scale-105 cursor-pointer">Sign up</div>
+        <div routerLink="auth" class="login-btn transition-transform duration-200 hover:scale-105 cursor-pointer">Log In</div>
+    </div>
+    } @else {
+      <div class="hidden md:flex gap-2 relative items-center">
+        <div routerLink="profile" class="md:flex hidden login-btn transition-transform duration-200 hover:scale-105 cursor-pointer">Profile</div>
+        <!-- Notification Bell -->
+          <button (click)="toggleNotificationDropdown()" class="relative focus:outline-none transition-transform duration-200 hover:scale-110" aria-label="Notifications">
+            <i class="bi bi-bell text-white font-bold" style="font-size: 1.5rem; text-shadow: 0 2px 8px #0002;"></i>
+            <span *ngIf="unreadCount > 0" class="absolute -top-1 -right-1 bg-red-500 text-white font-bold rounded-full text-xs px-1.5 py-0.5 shadow-lg border-2 border-white animate-pulse">
+              {{ unreadCount }}
+            </span>
+          </button>
+            <div *ngIf="showNotificationDropdown" class="absolute right-0 z-50">
+              <app-notification></app-notification>
+            </div>
+       </div>
+    }
+
+    <!-- Mobile Side Drawer Menu -->
+    <div id="mobile-menu"
+         class="md:hidden absolute top-2 right-0 rounded-lg h-auto w-auto bg-clr-LightIvory shadow-2xl z-50 transform transition-transform duration-300"
+         [ngClass]="{ 'translate-x-0': showMobileMenu, 'translate-x-full mobile-menu-hidden': !showMobileMenu }">
+        <div class="flex justify-end p-4">
+            <button (click)="toggleMobileMenu()" class="text-2xl text-primary-section focus:outline-none">
+            <i class="bi bi-x menu"></i>
+            </button>
+        </div>
+        <ul class="flex flex-col gap-2 px-6">
+            <li><a routerLink="home" class="block px-4 py-2 rounded-lg text-black transition">Home</a></li>
+            <li><a routerLink="findexpert" class="block px-4 py-2 rounded-lg text-black transition">Find Expert</a></li>
+            <li><a routerLink="findwork" class="block px-4 py-2 rounded-lg text-black transition">Find Work</a></li>
+            @if (authRole() === 'freelancer') {
+                    <li><a routerLink="myproject" class="block px-4 py-2 rounded-lg text-black transition">My Project</a></li>
+                    <li><a routerLink="myproposal" class="block px-4 py-2 rounded-lg text-black transition">My Proposal</a></li>
+                    <li><a routerLink="chat" class="block px-4 py-2 rounded-lg text-black transition">Chat</a></li>
+                }
+                @if (authRole() === 'client') {
+                  <li><a routerLink="myproject" class="block px-4 py-2 rounded-lg text-black transition">My Project</a></li>
+                    <li><a routerLink="myproposal" class="block px-4 py-2 rounded-lg text-black transition">My Proposal</a></li>
+                    <li><a routerLink="chat" class="block px-4 py-2 rounded-lg text-black transition">Chat</a></li>
+                }
+        </ul>
+        @if (!authenticated()) {
+        <div class="flex flex-col gap-2 mt-6 px-6">
+            <div routerLink="auth" class="login-btn">Log In</div>
+            <div [routerLink]="['/auth']" [queryParams]="{ mode: 'register' }" class="text-white mb-10 bg-clr-DeepPlum px-4 py-2 rounded-lg text-center cursor-pointer hover:scale-105 transition-transform duration-200">Sign up</div>
+        </div>
+        } @else {
+            <div routerLink="profile" class="mx-6 text-white mb-10 bg-clr-DeepPlum px-4 py-2 rounded-lg text-center cursor-pointer hover:scale-105 transition-transform duration-200">Profile</div>
+        }
+    </div>
+    <!-- Hamburger Icon for Mobile -->
+    <button class="md:hidden absolute top-4 right-4 z-50 flex items-center px-2 py-1 border rounded text-white border-white focus:outline-none" (click)="toggleMobileMenu()">
+    <i class="bi bi-list menu" [style]="{ 'visibility': showMobileMenu ? 'hidden' : 'visible' }"></i>
+    </button>
+
+</section>

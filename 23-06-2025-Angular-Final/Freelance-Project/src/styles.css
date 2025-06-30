@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Lora:wght@400;500;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: theme('colors.clr-babyPink');
+  overflow-x: hidden;
+}
+
+.loader {
+  height: 150px;
+  aspect-ratio: 1;
+  position: relative;
+  border: 4px solid #e5e7eb;
+  border-top: 4px solid #1C2155;
+  border-radius: 50%;
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: theme('colors.clr-DeepPlum');
+  animation: 
+    l7-0 .49s infinite alternate linear -.11s,
+    l7-1 .71s infinite alternate linear -.23s;
+}
+@keyframes l7-0 {
+  0%,5%  {bottom: 0%}
+  95%,to {bottom: 70%}
+}
+@keyframes l7-1 {
+  0%,5%  {left: 0%}
+  95%,to {left: 70%}
+}
+
+/* custom colors */
+.primary-cta {
+  color: #1C2155;
+}
+.primary-section{
+  color:#065A82;
+}
+.soft-pink {
+  color:#FFD9DA;
+}
+.muted-purple {
+  color:#9882AC;
+}
+.primary-header{
+  color:#BB8037;
+}
+.light-gray{
+  color:#D4D4D4;
+}

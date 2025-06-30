@@ -1,0 +1,52 @@
+<section class="p-6 max-w-7xl mx-auto">
+  <h2 class="text-2xl font-bold mb-4">Find Experts</h2>
+  <form class="flex flex-wrap gap-4 mb-6 items-center" (ngSubmit)="onFilter()">
+    <input type="text" [(ngModel)]="search" (ngModelChange)="onSearchChange($event)" name="search" placeholder="Search by name or skill" class="input" />
+    <select [(ngModel)]="selectedSkill" (ngModelChange)="onFilter()" name="skill" class="input">
+      <option value="">All Skills</option>
+      <option *ngFor="let skill of skills" [value]="skill">{{ skill }}</option>
+    </select>
+    <select [(ngModel)]="selectedLocation" (ngModelChange)="onFilter()" name="location" class="input">
+      <option value="">All Locations</option>
+      <option *ngFor="let loc of locations" [value]="loc">{{ loc }}</option>
+    </select>
+    <button type="submit" class="btn-primary">Filter</button>
+  </form>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @if(loading$ | async) {
+      <div class="flex flex-col justify-center items-center col-span-full p-20">
+        <div class="loader"></div>
+        <div class="text-clr-CharcoalGray mt-8 text-4xl font-lora font-bold italic">Loading...</div>
+      </div>
+    }
+    <div *ngFor="let freelancer of freelancers$ | async" class="card">
+      <div class="flex items-center gap-4">
+        <img [src]="freelancer.profileUrl || 'assets/default-avatar.png'" class="w-16 h-16 rounded-full border" />
+        <div>
+          <h3 class="font-semibold text-lg mb-0">{{ freelancer.username }}</h3>
+          <div class="text-sm text-gray-500">{{ freelancer.location }}</div>
+        </div>
+      </div>
+      <div class="mt-2 text-sm text-center text-clr-CharcoalGray">
+          <span class="font-lora font-extrabold text-black">Experience:</span> {{ freelancer.experienceYears }} years
+        </div>
+        <div class="mt-2 text-sm text-center text-clr-CharcoalGray">
+            <span class="font-lora font-extrabold text-black">Hourly Rate:</span> ${{ freelancer.hourlyRate }}
+        </div>
+        <div class="mt-2 text-sm">
+          <span *ngFor="let skill of freelancer.skills" class="badge">{{ skill.name }}</span>
+        </div>
+      <button class="btn-secondary mt-4 w-full" (click)="viewDetails(freelancer)">View Details</button>
+    </div>
+  </div>
+  <div class="flex justify-center mt-8" *ngIf="pagination">
+    <button class="btn-secondary mx-1" [disabled]="pagination.page === 1" (click)="changePage(pagination.page - 1)">&laquo; Prev</button>
+    <ng-container *ngFor="let page of [].constructor(pagination.totalPages); let i = index">
+      <button class="btn-secondary mx-1"
+              [ngStyle]="pagination.page === (i+1) ? {'background-color': '#4B006E', 'color': '#fff'} : {}"
+              (click)="changePage(i+1)">{{ i+1 }}</button>
+    </ng-container>
+    <button class="btn-secondary mx-1" [disabled]="pagination.page === pagination.totalPages" (click)="changePage(pagination.page + 1)">Next &raquo;</button>
+  </div>
+</section>

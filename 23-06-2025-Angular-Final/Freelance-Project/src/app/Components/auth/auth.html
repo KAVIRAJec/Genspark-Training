@@ -1,0 +1,85 @@
+<section class="p-20 w-auto relative">
+  <div *ngIf="(loading$ | async) || loginLoading" class="loading-overlay">
+    <div class="loader spinner"></div>
+  </div>
+  <div class="auth-flip-card" [class.flipped]="isFlipped">
+    <!-- Front: Login Form -->
+    <div class="auth-flip-card-front flex flex-row items-center justify-center">
+      <img src="https://cdn.dribbble.com/userupload/23691475/file/original-9d72eaaf0be2992f8c5d86cbcdac4a96.gif" alt="Login Animation" class="hidden md:block mr-6 rounded-xl shadow-lg" />
+      <div class="flex-1 flex flex-col text-center w-full">
+        <h2 class="text-2xl font-bold">Login</h2>
+        <p class="text-sm mb-4 text-slate-500">Welcome back! Please enter your credentials to continue.</p>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
+          <input type="email" formControlName="email" placeholder="Email" class="auth-input mb-2" />
+          <div *ngIf="email?.touched && email?.invalid" class="text-red-500 text-xs mb-2 text-left">
+            <div *ngIf="email?.errors?.['required']">Email is required.</div>
+            <div *ngIf="email?.errors?.['email']">Enter a valid email.</div>
+          </div>
+          <input type="password" formControlName="password" placeholder="Password" class="auth-input mb-2" />
+          <div *ngIf="password?.touched && password?.invalid" class="text-red-500 text-xs mb-2 text-left">
+            <div *ngIf="password?.errors?.['required']">Password is required.</div>
+            <div *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters.</div>
+          </div>
+          <button type="submit" class="auth-btn">Login</button>
+        </form>
+        <p class="mt-4 text-sm">Don't have an account? <a href="#" (click)="flipCard($event)" class="text-primary-cta underline cursor-pointer">Register</a></p>
+      </div>
+    </div>
+    <!-- Back: Register Form -->
+    <div class="auth-flip-card-back flex flex-row items-center justify-center">
+      <div class="flex-1 flex flex-col text-center w-full">
+        <h2 class="text-2xl font-bold">Register</h2>
+        <p class="text-sm mb-4 text-slate-500">Create a new account to get started.</p>
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()" novalidate>
+          <div class="flex flex-row gap-4 mb-3 justify-center">
+            <label class="inline-flex items-center">
+              <input type="radio" value="client" formControlName="role" (change)="onRoleChange('client')" [checked]="role==='client'" class="mr-1" />
+              Client
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" value="freelancer" formControlName="role" (change)="onRoleChange('freelancer')" [checked]="role==='freelancer'" class="mr-1" />
+              Freelancer
+            </label>
+          </div>
+          <input type="text" formControlName="username" placeholder="Username" class="auth-input mb-2" />
+          <div *ngIf="regUsername?.touched && regUsername?.invalid" class="text-red-500 text-xs mb-2 text-left">
+            <div *ngIf="regUsername?.errors?.['required']">Username is required.</div>
+          </div>
+          <input type="email" formControlName="email" placeholder="Email" class="auth-input mb-2" />
+          <div *ngIf="regEmail?.touched && regEmail?.invalid" class="text-red-500 text-xs mb-2 text-left">
+            <div *ngIf="regEmail?.errors?.['required']">Email is required.</div>
+            <div *ngIf="regEmail?.errors?.['email']">Enter a valid email.</div>
+          </div>
+          <input *ngIf="role==='client'" type="text" formControlName="companyName" placeholder="Company Name (optional)" class="auth-input mb-2" />
+          <input *ngIf="role==='client'" type="text" formControlName="location" placeholder="Location (optional)" class="auth-input mb-2" />
+          <input *ngIf="role==='freelancer'" type="number" formControlName="experienceYears" placeholder="Years of Experience" class="auth-input mb-2" min="0" />
+          <div *ngIf="role==='freelancer' && regExperienceYears?.touched && regExperienceYears?.invalid" class="text-red-500 text-xs mb-2 text-left">
+            <div *ngIf="regExperienceYears?.errors?.['required']">Experience is required.</div>
+            <div *ngIf="regExperienceYears?.errors?.['min']">Experience must be 0 or more.</div>
+          </div>
+          <input *ngIf="role==='freelancer'" type="number" formControlName="hourlyRate" placeholder="Hourly Rate ($)" class="auth-input mb-2" min="0" />
+          <div *ngIf="role==='freelancer' && regHourlyRate?.touched && regHourlyRate?.invalid" class="text-red-500 text-xs mb-2 text-left">
+            <div *ngIf="regHourlyRate?.errors?.['required']">Hourly rate is required.</div>
+            <div *ngIf="regHourlyRate?.errors?.['min']">Hourly rate must be 0 or more.</div>
+          </div>
+          <input type="password" formControlName="password" placeholder="Password" class="auth-input mb-2" />
+          <div *ngIf="regPassword?.touched && regPassword?.invalid" class="text-red-500 text-xs mb-2 text-left">
+            <div *ngIf="regPassword?.errors?.['required']">Password is required.</div>
+            <div *ngIf="regPassword?.errors?.['minlength']">Password must be at least 6 characters.</div>
+          </div>
+          <input type="password" formControlName="confirmPassword" placeholder="Confirm Password" class="auth-input mb-2" />
+          <div *ngIf="regConfirmPassword?.touched && regConfirmPassword?.invalid" class="text-red-500 text-xs mb-2 text-left">
+            <div *ngIf="regConfirmPassword?.errors?.['required']">Confirm password is required.</div>
+          </div>
+          <div *ngIf="registerForm.errors?.['passwordMismatch'] && (regConfirmPassword?.touched || regPassword?.touched)" class="text-red-500 text-xs mb-2 text-left">
+            Passwords do not match.
+          </div>
+          <button type="submit" class="auth-btn">Register</button>
+
+        </form>
+        <p class="mt-4 text-sm">Already have an account? <a href="#" (click)="flipCard($event)" class="text-primary-cta underline cursor-pointer">Login</a></p>
+      </div>
+      <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*hwR_VDaY0wA5J4aPL6j9Zw.gif" alt="Register Animation" class="hidden md:block ml-6 rounded-xl shadow-lg" />
+    </div>
+  </div>
+</section>

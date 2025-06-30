@@ -1,0 +1,23 @@
+<div class="notification-dropdown">
+  <div class="notification-header">
+    <span>Notifications</span>
+    <button (click)="markAllAsRead()">Mark all as read</button>
+    <button (click)="clearNotifications()">Clear</button>
+  </div>
+  <div *ngIf="notifications.length === 0" class="empty-state">
+    <img src="assets/notfound.gif" alt="No notifications" class="empty-img" />
+    <p>No notifications</p>
+  </div>
+  <ul *ngIf="notifications.length > 0">
+    <li *ngFor="let n of notifications" [class.read]="n.read" class="notif-item">
+      <div class="notif-avatar">
+        <i class="bi bi-bell-fill"></i>
+      </div>
+      <div class="notif-content">
+        <span class="notif-title">{{ n.title }}</span>
+        <span class="notif-body">{{ n.body }}</span>
+        <span class="notif-time">{{ n.time | date:'short' }}</span>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,147 @@
+<!-- Search and Filter Controls -->
+<div class="flex flex-col md:flex-row gap-4 mb-8 items-center bg-gradient-to-r from-primary-cta/10 to-white rounded-xl shadow p-4 border border-primary-cta/20 animate-fade-in">
+  <div class="flex-1 w-full max-w-xs">
+    <label class="block text-sm font-semibold text-primary-cta mb-1">Search Description</label>
+    <div class="relative">
+      <input
+        type="text"
+        class="input w-full pl-10 pr-4 py-2 rounded-lg border border-primary-cta/40 focus:ring-2 focus:ring-primary-cta focus:border-primary-cta transition-all duration-200 shadow-sm"
+        placeholder="e.g. design, API, etc."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange($event)"
+      />
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary-cta text-lg">
+        <i class="bi bi-search"></i>
+      </span>
+    </div>
+  </div>
+  <div class="flex-1 w-full max-w-xs">
+    <label class="block text-sm font-semibold text-primary-cta mb-1">Filter by Project</label>
+    <div class="relative">
+      <select
+        class="input w-full pl-10 pr-4 py-2 rounded-lg border border-primary-cta/40 focus:ring-2 focus:ring-primary-cta focus:border-primary-cta transition-all duration-200 shadow-sm bg-white"
+        [(ngModel)]="selectedProjectTitle"
+        (ngModelChange)="onProjectFilterChange($event)"
+      >
+        <option value="">All Projects</option>
+        <option *ngFor="let title of projectTitles()" [value]="title">{{ title }}</option>
+      </select>
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary-cta text-lg">
+        <i class="bi bi-collection"></i>
+      </span>
+    </div>
+  </div>
+  <div class="flex-1 w-full max-w-xs">
+    <label class="block text-sm font-semibold text-primary-cta mb-1">Sort by Status</label>
+    <div class="relative">
+      <select
+        class="input w-full pl-10 pr-4 py-2 rounded-lg border border-primary-cta/40 focus:ring-2 focus:ring-primary-cta focus:border-primary-cta transition-all duration-200 shadow-sm bg-white"
+        [ngModel]="sortBy()"
+        (ngModelChange)="onSortByChange($event)"
+      >
+        <option value="">All</option>
+        <option value="Pending">Pending</option>
+        <option value="Accepted">Accepted</option>
+        <option value="Rejected">Rejected</option>
+      </select>
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary-cta text-lg">
+        <i class="bi bi-sort-alpha-down"></i>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<div *ngIf="loading()" class="flex flex-col justify-center items-center h-32">
+  <div class="loader"></div>
+  <div class="text-clr-CharcoalGray mt-8 text-4xl font-lora font-bold italic">Loading...</div>
+</div>
+
+<!-- No Proposals Found -->
+<div *ngIf="!loading() && filteredProposals().length === 0" class="text-center text-gray-500 mt-10">
+  <img src="assets/notfound.gif" alt="No proposals found" class="mx-auto mb-4 w-52 h-52">
+  <div class="text-clr-CharcoalGray mt-8 text-3xl font-lora font-bold italic">No proposals found.</div>
+</div>
+
+<!-- Proposal List: Modern Timeline Style -->
+<div *ngIf="!loading() && filteredProposals().length > 0" class="relative border-l-2 px-12 border-primary-cta/30 pl-8">
+  <div *ngFor="let proposal of filteredProposals()" class="relative mb-12 group">
+    <div class="absolute -left-2 z-50 top-0 w-8 h-8 rounded-full bg-primary-cta flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
+      <i class="bi bi-briefcase text-white text-xl"></i>
+    </div>
+    <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-md p-6 transition-all duration-200 group-hover:shadow-2xl group-hover:-translate-y-1">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+        <h3 class="text-xl font-bold text-primary-cta mb-2 md:mb-0">{{ proposal.project.title }}</h3>
+        <span class="px-3 py-1 rounded-full text-xs font-bold"
+          [ngClass]="{
+            'bg-green-100 text-green-700': proposal.isAccepted,
+            'bg-yellow-100 text-yellow-700': !proposal.isAccepted && !proposal.isRejected,
+            'bg-red-100 text-red-700': proposal.isRejected
+          }">
+          {{ proposal.isAccepted ? 'Accepted' : ((proposal.isRejected) ? 'Rejected' : 'Pending') }}
+        </span>
+      </div>
+      <div class="text-clr-CharcoalGray mb-2 italic">{{ proposal.description }}</div>
+      <div class="flex flex-wrap gap-4 text-sm mb-2">
+        <span><span class="font-semibold">Proposed Amount:</span> ${{ proposal.proposedAmount }}</span>
+        <span><span class="font-semibold">Proposed Duration:</span> {{ proposal.proposedDuration | timespanToReadable }}</span>
+        <span><span class="font-semibold">Proposal Status:</span> {{ proposal.project.status }}</span>
+        <span><span class="font-semibold">Submitted:</span> {{ proposal.createdAt | date:'mediumDate' }}</span>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-4 justify-end">
+        <button *ngIf="canEditOrWithdraw(proposal)" class="btn btn-sm btn-primary transition-all duration-150 hover:bg-primary-cta/90" (click)="onEdit(proposal)">Edit</button>
+        <button *ngIf="canEditOrWithdraw(proposal)" class="btn btn-sm btn-danger transition-all duration-150 hover:bg-red-700" (click)="onWithdraw(proposal)">Withdraw</button>
+        <button *ngIf="canAcceptOrReject(proposal)" class="btn btn-sm btn-success transition-all duration-150 hover:bg-green-700" (click)="onAccept(proposal)">Accept</button>
+        <button *ngIf="canAcceptOrReject(proposal)" class="btn btn-sm btn-warning transition-all duration-150 hover:bg-yellow-700" (click)="onReject(proposal)">Reject</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination Controls (Project-style) -->
+<div class="flex justify-center my-8" *ngIf="paginationModel as pag; else noPag">
+  <div *ngIf="filteredProposals().length > 0">
+    <button class="btn-secondary mx-1" [disabled]="page() === 1" (click)="onPageChange(page() - 1)">&laquo; Prev</button>
+    <ng-container *ngFor="let p of pageNumbers">
+      <button class="btn-secondary mx-1"
+              [ngStyle]="page() === p ? {'background-color': '#4B006E', 'color': '#fff'} : {}"
+              (click)="onPageChange(p)">{{ p }}</button>
+    </ng-container>
+    <button class="btn-secondary mx-1" [disabled]="page() === pag.totalPages" (click)="onPageChange(page() + 1)">Next &raquo;</button>
+  </div>
+</div>
+<ng-template #noPag></ng-template>
+
+<!-- Edit Modal (Reactive Form) -->
+<div *ngIf="showEditModal()" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white p-6 rounded shadow-lg w-96 animate-fade-in">
+    <h3 class="text-lg font-bold mb-4">Edit Proposal</h3>
+    <form [formGroup]="editForm" (ngSubmit)="onSaveEdit()">
+      <div class="mb-2">
+        <label>Description</label>
+        <textarea formControlName="description" rows="3" class="w-full border rounded p-2" [class.border-red-500]="editForm.get('description')?.invalid && editForm.get('description')?.touched"></textarea>
+        <div *ngIf="editForm.get('description')?.invalid && editForm.get('description')?.touched" class="text-red-500 text-xs mt-1">Description is required (max 1000 chars).</div>
+      </div>
+      <div class="mb-2">
+        <label>Amount</label>
+        <input type="number" formControlName="proposedAmount" class="w-full border rounded p-2" [class.border-red-500]="editForm.get('proposedAmount')?.invalid && editForm.get('proposedAmount')?.touched" />
+        <div *ngIf="editForm.get('proposedAmount')?.invalid && editForm.get('proposedAmount')?.touched" class="text-red-500 text-xs mt-1">Amount is required and must be positive.</div>
+      </div>
+      <div class="mb-2">
+        <label>Duration</label>
+        <input type="text" formControlName="proposedDuration" class="w-full border rounded p-2" [class.border-red-500]="editForm.get('proposedDuration')?.invalid && editForm.get('proposedDuration')?.touched" />
+        <div *ngIf="editForm.get('proposedDuration')?.invalid && editForm.get('proposedDuration')?.touched" class="text-red-500 text-xs mt-1">
+          <span *ngIf="editForm.get('proposedDuration')?.hasError('required')">Duration is required.</span>
+          <span *ngIf="editForm.get('proposedDuration')?.hasError('invalidDuration')">Please enter a valid duration (e.g. '3d 4h 5m', '120', or ISO format).</span>
+        </div>
+        <div *ngIf="editForm.get('proposedDuration')?.valid && editForm.get('proposedDuration')?.value" class="text-xs text-green-600 mt-1">
+          Preview: {{ editForm.get('proposedDuration')?.value | durationFormat }}
+        </div>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button type="button" class="btn btn-secondary mr-2" (click)="showEditModal.set(false)">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

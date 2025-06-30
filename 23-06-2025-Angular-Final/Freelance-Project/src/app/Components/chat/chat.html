@@ -1,0 +1,129 @@
+<div class="chat-container flex bg-white shadow-lg overflow-hidden">
+  <!-- Sidebar: Chat Rooms -->
+  <div class="w-80 bg-gradient-to-b border-black flex-col hidden md:flex">
+    <div class="p-4 border-b border-primary-cta/20 flex items-center gap-2">
+      <i class="bi bi-chat-left-text text-primary-cta text-xl"></i>
+      <h2 class="text-xl font-bold text-primary-cta">Chats</h2>
+    </div>
+    <div class="flex-1 overflow-y-auto">
+      <div *ngIf="loadingRooms()" class="p-4 text-center text-gray-400">Loading chat rooms...</div>
+      <div *ngIf="!loadingRooms() && chatRooms().length === 0" class="p-4 text-center text-gray-400">No chat rooms found.</div>
+      <ul class="p-0">
+        <li *ngFor="let room of chatRooms()" (click)="selectRoom(room)"
+            [class.bg-clr-LightIvory]="selectedRoom()?.id === room.id" 
+            class="cursor-pointer px-4 py-3 border-b border-primary-cta/10 hover:bg-clr-LightIvory/45 transition flex items-center justify-between group">
+          <div>
+            <div class="font-semibold text-primary-cta group-hover:underline">{{ room.name }}</div>
+            <div class="text-xs text-gray-400 truncate max-w-[10rem]">
+              {{ getLastUnreadMessage(room) }}
+            </div>
+          </div>
+          <div class="flex flex-col items-end">
+            <span *ngIf="getUnreadCount(room) > 0" class="bg-primary-cta text-white text-xs rounded-full px-2 py-0.5 flex items-center gap-1">
+              {{ getUnreadCount(room) }}
+            </span>
+            <span class="text-xs text-gray-400 mt-1">{{ getLastMessageTime(room) }}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Chat Area -->
+  <div class="flex-1 flex flex-col">
+    <!-- Header -->
+    <!-- Responsive chat selector for small screens -->
+    <div class="flex md:hidden items-center gap-2 px-4 py-2 bg-white border-b border-primary-cta/20 sticky top-0 z-20">
+        <select class="input flex-1 chat-select-mobile" [ngModel]="selectedRoom()?.id" (ngModelChange)="selectRoomById($event)">
+            <option disabled value="">Select a chat...</option>
+            <option *ngFor="let room of chatRooms()" [value]="room.id">{{ room.name || 'Chat Room' }}</option>
+        </select>
+    </div>
+    <div class="p-4 border-b border-primary-cta/20 flex items-center gap-4 header-deepplum">
+      <div class="font-bold text-lg text-primary-cta flex items-center gap-2">
+        <i class="bi bi-chat-left-text text-primary-cta"></i>
+        {{ selectedRoom()?.name || 'Select a chat' }}
+      </div>
+    </div>
+    <!-- Messages -->
+    <div class="flex-1 overflow-y-auto flex flex-col px-6 py-4 gap-4 relative"
+         (scroll)="onScrollTop($event)" #messagesContainer>
+      <div *ngIf="loadingMessages() && hasMoreMessages()" class="flex flex-col justify-center items-center h-full">
+        <div class="loader"></div>
+        <div class="text-2xl">Loading messages...</div>
+      </div>
+      <div *ngIf="!selectedRoom()" class="flex flex-col items-center justify-center p-8 text-center text-gray-400 gap-4">
+        <img src="assets/notfound.gif" alt="Select chat illustration" class="w-64 max-w-full mx-auto" style="pointer-events:none; user-select:none;" />
+        <div class="text-xl font-semibold text-primary-cta">Select a chat room to start messaging.</div>
+        <div class="text-sm text-gray-400">Choose a chat from the sidebar to view messages and start a conversation.</div>
+      </div>
+      <div *ngIf="!loadingMessages() && selectedRoom() && messages().length === 0" class="flex flex-col justify-center items-center mt-8 w-full h-full min-h-[200px]">
+        <img src="assets/notfound.gif" alt="No messages found" class="no-messages-img">
+        <div class="no-messages-text">No messages found.</div>
+      </div>
+      <!-- Keep this empty div to preserve chat area height even if no messages -->
+      <div *ngIf="!loadingMessages() && messages().length === 0" style="flex:1;"></div>
+      <div *ngFor="let msg of messages().slice().reverse()" class="relative message-group"
+           [ngClass]="{'flex justify-end': msg.senderId === user()?.id, 'flex justify-start': msg.senderId !== user()?.id}">
+        <div class="flex items-end gap-2" [ngClass]="{'flex-row-reverse': msg.senderId === user()?.id, 'flex-row': msg.senderId !== user()?.id}">
+          <ng-container *ngIf="msg.senderId !== user()?.id; else myMsg">
+            <div class="w-10 h-10 rounded-full bg-primary-cta/20 flex items-center justify-center font-bold text-primary-cta shadow profile-msg">
+              {{ getMessageSenderInitial(msg) }}
+            </div>
+          </ng-container>
+          <ng-template #myMsg>
+            <img *ngIf="user()?.profileUrl" [src]="user()?.profileUrl" class="w-10 h-10 rounded-full object-cover border border-primary-cta shadow mes-profile" alt="profile" />
+            <div *ngIf="!user()?.profileUrl" class="w-10 h-10 rounded-full bg-primary-cta/20 flex items-center justify-center font-bold text-primary-cta shadow mes-profile">
+              {{ getMessageSenderInitial(msg) }}
+            </div>
+          </ng-template>
+          <div class="max-w-[80%]">
+            <div [ngClass]="{
+              'bg-primary-cta/90 text-clr-LightIvory rounded-br-xl rounded-tl-xl rounded-bl-xl': msg.senderId === user()?.id,
+              'bg-clr-LightIvory text-gray-800 rounded-bl-2xl rounded-tr-2xl rounded-br-2xl border border-primary-cta/10': msg.senderId !== user()?.id
+            }"
+              class="px-4 py-2 pb-3 shadow-md relative">
+              <div *ngIf="editingMessageId() === msg.id">
+                <!-- Modal for editing message -->
+                <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                  <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg flex flex-col gap-4">
+                    <h4 class="font-bold text-lg mb-2">Edit Message</h4>
+                    <input [ngModel]="editContent()" (ngModelChange)="editContent.set($event)" class="input w-full border border-primary-cta rounded px-3 py-2" />
+                    <div class="flex gap-2 justify-end">
+                      <button class="btn btn-primary flex items-center gap-1" (click)="saveEdit(msg)"><i class="bi bi-check-lg"></i>Save</button>
+                      <button class="btn btn-secondary flex items-center gap-1" (click)="editingMessageId.set(null)"><i class="bi bi-x-lg"></i>Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="editingMessageId() !== msg.id">
+                <span>{{ msg.content }}</span>
+                <div [ngClass]="{'right-0 text-right': msg.senderId === this.user()!.id, 'left-0 text-left': msg.senderId !== this.user()!.id}" class="absolute -top-6 gap-2 w-32">
+                  <span class="text-xs text-slate-500">{{ msg.sentAt | date: 'short' }}</span>
+                </div>
+                <div class="absolute -bottom-1 right-2 text-right w-52">
+                    <span *ngIf="!msg.isRead && msg.senderId === this.user()!.id" class="text-[20px] text-slate-400 font-bold"><i class="bi bi-check2"></i></span>
+                    <span *ngIf="msg.isRead && msg.senderId === user()?.id" class="text-[20px] text-success font-bold"><i class="bi bi-check2-all"></i></span>
+                </div>
+              </div>
+              <!-- Edit/Delete icons above message, only on hover -->
+              <div *ngIf="msg.senderId === user()?.id && editingMessageId() !== msg.id" class="msg-actions absolute -top-7 right-0 flex gap-1">
+                <button class="edit p-1 rounded bg-slate-300 border shadow" (click)="startEdit(msg)"><i class="bi bi-pencil-square"></i></button>
+                <button class="delete p-1 rounded bg-slate-300 border/50 shadow" (click)="deleteMessage(msg)"><i class="bi bi-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message Input -->
+    <div *ngIf="selectedRoom()" class="send-bar">
+      <input [ngModel]="newMessage()" (ngModelChange)="newMessage.set($event)" (keyup.enter)="sendMessage()" placeholder="Type a message..."
+             class="input flex-1 rounded-lg px-4 py-2 shadow-sm" />
+      <button class="btn btn-primary px-6 flex items-center gap-2" (click)="sendMessage()">
+        <i class="bi bi-send"></i>
+      </button>
+    </div>
+  </div>
+</div>

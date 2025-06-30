@@ -1,0 +1,93 @@
+<section class="p-6 max-w-7xl mx-auto">
+  <h2 class="text-2xl font-bold mb-4">Find Work</h2>
+  
+  <!-- Search and Filter Form -->
+  <form class="flex flex-wrap gap-4 mb-6 items-center" (ngSubmit)="onFilter()">
+    <input type="text" [(ngModel)]="search" (ngModelChange)="onSearchChange($event)" name="search" placeholder="Search by project or skill" class="input" />
+    <select [(ngModel)]="selectedSkill" (ngModelChange)="onFilter()" name="skill" class="input">
+      <option value="">All Skills</option>
+      <option *ngFor="let skill of skills" [value]="skill">{{ skill }}</option>
+    </select>
+    <button type="submit" class="btn-primary">Filter</button>
+  </form>
+
+  <!-- Projects Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @if(loading$ | async) {
+      <div class="flex flex-col justify-center items-center col-span-full p-20">
+        <div class="loader"></div>
+        <div class="text-clr-CharcoalGray mt-8 text-4xl font-lora font-bold italic">Loading...</div>
+      </div>
+    }
+    <div *ngFor="let project of projects$ | async" class="card fade-in">
+      <div class="flex items-center gap-4">
+        <div>
+          <h3 class="project-title mb-0">{{ project.title }}</h3>
+          <div class="location">{{ project.location }}</div>
+        </div>
+      </div>
+      <div class="mt-2 text-sm text-center text-clr-CharcoalGray">
+        <span class="font-lora font-extrabold text-black">Budget:</span> ${{ project.budget }}
+      </div>
+      <div class="mt-2 text-sm text-center text-clr-CharcoalGray">
+        <span class="font-lora font-extrabold text-black">Duration: {{ project.duration | timespanToReadable }}</span>
+      </div>
+      <div class="mt-2 text-sm">
+        <span *ngFor="let skill of project.requiredSkills" class="badge">{{ skill.name }}</span>
+      </div>
+      <div class="mt-2 text-xs text-gray-500 text-center">
+        <span class="font-medium">Posted:</span> {{ project.createdAt | date:'mediumDate' }}
+      </div>
+      <button class="btn-secondary mt-4 w-full" (click)="submitProposalButton(project)">Submit Proposal</button>
+    </div>
+  </div>
+
+  <!-- Proposal Form Modal -->
+<div class="overflow-y-auto max-h-[80vh]">
+  <div *ngIf="showProposalModal" class="fixed inset-0 bg-clr-CharcoalGray bg-opacity-90 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg relative animate-fade-in overflow-y-auto max-h-[90vh]">
+      <button class="absolute top-4 right-4 text-gray-400 hover:text-primary-cta text-2xl" (click)="closeProposalModal()">&times;</button>
+      <h3 class="text-xl font-bold mb-4 text-primary-header">Submit Proposal</h3>
+      <form [formGroup]="proposalForm" (ngSubmit)="submitProposal()" novalidate>
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-1">Description</label>
+          <textarea formControlName="description" rows="3" class="w-full border rounded px-3 py-2" [class.border-red-500]="proposalForm.get('description')?.invalid && proposalForm.get('description')?.touched"></textarea>
+          <div *ngIf="proposalForm.get('description')?.invalid && proposalForm.get('description')?.touched" class="text-red-500 text-xs mt-1">Description is required (max 1000 chars).</div>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-1">Proposed Amount</label>
+          <input type="number" formControlName="proposedAmount" class="w-full border rounded px-3 py-2" [class.border-red-500]="proposalForm.get('proposedAmount')?.invalid && proposalForm.get('proposedAmount')?.touched" />
+          <div *ngIf="proposalForm.get('proposedAmount')?.invalid && proposalForm.get('proposedAmount')?.touched" class="text-red-500 text-xs mt-1">Amount is required and must be positive.</div>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-1">Duration</label>
+          <input type="text" formControlName="proposedDuration" class="w-full border rounded px-3 py-2" [class.border-red-500]="proposalForm.get('proposedDuration')?.invalid && proposalForm.get('proposedDuration')?.touched" />
+          <div *ngIf="proposalForm.get('proposedDuration')?.invalid && proposalForm.get('proposedDuration')?.touched" class="text-red-500 text-xs mt-1">
+            <span *ngIf="proposalForm.get('proposedDuration')?.hasError('required')">Duration is required.</span>
+            <span *ngIf="proposalForm.get('proposedDuration')?.hasError('invalidDuration')">Please enter a valid duration (e.g. '3d 4h 5m', '120', or ISO format).</span>
+          </div>
+          <div *ngIf="proposalForm.get('proposedDuration')?.valid && proposalForm.get('proposedDuration')?.value" class="text-xs text-green-600 mt-1">
+            Preview: {{ proposalForm.get('proposedDuration')?.value | durationFormat }}
+          </div>
+        </div>
+        <div class="flex justify-end gap-4 mt-6">
+          <button type="button" class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300" (click)="closeProposalModal()">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded bg-primary-cta text-white font-semibold hover:bg-primary-cta/90" [disabled]="proposalForm.invalid || submittingProposal || (proposalLoading$ | async) === true">
+            {{ submittingProposal || (proposalLoading$ | async) === true ? 'Submitting...' : 'Submit Proposal' }}
+          </button>
+        </div>
+        <div *ngIf="proposalError$ | async as error" class="text-red-500 text-xs mt-2">{{ error }}</div>
+      </form>
+    </div>
+  </div>
+  <div class="flex justify-center mt-8" *ngIf="pagination">
+    <button class="btn-secondary mx-1" [disabled]="pagination.page === 1" (click)="changePage(pagination.page - 1)">&laquo; Prev</button>
+    <ng-container *ngFor="let page of [].constructor(pagination.totalPages); let i = index">
+      <button class="btn-secondary mx-1"
+              [ngStyle]="pagination.page === (i+1) ? {'background-color': '#4B006E', 'color': '#fff'} : {}"
+              (click)="changePage(i+1)">{{ i+1 }}</button>
+    </ng-container>
+    <button class="btn-secondary mx-1" [disabled]="pagination.page === pagination.totalPages" (click)="changePage(pagination.page + 1)">Next &raquo;</button>
+  </div>
+</div>
+</section>

@@ -1,0 +1,33 @@
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-fade-in {
+  animation: fadeInCard 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes fadeInCard {
+  0% { opacity: 0; transform: translateY(24px) scale(0.97); }
+  100% { opacity: 1; transform: none; }
+}
+.btn-primary {
+  background: #3b185f;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: background 0.2s;
+}
+.btn-primary:hover {
+  background: #1C2155;
+}
+.btn-secondary {
+  background: #fff;
+  border: 1px solid #3b185f;
+  color: #3b185f;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-secondary:hover {
+  background: #3b185f;
+  color: #fff;
+}
