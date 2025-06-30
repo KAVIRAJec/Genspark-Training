@@ -1,0 +1,12 @@
+<div class="recipe-card">
+  <h3>{{recipe.name}}</h3>
+  <div class="meta">
+    <span class="cuisine">{{recipe.cuisine}}</span>
+    <span class="difficulty">{{recipe.difficulty}}</span>
+    <span class="prep">Prep: {{recipe.prepTimeMinutes}} min</span>
+  </div>
+  <ul class="ingredients">
+    <li *ngFor="let ing of recipe.ingredients">{{ing}}</li>
+  </ul>
+  <button (click)="HandleClick(recipe)">Add to Cart</button>
+</div>

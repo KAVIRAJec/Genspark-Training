@@ -35,9 +35,9 @@ public static class ChatMessageMapper
         };
     }
 
-    public static void UpdateFromDTO(ChatMessage message, UpdateChatMessageDTO dto)
-    {
-        message.Content = dto.Content;
-        message.UpdatedAt = DateTime.UtcNow;
-    }
+    // public static void UpdateFromDTO(ChatMessage message, UpdateChatMessageDTO dto)
+    // {
+    //     message.Content = dto.Content;
+    //     message.UpdatedAt = DateTime.UtcNow;
+    // }
 }

@@ -30,7 +30,7 @@ public class AuthenticationController : BaseApiController
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Strict,
+            SameSite = SameSiteMode.None,
             Expires = response.RefreshExpiresAt,
         });
         response.RefreshToken = string.Empty; // Clear the refresh token from the response to avoid sending it in the body
@@ -60,7 +60,7 @@ public class AuthenticationController : BaseApiController
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Strict,
+            SameSite = SameSiteMode.None,
             Expires = response.RefreshExpiresAt
         });
 

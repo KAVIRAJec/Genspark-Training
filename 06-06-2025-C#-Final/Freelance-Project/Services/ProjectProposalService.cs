@@ -42,9 +42,46 @@ public class ProjectProposalService : IProjectProposalService
 
         var query = _dbContext.Proposals
             .Where(p => p.ProjectId == projectId)
-            .Select(p => ProposalMapper.ToResponseDTO(p));
+            .Include(p => p.Freelancer)
+            .Include(p => p.Project)
+            .Select(p => p);
 
-        return await query.ToPagedResponse(paginationParams);
+        if (!string.IsNullOrEmpty(paginationParams.Search))
+            query = query.Where(p => p.Description.Contains(paginationParams.Search) ||
+                                     p.Freelancer.Username.Contains(paginationParams.Search));
+
+        if (!string.IsNullOrEmpty(paginationParams.SortBy))
+        {
+            switch (paginationParams.SortBy.ToLower())
+            {
+                case "createdat":
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+                case "proposedamount":
+                    query = query.OrderByDescending(p => p.ProposedAmount);
+                    break;
+                case "proposedduration":
+                    query = query.OrderByDescending(p => p.ProposedDuration);
+                    break;
+                case "isaccepted":
+                    query = query.OrderByDescending(p => p.IsAccepted);
+                    break;
+                case "isrejected":
+                    query = query.OrderByDescending(p => p.IsRejected);
+                    break;
+                default:
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+            }
+        }
+        else
+        {
+            query = query.OrderByDescending(p => p.CreatedAt);
+        }
+
+        var result = query.Select(p => ProposalMapper.ToResponseDTO(p));
+
+        return await result.ToPagedResponse(paginationParams);
     }
 
     public virtual async Task<ProjectResponseDTO> AcceptProposal(Guid proposalId, Guid projectId)
@@ -126,6 +163,7 @@ public class ProjectProposalService : IProjectProposalService
             var chatRoom = await _dbContext.ChatRooms
                 .FirstOrDefaultAsync(cr => cr.ProjectId == projectId && cr.IsActive);
 
+            if (chatRoom == null) throw new AppException("Chat room not found for the project.", 404);  
             await _chatRoomRepository.Delete(chatRoom.Id);
             await _dbContext.SaveChangesAsync();
 
@@ -153,7 +191,7 @@ public class ProjectProposalService : IProjectProposalService
         if (project == null || project.IsActive == false) throw new AppException("Project not found/ inactive.", 404);
         if (project.Status != "Pending") throw new AppException("Project is not in pending state.", 400);
 
-        proposal.IsAccepted = false;
+        proposal.IsRejected = true;
         var updatedProposal = await _proposalRepository.Update(proposal.Id, proposal);
         if (updatedProposal == null) throw new AppException("Proposal update failed.", 500);
 

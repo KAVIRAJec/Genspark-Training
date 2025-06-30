@@ -5,7 +5,6 @@ namespace Freelance_Project.Models;
 public class PaginationParams
 {
     private const int MaxPageSize = 100;
-
     private int _pageSize = 10;
 
     [FromQuery(Name = "page")]
@@ -17,4 +16,10 @@ public class PaginationParams
         get => _pageSize;
         set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
     }
+
+    [FromQuery(Name = "search")]
+    public string? Search { get; set; } = string.Empty;
+
+    [FromQuery(Name = "sortBy")]
+    public string? SortBy { get; set; } = "createdAt";
 }

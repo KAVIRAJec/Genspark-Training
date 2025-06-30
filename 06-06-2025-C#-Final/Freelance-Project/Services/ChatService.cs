@@ -57,6 +57,36 @@ public class ChatService : IChatService
         return ChatMessageMapper.ToResponseDTO(updatedMessage);
     }
 
+    public async Task<ChatMessageResponseDTO> SetMessageRead(Guid messageId, ReadChatMessageDTO updateChatMessageDTO)
+    {
+        var message = await _chatMessageRepository.Get(messageId);
+        if (message == null) throw new AppException("Message not found.", 404);
+        if (message.ChatRoomId != updateChatMessageDTO.ChatRoomId) throw new AppException("Message does not belong to the specified chat room.", 400);
+        if(message.IsActive == false) throw new AppException("Cannot update a deleted message.", 400);
+        if (message.IsRead) throw new AppException("Message is already marked as read.", 400);
+
+        // Mark all previous messages in the chat room as read for this user
+        var messagesToUpdate = _appContext.ChatMessages
+            .Where(m => m.ChatRoomId == message.ChatRoomId
+                && m.SentAt <= message.SentAt 
+                && m.SenderId != updateChatMessageDTO.SenderId
+                && !m.IsRead 
+                && m.IsActive)
+            .ToList();
+
+        foreach (var msg in messagesToUpdate)
+        {
+            msg.IsRead = true;
+        }
+
+        await _appContext.SaveChangesAsync();
+
+        // Refresh the message after update
+        var updatedMessage = await _chatMessageRepository.Get(message.Id);
+        if (updatedMessage == null) throw new AppException("Failed to update chat message.", 500);
+        return ChatMessageMapper.ToResponseDTO(updatedMessage);
+    }
+
     public async Task<ChatMessageResponseDTO> DeleteMessage(Guid messageId, Guid chatRoomId)
     {
         var message = await _chatMessageRepository.Get(messageId);
@@ -75,6 +105,7 @@ public class ChatService : IChatService
     {
         var query = _appContext.ChatMessages
             .Where(m => m.ChatRoomId == chatRoomId && m.IsActive)
+            .Include(cm => cm.ChatRoom)
             .OrderByDescending(m => m.SentAt)
             .Select(m => ChatMessageMapper.ToResponseDTO(m));
 
@@ -126,6 +157,9 @@ public class ChatService : IChatService
 
         var query = _appContext.ChatRooms
             .Where(cr => (cr.ClientId == userId || cr.FreelancerId == userId) && cr.IsActive)
+            .Include(cr => cr.Client)
+            .Include(cr => cr.Freelancer)
+            .Include(cr => cr.Messages)
             .OrderByDescending(cr => cr.CreatedAt)
             .Select(cr => ChatRoomMapper.ToResponseDTO(cr));
 

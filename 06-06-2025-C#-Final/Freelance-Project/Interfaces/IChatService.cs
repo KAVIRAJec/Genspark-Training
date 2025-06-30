@@ -7,6 +7,7 @@ public interface IChatService
 {
     public Task<ChatMessageResponseDTO> SendMessage(string content, Guid senderId, Guid chatRoomId);
     public Task<ChatMessageResponseDTO> UpdateMessage(Guid messageId, UpdateChatMessageDTO updateChatMessageDTO);
+    public Task<ChatMessageResponseDTO> SetMessageRead(Guid messageId, ReadChatMessageDTO updateChatMessageDTO);
     public Task<ChatMessageResponseDTO> DeleteMessage(Guid messageId, Guid chatRoomId);
 
     public Task<PagedResponse<ChatMessageResponseDTO>> GetMessagesByChatRoomId(Guid chatRoomId, PaginationParams paginationParams);

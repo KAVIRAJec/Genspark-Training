@@ -34,7 +34,7 @@ public class AuthenticationService : IAuthenticationService
         user.Email = user.Email.ToLower();
         var existingUser = await _userRepository.Get(user.Email);
         if (existingUser == null || existingUser.IsActive == false)
-            throw new AppException("User not found or inactive", 404);
+            throw new AppException("User not found or inactive", 400);
 
         if (!await _hashingService.VerifyHash(new HashingModel
         {
@@ -42,7 +42,7 @@ public class AuthenticationService : IAuthenticationService
             HashedData = existingUser.Password,
             HashKey = existingUser.HashKey
         }))
-            throw new AppException("Invalid password", 401);
+            throw new AppException("Invalid password", 400);
 
         var token = await _tokenService.GenerateToken(existingUser);
         var refreshToken = await _tokenService.GenerateRefreshToken(existingUser.Email);
@@ -107,14 +107,14 @@ public class AuthenticationService : IAuthenticationService
 
         if (user.Role == "Freelancer")
         {
-            var freelancer = await _appContext.Freelancers.FirstOrDefaultAsync(f => f.Email == email);
+            var freelancer = await _appContext.Freelancers.Include(f => f.Skills).FirstOrDefaultAsync(f => f.Email == email);
             if (freelancer == null) throw new AppException("Freelancer details not found", 404);
             var response = FreelancerMapper.ToResponseDTO(freelancer);
             return response as T ?? throw new AppException("Failed to map freelancer details", 500);
         }
         if (user.Role == "Client")
         {
-            var client = await _appContext.Clients.FirstOrDefaultAsync(c => c.Email == email);
+            var client = await _appContext.Clients.Include(c => c.Projects).FirstOrDefaultAsync(c => c.Email == email);
             if (client == null) throw new AppException("Client details not found", 404);
             var response = ClientMapper.ToResponseDTO(client);
             return response as T ?? throw new AppException("Failed to map client details", 500);

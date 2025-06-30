@@ -54,6 +54,14 @@ public class ProjectController : BaseApiController
         return result != null ? Success(result) : NotFound("No projects found for this client.");
     }
 
+    [HttpGet("freelancer/{freelancerId}")]
+    public async Task<IActionResult> GetProjectsByFreelancerId(Guid freelancerId, [FromQuery] PaginationParams paginationParams)
+    {
+        if (freelancerId == Guid.Empty) return BadRequest("Freelancer ID is required.");
+        var result = await _clientProjectService.GetProjectsByFreelancerId(freelancerId, paginationParams);
+        return result != null ? Success(result) : NotFound("No projects found for this freelancer.");
+    }
+
     [HttpGet("")]
     public async Task<IActionResult> GetAllProjects([FromQuery] PaginationParams paginationParams)
     {

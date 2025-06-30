@@ -92,9 +92,36 @@ public class FreelancerService : IFreelancerService
     {
         var query = _appContext.Freelancers
             .Where(f => f.IsActive == true)
-            .Select(f => FreelancerMapper.ToResponseDTO(f));
+            .Include(f => f.Skills)
+            .Select(f => f);
 
-        return await query.ToPagedResponse(paginationParams);
+        if (!string.IsNullOrEmpty(paginationParams.Search))
+            query = query.Where(f => f.Username.Contains(paginationParams.Search)
+                                || f.Email.Contains(paginationParams.Search)
+                                || f.Location.Contains(paginationParams.Search)
+                                || f.Skills.Any(s => s.Name.Contains(paginationParams.Search)));
+
+        if (!string.IsNullOrEmpty(paginationParams.SortBy))
+        {
+            switch (paginationParams.SortBy.ToLower())
+            {
+                case "hourlyrate":
+                    query = query.OrderByDescending(f => f.HourlyRate);
+                    break;
+                case "location":
+                    query = query.OrderByDescending(f => f.Location == paginationParams.SortBy);
+                    break;
+                default:
+                    query = query.OrderByDescending(f => f.CreatedAt);
+                    break;
+            }
+        }
+        else
+            query = query.OrderByDescending(f => f.CreatedAt);
+
+        var result = query.Select(f => FreelancerMapper.ToResponseDTO(f));
+
+        return await result.ToPagedResponse(paginationParams);
     }
 
     public async Task<FreelancerResponseDTO> GetFreelancerById(Guid freelancerId)

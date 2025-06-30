@@ -29,6 +29,7 @@ public class ProposalResponseDTO
     public TimeSpan ProposedDuration { get; set; }
     public bool IsActive { get; set; }
     public bool IsAccepted { get; set; }
+    public bool IsRejected { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }

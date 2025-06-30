@@ -36,7 +36,7 @@ public class ProposalController : BaseApiController
         var result = await _freelancerProposalService.CreateProposal(createProposalDTO);
 
         await _hubContext.Clients.User(result.Project.ClientId.ToString())
-                           .SendAsync("ClientNotification", "New proposal created");
+                           .SendAsync("ClientNotification", "New proposal received");
         return result != null ? Success(result) : BadRequest("Proposal creation failed");
     }
 
@@ -56,6 +56,15 @@ public class ProposalController : BaseApiController
 
         var result = await _freelancerProposalService.GetProposalsByFreelancerId(freelancerId, paginationParams);
         return result != null ? Success(result) : NotFound("No proposals found for this freelancer.");
+    }
+
+    [HttpGet("client/{clientId}")]
+    public async Task<IActionResult> GetProposalsByClientId(Guid clientId, [FromQuery] PaginationParams paginationParams)
+    {
+        if (clientId == Guid.Empty) return BadRequest("Client ID is required.");
+
+        var result = await _freelancerProposalService.GetProposalsByClientId(clientId, paginationParams);
+        return result != null ? Success(result) : NotFound("No proposals found for this client.");
     }
 
     [HttpGet("")]

@@ -85,6 +85,7 @@ public class ClientService : IClientService
     {
          var query = _appContext.Clients
         .Where(c => c.IsActive)
+        .Include(c => c.Projects)
         .OrderByDescending(c => c.CreatedAt)
         .Select(c => ClientMapper.ToResponseDTO(c));
 

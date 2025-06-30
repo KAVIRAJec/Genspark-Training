@@ -1,0 +1,8 @@
+<section class="recipes-list">
+  <h2>All Recipes</h2>
+  <div class="recipes-grid">
+    @for (recipe of recipes(); track $index) {
+      <app-recipe [recipe]="recipe"></app-recipe>
+    }
+  </div>
+</section>

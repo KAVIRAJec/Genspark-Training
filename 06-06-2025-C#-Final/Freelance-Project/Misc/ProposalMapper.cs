@@ -13,6 +13,11 @@ public static class ProposalMapper
             ProposedAmount = proposal.ProposedAmount,
             ProposedDuration = proposal.ProposedDuration ?? TimeSpan.Zero,
             IsActive = proposal.IsActive,
+            IsAccepted = proposal.IsAccepted ?? false,
+            IsRejected = proposal.IsRejected ?? false,
+            CreatedAt = proposal.CreatedAt,
+            UpdatedAt = proposal.UpdatedAt,
+            DeletedAt = proposal.DeletedAt,
             Freelancer = proposal.Freelancer != null ?
                 new FreelancerSummaryDTO
                 {

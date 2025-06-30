@@ -3,6 +3,7 @@ using Freelance_Project.Interfaces;
 using Freelance_Project.Misc;
 using Freelance_Project.Models;
 using Freelance_Project.Models.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Freelance_Project.Services;
 
@@ -10,16 +11,19 @@ public class ClientProjectService : IClientProjectService
 {
     private readonly IRepository<Guid, Project> _projectRepository;
     private readonly IRepository<Guid, Client> _clientRepository;
+    private readonly IRepository<Guid, Freelancer> _freelancerRepository;
     private readonly IGetOrCreateSkills _getOrCreateSkills;
     protected readonly FreelanceDBContext _appContext;
 
     public ClientProjectService(IRepository<Guid, Project> projectRepository,
                                 IRepository<Guid, Client> clientRepository,
+                                IRepository<Guid, Freelancer> freelancerRepository,
                                 IGetOrCreateSkills getOrCreateSkills,
                                 FreelanceDBContext appContext)
     {
         _projectRepository = projectRepository;
         _clientRepository = clientRepository;
+        _freelancerRepository = freelancerRepository;
         _getOrCreateSkills = getOrCreateSkills;
         _appContext = appContext;
     }
@@ -51,10 +55,48 @@ public class ClientProjectService : IClientProjectService
     {
         var query = _appContext.Projects
             .Where(p => p.IsActive)
+            .Include(p => p.Client)
+            .Include(p => p.Freelancer)
+            .Include(p => p.Proposals)
+            .Include(p => p.RequiredSkills)
             .OrderByDescending(p => p.CreatedAt)
-            .Select(p => ProjectMapper.ToResponseDTO(p));
+            .Select(p => p);
 
-        return await query.ToPagedResponse(paginationParams);
+        if (!string.IsNullOrEmpty(paginationParams.Search))
+        {
+            query = query.Where(p => p.Title.Contains(paginationParams.Search) ||
+                                     p.Description.Contains(paginationParams.Search) ||
+                                     p.Client.Username.Contains(paginationParams.Search) ||
+                                     p.Freelancer.Username.Contains(paginationParams.Search) ||
+                                     p.RequiredSkills.Any(s => s.Name.Contains(paginationParams.Search)));
+        }
+
+        if (!string.IsNullOrEmpty(paginationParams.SortBy))
+        {
+            switch (paginationParams.SortBy.ToLower())
+            {
+                case "budget":
+                    query = query.OrderByDescending(p => p.Budget);
+                    break;
+                case "duration":
+                    query = query.OrderByDescending(p => p.Duration);
+                    break;
+                case "createdat":
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+                case "pending":
+                    query = query.Where(p => p.Status == "Pending").OrderByDescending(p => p.CreatedAt);
+                    break;
+                default:
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+            }
+        }
+        else
+            query = query.OrderByDescending(p => p.CreatedAt);
+
+        var result = query.Select(p => ProjectMapper.ToResponseDTO(p));
+        return await result.ToPagedResponse(paginationParams);
     }
 
     public async Task<ProjectResponseDTO> GetProjectById(Guid projectId)
@@ -73,10 +115,90 @@ public class ClientProjectService : IClientProjectService
 
         var query = _appContext.Projects
             .Where(p => p.ClientId == clientId && p.IsActive)
+            .Include(p => p.Client)
+            .Include(p => p.Freelancer)
+            .Include(p => p.Proposals)
+            .Include(p => p.RequiredSkills)
             .OrderByDescending(p => p.CreatedAt)
-            .Select(p => ProjectMapper.ToResponseDTO(p));
+            .Select(p => p);
 
-        return await query.ToPagedResponse(paginationParams);
+        if (!string.IsNullOrEmpty(paginationParams.Search))
+        {
+            query = query.Where(p => p.Title.Contains(paginationParams.Search) ||
+                                     p.Description.Contains(paginationParams.Search) ||
+                                     p.Client.Username.Contains(paginationParams.Search) ||
+                                     p.RequiredSkills.Any(s => s.Name.Contains(paginationParams.Search)));
+        }
+
+        if (!string.IsNullOrEmpty(paginationParams.SortBy))
+        {
+            switch (paginationParams.SortBy.ToLower())
+            {
+                case "budget":
+                    query = query.OrderByDescending(p => p.Budget);
+                    break;
+                case "duration":
+                    query = query.OrderByDescending(p => p.Duration);
+                    break;
+                case "createdat":
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+                default:
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+            }
+        }
+        else
+            query = query.OrderByDescending(p => p.CreatedAt);
+
+        var result = query.Select(p => ProjectMapper.ToResponseDTO(p));
+        return await result.ToPagedResponse(paginationParams);
+    }
+    public async Task<PagedResponse<ProjectResponseDTO>> GetProjectsByFreelancerId(Guid freelancerId, PaginationParams paginationParams)
+    {
+        if (freelancerId == Guid.Empty) throw new AppException("Freelancer ID is required.", 400);
+        var freelancer = await _freelancerRepository.Get(freelancerId);
+        if (freelancer == null || freelancer.IsActive == false) throw new AppException("Freelancer not found/inactive.", 404);
+
+        var query = _appContext.Projects
+            .Where(p => p.FreelancerId == freelancerId && p.IsActive)
+            .Include(p => p.Client)
+            .Include(p => p.Freelancer)
+            .Include(p => p.Proposals)
+            .Include(p => p.RequiredSkills)
+            .OrderByDescending(p => p.CreatedAt)
+            .Select(p => p);
+
+        if (!string.IsNullOrEmpty(paginationParams.Search))
+        {
+            query = query.Where(p => p.Title.Contains(paginationParams.Search) ||
+                                     p.Description.Contains(paginationParams.Search) ||
+                                     p.Freelancer.Username.Contains(paginationParams.Search) ||
+                                     p.RequiredSkills.Any(s => s.Name.Contains(paginationParams.Search)));
+        }
+
+        if (!string.IsNullOrEmpty(paginationParams.SortBy))
+        {
+            switch (paginationParams.SortBy.ToLower())
+            {
+                case "budget":
+                    query = query.OrderByDescending(p => p.Budget);
+                    break;
+                case "duration":
+                    query = query.OrderByDescending(p => p.Duration);
+                    break;
+                case "createdat":
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+                default:
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+            }
+        } else
+            query = query.OrderByDescending(p => p.CreatedAt);
+
+        var result = query.Select(p => ProjectMapper.ToResponseDTO(p));
+        return await result.ToPagedResponse(paginationParams);
     }
 
     public async Task<ProjectResponseDTO> UpdateProject(Guid projectId, UpdateProjectDTO updateProjectDTO)
@@ -89,7 +211,7 @@ public class ClientProjectService : IClientProjectService
         //     throw new AppException("Invalid project status.", 400);
         // if (updateProjectDTO.Status == "In Progress") 
         //     throw new AppException("Project status cannot be set to 'In Progress' directly. Use AcceptProposal to change status.", 400);
-            
+
         var requiredSkills = new List<Skill>();
         if (updateProjectDTO.RequiredSkills != null && updateProjectDTO.RequiredSkills.Count() > 0)
             requiredSkills = await _getOrCreateSkills.GetOrCreateSkills(updateProjectDTO.RequiredSkills);

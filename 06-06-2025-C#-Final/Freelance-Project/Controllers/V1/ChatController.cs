@@ -71,6 +71,31 @@ public class ChatController : BaseApiController
         return result != null ? Success(result) : NotFound("Message not found.");
     }
 
+    [HttpPut("SetMessageRead/{messageId}")]
+    public async Task<IActionResult> SetMessageRead(Guid messageId, [FromBody] ReadChatMessageDTO dto)
+    {
+        var Id = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+        var message = await _chatService.GetMessageById(messageId);
+        if (message == null || message.SenderId == Guid.Parse(Id))
+            return BadRequest("You can't set this message as read.");
+
+        if (dto == null || dto.ChatRoomId == Guid.Empty || dto.SenderId == Guid.Empty)
+            return BadRequest("Invalid data for marking message as read.");
+
+        var result = await _chatService.SetMessageRead(messageId, dto);
+
+        // No notification is need for read messages
+        // var chatRoom = await _chatService.GetChatById(dto.ChatRoomId);
+        // if (chatRoom != null)
+        // {
+        //     await _hubContext.Clients.User(chatRoom.ClientId.ToString())
+        //         .SendAsync("ChatNotification", result);
+        //     await _hubContext.Clients.User(chatRoom.FreelancerId.ToString())
+        //         .SendAsync("ChatNotification", result);
+        // }
+        return result != null ? Success(result) : NotFound("Message not found.");
+    }
+
     [HttpDelete("DeleteMessage/{messageId}/ChatRoom/{chatRoomId}")]
     public async Task<IActionResult> DeleteMessage(Guid messageId, Guid chatRoomId)
     {

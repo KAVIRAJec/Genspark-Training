@@ -3,6 +3,7 @@ using Freelance_Project.Interfaces;
 using Freelance_Project.Misc;
 using Freelance_Project.Models;
 using Freelance_Project.Models.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Freelance_Project.Services;
 
@@ -10,16 +11,19 @@ public class FreelancerProposalService : IFreelancerProposalService
 {
     private readonly IRepository<Guid, Proposal> _proposalRepository;
     private readonly IRepository<Guid, Freelancer> _freelancerRepository;
+    private readonly IRepository<Guid, Client> _clientRepository;
     private readonly IRepository<Guid, Project> _projectRepository;
     private readonly FreelanceDBContext _context;
 
     public FreelancerProposalService(IRepository<Guid, Proposal> proposalRepository,
                                       IRepository<Guid, Freelancer> freelancerRepository,
+                                      IRepository<Guid, Client> clientRepository,
                                       IRepository<Guid, Project> projectRepository,
                                       FreelanceDBContext freelancerDbContext)
     {
         _proposalRepository = proposalRepository;
         _freelancerRepository = freelancerRepository;
+        _clientRepository = clientRepository;
         _projectRepository = projectRepository;
         _context = freelancerDbContext;
     }
@@ -68,9 +72,45 @@ public class FreelancerProposalService : IFreelancerProposalService
     {
         var query = _context.Proposals
             .Where(p => p.IsActive == true)
-            .Select(p => ProposalMapper.ToResponseDTO(p));
+            .Include(p => p.Freelancer)
+            .Include(p => p.Project)
+            .Select(p => p);
 
-        return await query.ToPagedResponse(paginationParams);
+        if (!string.IsNullOrEmpty(paginationParams.Search))
+            query = query.Where(p => p.Description.Contains(paginationParams.Search) ||
+                                     p.Freelancer.Username.Contains(paginationParams.Search));
+
+        if (!string.IsNullOrEmpty(paginationParams.SortBy))
+        {
+            switch (paginationParams.SortBy.ToLower())
+            {
+                case "createdat":
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+                case "proposedamount":
+                    query = query.OrderByDescending(p => p.ProposedAmount);
+                    break;
+                case "proposedduration":
+                    query = query.OrderByDescending(p => p.ProposedDuration);
+                    break;
+                case "isaccepted":
+                    query = query.OrderByDescending(p => p.IsAccepted);
+                    break;
+                case "isrejected":
+                    query = query.OrderByDescending(p => p.IsRejected);
+                    break;
+                default:
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+            }
+        }
+        else
+        {
+            query = query.OrderByDescending(p => p.CreatedAt);
+        }
+
+        var result = query.Select(p => ProposalMapper.ToResponseDTO(p));
+        return await result.ToPagedResponse(paginationParams);
     }
 
     public async Task<ProposalResponseDTO> GetProposalById(Guid proposalId)
@@ -90,9 +130,99 @@ public class FreelancerProposalService : IFreelancerProposalService
 
         var query = _context.Proposals
             .Where(p => p.FreelancerId == freelancerId && p.IsActive == true)
-            .Select(p => ProposalMapper.ToResponseDTO(p));
+            .Include(p => p.Freelancer)
+            .Include(p => p.Project)
+            .Select(p => p);
 
-        return await query.ToPagedResponse(paginationParams);
+        if (!string.IsNullOrEmpty(paginationParams.Search))
+            query = query.Where(p => p.Description.Contains(paginationParams.Search) ||
+                                     p.Freelancer.Username.Contains(paginationParams.Search));
+
+        if (!string.IsNullOrEmpty(paginationParams.SortBy))
+        {
+            switch (paginationParams.SortBy.ToLower())
+            {
+                case "createdat":
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+                case "proposedamount":
+                    query = query.OrderByDescending(p => p.ProposedAmount);
+                    break;
+                case "proposedduration":
+                    query = query.OrderByDescending(p => p.ProposedDuration);
+                    break;
+                case "isaccepted":
+                    query = query.OrderByDescending(p => p.IsAccepted);
+                    break;
+                case "isrejected":
+                    query = query.OrderByDescending(p => p.IsRejected);
+                    break;
+                default:
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+            }
+        }
+        else
+        {
+            query = query.OrderByDescending(p => p.CreatedAt);
+        }
+
+        var result = query.Select(p => ProposalMapper.ToResponseDTO(p));
+        return await result.ToPagedResponse(paginationParams);
+    }
+
+    public async Task<PagedResponse<ProposalResponseDTO>> GetProposalsByClientId(Guid clientId, PaginationParams paginationParams)
+    {
+        if (clientId == Guid.Empty) throw new AppException("Client ID is required.", 400);
+        var client = await _clientRepository.Get(clientId);
+        if (client == null || client.IsActive == false) throw new AppException("Client not found/ inactive.", 404);
+
+        var query = _context.Proposals
+            .Where(p => p.Project.ClientId == clientId && p.IsActive == true)
+            .Include(p => p.Freelancer)
+            .Include(p => p.Project)
+            .Select(p => p);
+
+        if (!string.IsNullOrEmpty(paginationParams.Search))
+            query = query.Where(p => p.Description.Contains(paginationParams.Search) ||
+                                     p.Freelancer.Username.Contains(paginationParams.Search) ||
+                                     p.Project.Title.Contains(paginationParams.Search) ||
+                                     p.Project.Description.Contains(paginationParams.Search));
+
+        if (!string.IsNullOrEmpty(paginationParams.SortBy))
+        {
+            switch (paginationParams.SortBy.ToLower())
+            {
+                case "createdat":
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+                case "projecttitle":
+                    query = query.OrderByDescending(p => p.Project.Title);
+                    break;
+                case "proposedamount":
+                    query = query.OrderByDescending(p => p.ProposedAmount);
+                    break;
+                case "proposedduration":
+                    query = query.OrderByDescending(p => p.ProposedDuration);
+                    break;
+                case "isaccepted":
+                    query = query.OrderByDescending(p => p.IsAccepted);
+                    break;
+                case "isrejected":
+                    query = query.OrderByDescending(p => p.IsRejected);
+                    break;
+                default:
+                    query = query.OrderByDescending(p => p.CreatedAt);
+                    break;
+            }
+        }
+        else
+        {
+            query = query.OrderByDescending(p => p.CreatedAt);
+        }
+
+        var result = query.Select(p => ProposalMapper.ToResponseDTO(p));
+        return await result.ToPagedResponse(paginationParams);
     }
 
     public async Task<ProposalResponseDTO> UpdateProposal(Guid proposalId, UpdateProposalDTO updateDto)

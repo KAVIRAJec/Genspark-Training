@@ -14,7 +14,12 @@ public class CreateChatMessageDTO
 public class UpdateChatMessageDTO
 {
     [Required(ErrorMessage = "Content is required.")]
-    public string Content { get; set; }
+    public string? Content { get; set; }
+}
+public class ReadChatMessageDTO
+{
+    public Guid ChatRoomId { get; set; }
+    public Guid SenderId { get; set; }
 }
 public class ChatMessageResponseDTO
 {
