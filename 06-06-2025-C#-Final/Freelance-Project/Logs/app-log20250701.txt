@@ -1,0 +1,4 @@
+2025-07-01 16:39:48.751 +05:30 [ERR] Failed executing DbCommand (96ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
