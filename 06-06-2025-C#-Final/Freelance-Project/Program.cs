@@ -110,7 +110,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowUsers", policy =>
     {
         policy
-            .WithOrigins("http://127.0.0.1:5501", "http://localhost:4200")
+            .WithOrigins("http://localhost:4200", "http://localhost:4201", "https://localhost:8080", "http://localhost:8081")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
@@ -119,13 +119,17 @@ builder.Services.AddCors(options =>
 #endregion
 
 #region Configure Kestrel server to use TLS 1.2
-builder.WebHost.ConfigureKestrel(options =>
+// Only configure Kestrel HTTPS in production
+if (!builder.Environment.IsDevelopment())
 {
-    options.ConfigureHttpsDefaults(httpsOptions =>
+    builder.WebHost.ConfigureKestrel(options =>
     {
-        httpsOptions.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+        options.ConfigureHttpsDefaults(httpsOptions =>
+        {
+            httpsOptions.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+        });
     });
-});
+}
 #endregion
 
 #region Database Context

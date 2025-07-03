@@ -94,8 +94,9 @@ export class FindExpert implements OnInit, OnDestroy {
   }
 
   changePage(page: number): void {
-  this.pagination.page = page;
-  this.onFilter();
+  // this.pagination.page = page;
+  // this.onFilter();
+  this.loadPage(page, this.search);
 }
 
   onSearchChange(value: string) {
