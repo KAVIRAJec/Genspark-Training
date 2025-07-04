@@ -1,0 +1,144 @@
+RazorPay payment with frontend
+
+https://razorpay.com/docs/payments/payments/test-upi-details/
+
+Functionality: Payment flow correctly integrated in test mode.
+Code Quality: Clean, modular, readable.
+Testing: Adequate unit tests with good coverage.
+Dockerization: App builds and runs seamlessly in container.
+Clarity: Clear instructions to run and test.
+ 
+Objective
+Develop an Angular web application to simulate and test UPI payments using Razorpay’s Test UPI Details.
+
+You will:
+Build a clean, responsive form.
+Integrate Razorpay Checkout in test mode.
+Write unit tests using Jasmine and Karma.
+Dockerize and run the application.
+ 
+Assignment Details
+ 
+Application Features
+Angular Frontend
+Create a new Angular project (Angular 16+ recommended).
+Implement a Payment Form with the following fields:
+Amount (required, must be >0)
+Customer Name (required)
+Email (required, valid email)
+Contact Number (required, 10 digits)
+Razorpay Integration
+On form submission:
+Call your backend endpoint to create a test payment order (or hardcode a dummy order ID if you don’t want to build a backend).
+Use Razorpay Checkout script to launch the payment modal.
+Pre-fill UPI IDs like success@razorpay for simulating successful payment.
+Payment Result Display
+After payment attempt:
+Show Success Message with payment ID if completed.
+Show Failure or Cancelled Message if not completed.
+ 
+Testing
+Write unit tests using Jasmine + Karma:
+Test form validation logic:
+Required fields.
+Invalid inputs.
+Test component rendering.
+Mock the Razorpay Checkout script:
+Ensure your payment initiation method is called.
+ 
+Dockerization
+Dockerize the Angular app:
+Create a Dockerfile to:
+Build the Angular app using ng build --prod.
+Serve the built files via Nginx.
+Provide Docker commands in README.md:
+Build image.
+Run container.
+Access the app in the browser.
+ 
+Deliverables
+Full Angular source code (clean structure).
+Unit test reports or screenshots (showing all tests passing).
+Dockerfile and run instructions.
+Screenshots or video demo of:
+Payment initiation.
+Success flow.
+Failure/cancel flow.
+
+
+Bonus (Optional)
+⭐ Add payment history (store locally in a service).
+⭐ Add basic styling with Angular Material.
+⭐ Show a spinner/loading indicator during payment processing.
+Test UPI ID Details to Test Payment Flow
+Use test UPI IDs to test domestic (Indian) one-time payments.
+ 
+
+ ---------------------------------------------------------------------------------------------------
+ https://asana.com/resources/agile-methodology
+
+
+ Docker Basics Tasks
+
+1. Build and Run a Simple Container
+Task: Create a Dockerfile for a basic Node.js app that serves "Hello World" on port 3000.
+Steps:
+Write the app (index.js).
+Write the Dockerfile.
+Build the image.
+Run the container.
+Verify it works in the browser.
+2. Use Docker Volumes
+Task: Run a MySQL container with a named volume to persist data.
+Steps:
+Pull the mysql:latest image.
+Run with -v mydbdata:/var/lib/mysql.
+Connect via mysql client.
+Insert some data.
+Stop and remove the container.
+Start again and verify the data is still there.
+3. Multi-Stage Builds
+Task: Create a multi-stage Dockerfile that:
+Builds a React app.
+Copies the build/ folder into a lightweight Nginx image.
+Outcome: A small production-ready image serving your app.
+4. Networking Containers
+Task: Connect a backend API and frontend via Docker network.
+Steps:
+Create a user-defined bridge network.
+Run the API container.
+Run the frontend container on the same network.
+Make sure the frontend can reach the API by container name.
+
+Docker Compose Tasks
+Compose helps you manage multi-container apps.
+ 
+5. Docker Compose
+Task: Write a docker-compose.yml file to:
+Start a Node.js API.
+Start a MongoDB container.
+Link them together.
+Test: The Node.js app connects to MongoDB via MONGO_URL=mongodb://mongo:27017/db.
+
+Basic Docker Swarm Tasks
+initialize Swarm:
+docker swarm init
+6. Create a Swarm Service
+Task: Deploy an Nginx service with 3 replicas.
+Verify:
+docker service ls
+docker service ps nginx-web
+curl localhost:8080
+7. Update a Service
+Task: Update the Nginx service image to a newer version (nginx:alpine).
+Verify: Check that containers are updated without downtime.
+8. Scale a Service
+Task: Scale the Nginx service to 5 replicas.
+9. Rolling Update with Delay
+Task: Deploy a test service with rolling updates.
+Example:
+docker service create --name webapp --replicas 3 --update-delay 10s httpd
+Then:
+docker service update --image httpd:alpine webapp
+10. Visualize Swarm
+Task: Install Docker Swarm visualizer to see your nodes and services graphically.
