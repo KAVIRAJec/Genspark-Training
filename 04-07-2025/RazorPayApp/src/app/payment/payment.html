@@ -1,0 +1,146 @@
+<div class="payment-container">
+  <div class="payment-card">
+    <div class="payment-header">
+      <h2>Razorpay UPI Payment</h2>
+      <p>Secure payment integration with backend verification</p>
+      <div class="backend-status" [ngClass]="{
+        'status-online': isBackendAvailable,
+        'status-offline': !isBackendAvailable
+      }">
+        {{ backendStatus }}
+      </div>
+    </div>
+
+    <!-- Payment Form -->
+    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
+      <!-- Amount Field -->
+      <div class="form-group">
+        <label for="amount">Amount (₹)</label>
+        <input 
+          id="amount"
+          formControlName="amount" 
+          type="number" 
+          placeholder="Enter amount" 
+          class="form-control"
+          [class.is-invalid]="amount?.invalid && amount?.touched"
+          min="1"
+          max="100000"
+        />
+        <div class="invalid-feedback" *ngIf="amount?.invalid && amount?.touched">
+          <span *ngIf="amount?.errors?.['required']">Amount is required</span>
+          <span *ngIf="amount?.errors?.['min']">Amount must be greater than 0</span>
+          <span *ngIf="amount?.errors?.['max']">Amount cannot exceed ₹1,00,000</span>
+        </div>
+      </div>
+
+      <!-- Customer Name Field -->
+      <div class="form-group">
+        <label for="name">Customer Name</label>
+        <input 
+          id="name"
+          formControlName="name" 
+          type="text" 
+          placeholder="Enter your full name" 
+          class="form-control"
+          [class.is-invalid]="name?.invalid && name?.touched"
+        />
+        <div class="invalid-feedback" *ngIf="name?.invalid && name?.touched">
+          <span *ngIf="name?.errors?.['required']">Name is required</span>
+          <span *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters</span>
+          <span *ngIf="name?.errors?.['maxlength']">Name cannot exceed 50 characters</span>
+        </div>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          id="email"
+          formControlName="email" 
+          type="email" 
+          placeholder="Enter your email" 
+          class="form-control"
+          [class.is-invalid]="email?.invalid && email?.touched"
+        />
+        <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+
+      <!-- Contact Number Field -->
+      <div class="form-group">
+        <label for="contact">Contact Number</label>
+        <input 
+          id="contact"
+          formControlName="contact" 
+          type="tel" 
+          placeholder="Enter 10-digit mobile number" 
+          class="form-control"
+          [class.is-invalid]="contact?.invalid && contact?.touched"
+          maxlength="10"
+        />
+        <div class="invalid-feedback" *ngIf="contact?.invalid && contact?.touched">
+          <span *ngIf="contact?.errors?.['required']">Contact number is required</span>
+          <span *ngIf="contact?.errors?.['pattern']">Please enter a valid 10-digit mobile number</span>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-group">
+        <button 
+          type="submit" 
+          class="btn btn-primary btn-payment"
+          [disabled]="paymentForm.invalid || isProcessing || !isBackendAvailable"
+        >
+          <span *ngIf="!isProcessing">
+            <i class="bi bi-credit-card"></i>
+            Pay with Razorpay
+          </span>
+          <span *ngIf="isProcessing">
+            <i class="bi bi-hourglass-split spinner"></i>
+            Processing...
+          </span>
+        </button>
+      </div>
+
+      <!-- Reset Button -->
+      <div class="form-group">
+        <button 
+          type="button" 
+          class="btn btn-secondary btn-reset"
+          (click)="resetForm()"
+          [disabled]="isProcessing"
+        >
+          Reset Form
+        </button>
+      </div>
+    </form>
+
+    <!-- Payment Result -->
+    <div class="payment-result" *ngIf="paymentResult" style="border: 2px solid red; padding: 10px; margin-top: 20px;">
+      <div class="alert" [ngClass]="{
+        'alert-success': paymentResult.success,
+        'alert-danger': !paymentResult.success
+      }">
+        <div class="alert-header">
+          <i class="bi" [ngClass]="{
+            'bi-check-circle-fill': paymentResult.success,
+            'bi-x-circle-fill': !paymentResult.success
+          }"></i>
+          <strong>{{ paymentResult.success ? 'Payment Successful!' : 'Payment Failed' }}</strong>
+          <button type="button" class="btn-close" (click)="clearResult()">×</button>
+        </div>
+        <div class="alert-body">
+          <p>{{ paymentResult.message }}</p>
+          <div *ngIf="paymentResult.paymentId" class="payment-details">
+            <small><strong>Payment ID:</strong> {{ paymentResult.paymentId }}</small>
+          </div>
+          <div *ngIf="paymentResult.timestamp" class="payment-timestamp">
+            <small><strong>Time:</strong> {{ paymentResult.timestamp | date:'medium' }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- Closing tag for payment-card div -->
+</div>

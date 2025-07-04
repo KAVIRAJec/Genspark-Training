@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Frontend Angular application
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - razorpay-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Backend Node.js service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      # Add your Razorpay test keys here
+      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID:-rzp_test_c6prLkpX6pGyV3}
+      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET:-your_razorpay_test_secret}
+    restart: unless-stopped
+    networks:
+      - razorpay-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    volumes:
+      # Optional: Mount local .env file for environment variables
+      - ./backend/.env:/app/.env:ro
+
+networks:
+  razorpay-network:
+    driver: bridge

@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysqlDb
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mydbdata:/var/lib/mysql
+volumes:
+  mydbdata:
