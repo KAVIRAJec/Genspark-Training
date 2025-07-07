@@ -1,0 +1,48 @@
+Step 1:
+    sudo su
+
+Step 2:
+    groupadd dev-team
+Step 3:
+    useradd -G dev-team John
+    useradd -G dev-team Bob
+Step 4:(not required if adduser is used)
+    passwd John
+    passwd Bob
+Step 5:
+    mkdir /home/dev-team
+Step 6:
+    chown :dev-team /home/dev-team
+Step 7:
+    chmod g+w /home/dev-team
+    chmod g+r /home/dev-team
+Step 8:
+    chmod o-rwx /home/dev-team
+Step 9:
+    exit su - John
+Step 10:
+    cd /home/dev-team
+Step 11:
+    touch testFile.txt
+Step 12:
+    chown :dev-team testFile.txt
+Step 13:
+    exit su - Bob
+Step 14:
+    cd /home/dev-team
+Step 15:
+    ls -l
+    ls -lrt
+    ls -l | grep testFile.txt
+Step 16:
+    vim testFile.txt
+    vi testFile.txt
+    sudo nano testFile.txt
+    echo "Random text" >>testFile.txt
+Step 17:
+    groupadd project-manager 
+    useradd -G project-manager Fatima
+    passwd Fatima
+Step 18:
+    exit su - Fatima
+    cd /home/dev-team
