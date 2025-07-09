@@ -1,0 +1,69 @@
+1. You have a file with permissions -rw-r--r--, and you run chmod +x file.sh. What happens?
+- The command adds execute permission to all users (owner, group, others).
+- Example:
+    ls -latr
+    rw-r--r-- 1 root root 0 Jun 26 13:05 task.txt
+    chmod +x task.txt
+    Result:
+    -rwxr-xr-x 1 root root 0 Jun 26 13:05 task.txt
+    - rwx -> Owner (read, write, execute)
+    - r-x -> Group (read, execute)
+    - r-x -> Others (read, execute)
+
+2. What is the difference between chmod 744 file.txt and chmod u=rwx,go=r file.txt?
+- Both commands set the same permissions, just in different formats (numeric and symbolic).
+- Example:
+    touch file.txt
+    chmod 744 file.txt
+    ls -latr
+    Result: -rwxr--r-- 1 root root 0 Jun 26 13:14 file.txt
+    chmod u=rwx,go=r file.txt
+    ls -latr
+    Result: -rwxr--r-- 1 root root 0 Jun 26 13:14 file.txt
+
+3. What is the sticky bit, and when should you use it?
+- The sticky bit is a permission setting for directories to enhance security.
+- Only file owners can delete or rename their files in that directory.
+- Other users can create/modify files but not delete/rename others' files.
+- Example:
+    mkdir sharedDir
+    ls -latr
+    drwxr-xr-x 2 root root 37 Jun 26 14:00 sharedDir
+    chmod +t sharedDir (or chmod 1777 sharedDir)
+    drwxr-xr-t 2 root root 37 Jun 26 14:00 sharedDir
+    - 't' represents the sticky bit enabled.
+
+4. You are told to give the owner full access, group only execute, and others no permissions. What symbolic command achieves this?
+- Command: chmod u=rwx,g=x,o= permission.txt
+- Result: -rwx--x--- 1 root root 0 Jun 26 14:06 permission.txt
+    - Owner: read, write, execute (rwx)
+    - Group: execute (x)
+    - Others: none
+
+5. What is umask, and why is it important?
+- umask defines the default permissions for new files and directories.
+- It specifies which permission bits to subtract from the default.
+- Example: 777 - 022 = 755 (for directories)
+
+6. If the umask is 022, what are the default permissions for a new file and a new directory?
+- umask: 022
+    - User: 0 (subtract nothing)
+    - Group: 2 (subtract write)
+    - Others: 2 (subtract write)
+- Default file permission: 666 - 022 = 644 (rw-r--r--)
+- Default directory permission: 777 - 022 = 755 (drwxr-xr-x)
+
+7. Why is umask often set to 002 in development environments but 027 or 077 in production?
+- umask 002: Used in development for team collaboration (group can write).
+- umask 027: Group has read only, others have no access.
+- umask 077: Only owner has permission.
+- Reason: Higher security in production to limit resource access.
+
+8. useradd vs adduser
+- useradd:
+    - Low-level command to create a new user.
+    - Does not create a home directory by default (use -m flag).
+    - Password must be set manually.
+- adduser:
+    - High-level, interactive command.
+    - Creates home directory automatically.
