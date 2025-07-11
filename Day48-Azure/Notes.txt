@@ -1,0 +1,5 @@
+Create Linux VM
+Pushed docker image from local system
+Pull image in the VM & accessed from outside browser
+
+Azure ARM & SQL provisioning in code

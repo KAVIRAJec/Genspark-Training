@@ -1,0 +1,4 @@
+Blob - file storage
+Logs & Image storage of final task in azure blobs
+
+dotnet add package Azure.Storage.Blobs

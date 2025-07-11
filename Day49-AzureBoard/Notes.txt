@@ -1,0 +1,56 @@
+
+Objective
+You will:
+ 
+Create an Azure Board to manage your project’s work items and sprints.
+Define and visualize your system’s architecture and flow using Class Diagram and Sequence Diagram.
+
+Instructions
+Part 1 – Azure Board Setup
+Create or access your Azure DevOps organization
+If you don’t have one, create a free account at https://dev.azure.com.
+Create a new Project
+Name your project appropriately (e.g., E-Commerce API, HR Management Portal).
+Set up Azure Boards
+Create at least 5 work items, including:
+2 Epics
+2 User Stories under each Epic
+3 Tasks linked to any of the User Stories
+Define Iterations/Sprints
+ 
+Create 2 sprints (e.g., Sprint 1 and Sprint 2).
+Assign due dates (1–2 weeks per sprint).
+Assign your work items to these sprints.
+Set up a Kanban board
+Move at least 3 tasks to the In Progress column to show active work.
+Take Screenshots
+Capture:
+Your Azure Board with Epics, User Stories, and Tasks
+The Sprint assignments
+The Kanban Board
+
+Part 2 – Class Diagram
+Create a Class Diagram for your project showing:
+At least 4 classes
+Attributes and methods for each class
+Relationships (inheritance, associations)
+
+Tooling options:
+Draw.io (free online tool)
+Lucidchart
+Visual Studio UML Designer
+Any diagramming tool you prefer
+Export the diagram as PDF or PNG.
+
+Part 3 – Sequence Diagram
+Create a Sequence Diagram that shows the interaction for one key use case.
+Example: User logs in, Customer places order, Admin updates profile.
+Your diagram should include:
+At least 3 objects/actors
+Messages exchanged between them
+Activation bars (lifelines)
+Export this diagram as PDF or PNG.
+Submission Checklist
+Azure Board Screenshots
+Class Diagram File
+Sequence Diagram File
