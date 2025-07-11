@@ -2,3 +2,6 @@ https/
 
 # Ignore files
 appsettings.json
+
+**/bin/Debug/**/appsettings.json
+**/bin/Release/**/appsettings.json
