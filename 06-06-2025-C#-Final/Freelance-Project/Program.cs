@@ -1,5 +1,6 @@
 using System.Text;
 using Serilog;
+using Serilog.Events; // Add LogEventLevel namespace
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -16,22 +17,69 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.SignalR;
+using Azure.Storage.Blobs;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Define logfileName with current date
+string logfileName = $"app-log{DateTime.Now:yyyyMMdd}.txt";
+
+// Ensure the logs container exists in Azure Blob Storage
+try 
+{
+    var connectionString = builder.Configuration["Azure:StorageConnectionString"];
+    var containerName = "logs";
+    
+    if (!string.IsNullOrEmpty(connectionString)) 
+    {
+        var blobServiceClient = new BlobServiceClient(connectionString);
+        var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+        
+        // Create the container if it doesn't exist
+        containerClient.CreateIfNotExists();
+        Console.WriteLine($"Container {containerName} created or verified successfully");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error creating Azure Blob Storage container: {ex.Message}");
+}
 
 #region Logging Configuration
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug() // Set base level
-    .WriteTo.Console(
-        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information // Console: log Info and above
-    )
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .MinimumLevel.Override("Microsoft.AspNetCore.SignalR", LogEventLevel.Information)
+    .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
    .WriteTo.File(
         "Logs/app-log.txt",
-        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error, // File: log only Error and above
+        // restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error, // File: log only Error and above
+        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
         rollingInterval: RollingInterval.Day
     )
+    // Add Azure Blob Storage logging with error handling
+    .WriteTo.AzureBlobStorage(
+        connectionString: builder.Configuration["Azure:StorageConnectionString"],
+        storageContainerName: "logs",
+        storageFileName: logfileName,
+        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+        retainedBlobCountLimit: 31 // Keep logs for 31 days
+    )
     .CreateLogger();
-#endregion
 
-var builder = WebApplication.CreateBuilder(args);
+// Log Azure storage connection attempt
+try
+{
+    Log.Information("Testing Azure Blob Storage connection...");
+    Log.Information("Application starting up");
+}
+catch (Exception ex)
+{
+    Log.Error(ex, "Error connecting to Azure Blob Storage. Continuing with local logging only.");
+}
+#endregion
 
 builder.Host.UseSerilog();
 

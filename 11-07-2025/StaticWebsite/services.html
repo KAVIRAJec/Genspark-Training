@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Azure Cloud Solutions</title>
+    <style>
+        :root {
+            --primary-color: #0078d4;
+            --secondary-color: #106ebe;
+            --accent-color: #50e6ff;
+            --text-color: #323130;
+            --light-gray: #f3f2f1;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        nav {
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .service {
+            margin-bottom: 4rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+        
+        .service-content {
+            flex: 1;
+        }
+        
+        .service-image {
+            flex: 1;
+            background-color: var(--light-gray);
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .service-image .material-icons {
+            font-size: 100px;
+            color: var(--primary-color);
+        }
+        
+        .service h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .service-features {
+            margin-top: 1.5rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-item .material-icons {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .service {
+                flex-direction: column;
+            }
+            
+            .service-image {
+                width: 100%;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        footer {
+            background-color: var(--text-color);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: var(--white);
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* For the icons */
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Azure Cloud Solutions</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <header>
+        <div class="header-content">
+            <h1>Our Services</h1>
+            <p>Comprehensive cloud solutions tailored to your business needs</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="service">
+            <div class="service-content">
+                <h2>Cloud Infrastructure</h2>
+                <p>Our Cloud Infrastructure services provide a solid foundation for your digital transformation journey. We design, implement, and manage scalable and secure infrastructure environments on Microsoft Azure.</p>
+                
+                <div class="service-features">
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Virtual Networks and Network Security</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Virtual Machines and Compute Resources</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Load Balancing and Traffic Management</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Identity and Access Management</span>
+                    </div>
+                </div>
+                
+                <a href="contact.html" class="btn">Get Started</a>
+            </div>
+            <div class="service-image">
+                <span class="material-icons">cloud</span>
+            </div>
+        </section>
+        
+        <section class="service">
+            <div class="service-image">
+                <span class="material-icons">storage</span>
+            </div>
+            <div class="service-content">
+                <h2>Cloud Storage Solutions</h2>
+                <p>Our Cloud Storage Solutions help you manage, secure, and optimize your data storage in the cloud. We leverage Azure's storage services to provide cost-effective and reliable storage options for all your data needs.</p>
+                
+                <div class="service-features">
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Blob Storage for Unstructured Data</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>File Storage for Applications</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Data Backup and Recovery</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Content Delivery Networks</span>
+                    </div>
+                </div>
+                
+                <a href="contact.html" class="btn">Learn More</a>
+            </div>
+        </section>
+        
+        <section class="service">
+            <div class="service-content">
+                <h2>Database Services</h2>
+                <p>Our Database Services provide fully managed database solutions on Azure. We help you design, implement, and optimize your database environment to ensure high performance, security, and reliability.</p>
+                
+                <div class="service-features">
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>SQL Database Management</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>NoSQL Solutions (Cosmos DB)</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Database Migration Services</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Performance Tuning and Optimization</span>
+                    </div>
+                </div>
+                
+                <a href="contact.html" class="btn">Get Started</a>
+            </div>
+            <div class="service-image">
+                <span class="material-icons">database</span>
+            </div>
+        </section>
+        
+        <section class="service">
+            <div class="service-image">
+                <span class="material-icons">security</span>
+            </div>
+            <div class="service-content">
+                <h2>Cloud Security</h2>
+                <p>Our Cloud Security services help you protect your cloud environments from threats and vulnerabilities. We implement comprehensive security measures to safeguard your data, applications, and infrastructure.</p>
+                
+                <div class="service-features">
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Security Assessments and Audits</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Identity and Access Management</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Network Security and Firewall Configuration</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons">check_circle</span>
+                        <span>Threat Detection and Response</span>
+                    </div>
+                </div>
+                
+                <a href="contact.html" class="btn">Learn More</a>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Azure Cloud Solutions. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><span class="material-icons">facebook</span></a>
+                <a href="#"><span class="material-icons">twitter</span></a>
+                <a href="#"><span class="material-icons">linkedin</span></a>
+            </div>
+            <p>Powered by Azure Static Web Apps</p>
+        </div>
+    </footer>
+</body>
+</html>
