@@ -1,0 +1,12 @@
+2025-07-14 18:58:06.411 +05:30 [INF] Testing Azure Blob Storage connection...
+2025-07-14 18:58:06.449 +05:30 [INF] Application starting up
+2025-07-14 18:58:10.687 +05:30 [INF] Successfully retrieved database connection string from Key Vault
+2025-07-14 18:58:10.919 +05:30 [INF] User profile is available. Using '/Users/presidio/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-14 18:58:11.124 +05:30 [WRN] Overriding address(es) 'http://localhost:5000'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-07-14 18:58:11.143 +05:30 [INF] Certificate with thumbprint 7118F9AF1E9D6F4EB204AB6F0480C804FD39E6A7 lacks the subjectAlternativeName (SAN) extension and may not be accepted by browsers.
+2025-07-14 18:58:11.188 +05:30 [INF] Now listening on: http://[::]:8081
+2025-07-14 18:58:11.189 +05:30 [INF] Now listening on: https://[::]:8080
+2025-07-14 18:58:11.189 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-14 18:58:11.189 +05:30 [INF] Hosting environment: Development
+2025-07-14 18:58:11.189 +05:30 [INF] Content root path: /Users/presidio/Downloads/Genspark-Training/06-06-2025-C#-Final/Freelance-Project
+2025-07-14 18:58:25.000 +05:30 [INF] Application is shutting down...
