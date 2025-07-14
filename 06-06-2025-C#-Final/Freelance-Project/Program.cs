@@ -181,10 +181,29 @@ if (!builder.Environment.IsDevelopment())
 #endregion
 
 #region Database Context
-builder.Services.AddDbContext<FreelanceDBContext>(opts =>
+// builder.Services.AddDbContext<FreelanceDBContext>(opts =>
+// {
+//     opts.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+// });
+builder.Services.AddTransient<KeyVaultService>();
+try
 {
-    opts.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+    var keyVaultService = builder.Services.BuildServiceProvider().GetRequiredService<KeyVaultService>();
+    var connectionString = keyVaultService.GetSecretAsync("ConnectionString").GetAwaiter().GetResult();
+    Log.Information("Successfully retrieved database connection string from Key Vault");
+    builder.Services.AddDbContext<FreelanceDBContext>(opts =>
+    {
+        opts.UseNpgsql(connectionString);
+    });
+} catch (Exception ex)
+{
+    Log.Warning("Failed to retrieve database connection string from Key Vault: {ErrorMessage}. Using configuration value instead.", ex.Message);
+
+    builder.Services.AddDbContext<FreelanceDBContext>(opts =>
+    {
+        opts.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    });
+}
 #endregion
 
 #region Repositories

@@ -65,33 +65,44 @@ public class ImageUploadService : IImageUploadService
         return true;
     }
 
-    // Azure Blob Storage implementation
+    // Azure Blob Storage implementation With Azure KeyVault
 
-    // private readonly BlobServiceClient _blobServiceClient;
-    // private readonly string _containerName;
+    // private BlobContainerClient _containerClient;
+    // private readonly string _containerName = "images";
+    // private readonly IConfiguration _configuration;
 
     // public ImageUploadService(IConfiguration configuration)
     // {
-    //     var connectionString = configuration["Azure:StorageConnectionString"];
-    //     if (string.IsNullOrEmpty(connectionString))
-    //         throw new AppException("Azure Storage connection string is not configured.", 500);
-
-    //     _blobServiceClient = new BlobServiceClient(connectionString);
-    //     _containerName = "images";
-
-    //     CreateContainerIfNotExists().GetAwaiter().GetResult();
+    //     _configuration = configuration;
+    //     InitializeContainerFromKeyVault().GetAwaiter().GetResult();
     // }
 
-    // private async Task CreateContainerIfNotExists()
+    //  private async Task InitializeContainerFromKeyVault()
     // {
     //     try
     //     {
-    //         var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
-    //         await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);
+    //         var keyVaultUrl = _configuration["Azure:KeyVaultUrl"];
+    //         if (string.IsNullOrEmpty(keyVaultUrl))
+    //             throw new AppException("Azure Key Vault URL is not configured.", 500);
+
+    //         // Create Secret Client to access Key Vault
+    //         var secretClient = new SecretClient(
+    //             new Uri(keyVaultUrl),
+    //             new DefaultAzureCredential());
+
+    //         // Get SasUrl secret from Key Vault
+    //         var secret = await secretClient.GetSecretAsync("SasUrl");
+    //         var sasUrl = secret.Value.Value;
+
+    //         // Create BlobContainerClient from SAS URL
+    //         _containerClient = new BlobContainerClient(new Uri(sasUrl));
+
+    //         // Create container if it doesn't exist
+    //         await _containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);
     //     }
     //     catch (Exception ex)
     //     {
-    //         throw new AppException($"Failed to create Azure Blob Storage container: {ex.Message}", 500);
+    //         throw new AppException($"Failed to initialize Azure Blob Storage from Key Vault: {ex.Message}", 500);
     //     }
     // }
 
@@ -102,9 +113,11 @@ public class ImageUploadService : IImageUploadService
 
     //     try
     //     {
+    //         if (_containerClient == null)
+    //             await InitializeContainerFromKeyVault();
+
     //         string uniqueFileName = $"{Guid.NewGuid()}_{image.FileName}";
-    //         var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
-    //         var blobClient = containerClient.GetBlobClient(uniqueFileName);
+    //         var blobClient = _containerClient.GetBlobClient(uniqueFileName);
 
     //         // set content type
     //         var blobHttpHeaders = new BlobHttpHeaders
@@ -130,10 +143,12 @@ public class ImageUploadService : IImageUploadService
 
     //     try
     //     {
+    //         if (_containerClient == null)
+    //             await InitializeContainerFromKeyVault();
+    
     //         var uri = new Uri(imageUrl);
     //         string blobName = Path.GetFileName(uri.LocalPath);
 
-    //         var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
     //         var blobClient = containerClient.GetBlobClient(blobName);
 
     //         var response = await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
@@ -143,6 +158,5 @@ public class ImageUploadService : IImageUploadService
     //     {
     //         throw new AppException($"Failed to delete image: {ex.Message}", 500);
     //     }
-
     // }
 }
