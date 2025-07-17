@@ -1,0 +1,27 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+*.tmp
+
+# Visual Studio
+.vs/
+.vscode/
+
+# Docker
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+*.env
+appsettings.Local.json
+
+# Database
+*.db
+*.sqlite
