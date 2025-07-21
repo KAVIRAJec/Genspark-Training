@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VideoStreamingPlatform</name>
+    </assembly>
+    <members>
+        <member name="M:VideoStreamingPlatform.Controllers.VideosController.UploadVideo(VideoStreamingPlatform.DTOs.VideoUploadRequestDto)">
+            Upload a new training video
+            <param name="request">Video upload request containing title, description, and video file</param>
+            <returns>Uploaded video information</returns>
+        </member>
+        <member name="M:VideoStreamingPlatform.Controllers.VideosController.GetVideos(System.Int32,System.Int32,System.String,System.String,System.Boolean)">
+            <summary>
+            Get all videos with pagination and filtering
+            </summary>
+            <param name="page">Page number (default: 1)</param>
+            <param name="pageSize">Items per page (default: 10)</param>
+            <param name="searchTerm">Search term for title and description</param>
+            <param name="sortBy">Sort field (title, uploaddate, filesize, createdat)</param>
+            <param name="sortDescending">Sort order (default: true)</param>
+            <returns>Paginated list of videos</returns>
+        </member>
+        <member name="M:VideoStreamingPlatform.Controllers.VideosController.GetVideo(System.Int32)">
+            <summary>
+            Get a specific video by ID
+            </summary>
+            <param name="id">Video ID</param>
+            <returns>Video information</returns>
+        </member>
+        <member name="M:VideoStreamingPlatform.Controllers.VideosController.StreamVideo(System.Int32)">
+            <summary>
+            Stream a video file
+            </summary>
+            <param name="id">Video ID</param>
+            <returns>Video stream</returns>
+        </member>
+        <member name="M:VideoStreamingPlatform.Controllers.VideosController.UpdateVideo(System.Int32,VideoStreamingPlatform.DTOs.VideoUploadRequestDto)">
+            <summary>
+            Update video metadata (title and description)
+            </summary>
+            <param name="id">Video ID</param>
+            <param name="request">Update request with new title and description</param>
+            <returns>Updated video information</returns>
+        </member>
+        <member name="M:VideoStreamingPlatform.Controllers.VideosController.DeleteVideo(System.Int32)">
+            <summary>
+            Delete a video
+            </summary>
+            <param name="id">Video ID</param>
+            <returns>Deletion result</returns>
+        </member>
+        <member name="M:VideoStreamingPlatform.Controllers.VideosController.HealthCheck">
+            <summary>
+            Health check endpoint
+            </summary>
+            <returns>API status</returns>
+        </member>
+        <member name="T:VideoStreamingPlatform.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:VideoStreamingPlatform.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:VideoStreamingPlatform.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:VideoStreamingPlatform.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
