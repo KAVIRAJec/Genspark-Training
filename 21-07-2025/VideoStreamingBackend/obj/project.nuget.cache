@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eV3TNtbtx/8=",
+  "dgSpecHash": "YG5StYkV56s=",
   "success": true,
-  "projectFilePath": "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingPlatform/VideoStreamingPlatform.csproj",
+  "projectFilePath": "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingBackend/VideoStreamingPlatform.csproj",
   "expectedPackageFiles": [
     "/Users/presidio/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/presidio/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

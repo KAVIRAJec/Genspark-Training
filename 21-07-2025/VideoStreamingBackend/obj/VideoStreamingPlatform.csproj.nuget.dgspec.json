@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingPlatform/VideoStreamingPlatform.csproj": {}
+    "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingBackend/VideoStreamingPlatform.csproj": {}
   },
   "projects": {
-    "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingPlatform/VideoStreamingPlatform.csproj": {
+    "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingBackend/VideoStreamingPlatform.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingPlatform/VideoStreamingPlatform.csproj",
+        "projectUniqueName": "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingBackend/VideoStreamingPlatform.csproj",
         "projectName": "VideoStreamingPlatform",
-        "projectPath": "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingPlatform/VideoStreamingPlatform.csproj",
+        "projectPath": "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingBackend/VideoStreamingPlatform.csproj",
         "packagesPath": "/Users/presidio/.nuget/packages/",
-        "outputPath": "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingPlatform/obj/",
+        "outputPath": "/Users/presidio/Downloads/Genspark-Training/21-07-2025/VideoStreamingBackend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/presidio/.nuget/NuGet/NuGet.Config"
