@@ -1,0 +1,24 @@
+* Azure Container Registry & deploy the image of acr to Azure Container Instances(ACI) using azureCLI
+* Use Domain name label scope of ACR to create ACR with restriction
+
+az acr repository list --name crazurekaviraj --output table
+
+
+# Get the FQDN (Fully Qualified Domain Name) to access your app
+az container show \
+  --resource-group your-resource-group \
+  --name freelance-frontend \
+  --query "ipAddress.fqdn" \
+  --output tsv
+
+
+az acr create \
+  --resource-group rg-Azure-Kaviraj \
+  --name crazurekaviraj-rg \
+  --sku Basic \
+  --dnl-scope ResourceGroupReuse
+  
+  az acr import \
+  --name crazurekaviraj-rg \
+  --source crazurekaviraj.azurecr.io/freelance-project-frontend:latest \
+  --image freelance-project-frontend:latest

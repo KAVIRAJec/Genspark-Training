@@ -1,0 +1,66 @@
+trigger:
+  branches:
+    include:
+    - master
+pool:
+  vmImage: 'windows-latest'
+variables:
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: 'Any CPU'
+- name: buildConfiguration
+  value: 'Release'
+stages:
+- stage: Build
+  displayName: 'Build and Package'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build Job'
+    steps:
+    - task: NuGetToolInstaller@1
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+    - task: CmdLine@2
+      displayName: 'Debug: List output files'
+      inputs:
+        script: |
+          echo "Listing contents of $(build.artifactStagingDirectory):"
+          dir "$(build.artifactStagingDirectory)"
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        pathToPublish: '$(build.artifactStagingDirectory)'
+        artifactName: 'drop'
+        publishLocation: 'Container'
+- stage: Deploy
+  displayName: 'Deploy to Azure App Service'
+  dependsOn:
+  - Build
+  jobs:
+  - job: DeployJob
+    displayName: 'Deploy Web App'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: 30f35852-3f7e-4c0c-9a88-e127b4f97211@1
+      inputs:
+        alias: current
+        artifact: drop
+    - task: AzureRmWebAppDeployment@5
+      displayName: 'Deploy using Web Deploy'
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'MSDN Platforms Subscription (6db4c0d0-c8ed-472b-8349-b3424a8af6ac)'
+        appType: 'webApp'
+        WebAppName: 'BlobApp21Jul25'
+        package: '$(Pipeline.Workspace)/drop/**/*.zip'
+        enableCustomDeployment: true
+        DeploymentType: 'webDeploy'

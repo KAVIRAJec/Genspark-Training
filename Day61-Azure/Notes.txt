@@ -1,0 +1,3 @@
+Azure Virtual network
+Azure subnet
+Azure Virtual network gateway(VPN)

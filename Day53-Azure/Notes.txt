@@ -1,0 +1,48 @@
+---------------------------------------
+local.settings.json
+{
+    "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "AzureWebJobsSecretStorageType": "files",
+    "AzureStorageConnectionString": "",
+    "KeyVaultUri": "https://kv-azure-kaviraj.vault.azure.net/",
+    "ContainerName": "images"
+  }
+}
+
+---------------------------------------
+CMD:
+
+az login --tenant 4e993288-04ff-49cb-97bf-18f34d1bc91e
+-------------------------------------
+az version
+-------------------------------------
+az group create --name reJul25 --location eastus2
+-------------------------------------
+az storage account create --name mystorageacct20250715 --location eastus2 --resource-group reJul25 --sku Standard_LRS
+
+-------------------------------------
+az functionapp create --resource-group reJul25 --consumption-plan-location eastus2 --name mydotnetfunc20250715 --storage-account mystorageacct20250715 --runtime dotnet-isolated --functions-version 4
+
+  ------------------------------- 
+az functionapp config appsettings set  --name mydotnetfunc20250715 --resource-group reJul25 --settings AzureStorageConnectionString=""
+-------------------------------------
+
+az functionapp identity assign --name fnazurekaviraj --resource-group rg-Azure-Kaviraj
+
+add iam for vault
+
+npm install -g azure-functions-core-tools@4 --unsafe-perm true
+
+func azure functionapp publish fnazurekaviraj
+
+az functionapp function keys list \
+  --resource-group rg-Azure-Kaviraj \
+  --name fnazurekaviraj \
+  --function-name Function
+
+https://fnazurekaviraj.azurewebsites.net/api/generate-sas/1.mp4?code=YOUR_FUNCTION_KEY
+
+Enter the response sas url in the browser!!

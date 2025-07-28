@@ -1,0 +1,167 @@
+Azure Deployment
+1. Method 1: Deploy from Local Machine (Direct Deployment)
+dotnet publish -c Release -o ./publish
+# Create App Service Plan
+az appservice plan create \
+  --resource-group rg-Azure-Kaviraj \
+  --name asp-dotnet-kaviraj \
+  --sku B1 \
+  --is-linux
+
+# Create Web App
+az webapp create \
+  --resource-group rg-Azure-Kaviraj \
+  --plan asp-dotnet-kaviraj \
+  --name dotnet-app-kaviraj \
+  --runtime "DOTNETCORE:8.0"
+
+  # Deploy using ZIP deployment
+cd publish
+zip -r ../app.zip .
+cd ..
+
+az webapp deployment source config-zip \
+  --resource-group rg-Azure-Kaviraj \
+  --name dotnet-app-kaviraj \
+  --src app.zip
+
+  Method 2: Deploy from Container Registry (Using your existing ACR image)
+  # Create App Service Plan (if not already created)
+az appservice plan create \
+  --resource-group rg-Azure-Kaviraj \
+  --name asp-container-kaviraj \
+  --sku B1 \
+  --is-linux
+
+# Create Web App with container
+az webapp create \
+  --resource-group rg-Azure-Kaviraj \
+  --plan asp-container-kaviraj \
+  --name simpleapp-container-kaviraj \
+  --deployment-container-image-name crazurekaviraj.azurecr.io/freelance-project-frontend:latest
+
+  #  Configure ACR authentication
+  # Enable managed identity
+az webapp identity assign \
+  --resource-group rg-Azure-Kaviraj \
+  --name simpleapp-container-kaviraj
+
+# Get the principal ID
+PRINCIPAL_ID=$(az webapp identity show \
+  --resource-group rg-Azure-Kaviraj \
+  --name simpleapp-container-kaviraj \
+  --query principalId \
+  --output tsv)
+
+# Grant AcrPull permissions
+az role assignment create \
+  --assignee $PRINCIPAL_ID \
+  --role AcrPull \
+  --scope /subscriptions/$(az account show --query id --output tsv)/resourceGroups/rg-Azure-Kaviraj/providers/Microsoft.ContainerRegistry/registries/crazurekaviraj
+
+# Configure ACR settings
+az webapp config container set \
+  --resource-group rg-Azure-Kaviraj \
+  --name simpleapp-container-kaviraj \
+  --docker-custom-image-name crazurekaviraj.azurecr.io/freelance-project-frontend:latest \
+  --docker-registry-server-url https://crazurekaviraj.azurecr.io
+
+
+
+
+Kubernetes Task:
+Objective
+Develop a Training Video Portal where:
+Users can upload training videos (e.g., company induction videos).
+Users can browse and stream videos directly in the Angular app.
+Video metadata is stored in Azure SQL/PostgreSQL.
+Videos themselves are stored in Azure Blob Storage and streamed via public or SAS URLs.
+ 
+Scope Overview
+Backend (.NET 8 Web API)
+Endpoints:
+POST /api/videos/upload
+Accepts video file + metadata (Title, Description).
+Saves video to Blob Storage.
+Saves metadata and blob URL to the DB.
+ 
+GET /api/videos
+Returns a list of videos (Title, Description, URL).
+ 
+GET /api/videos/{id}/stream
+(Optional) Returns a streaming response from Blob Storage.
+ 
+Or, the Angular app can stream directly via Blob URL.
+ 
+Database Table:
+CREATE TABLE TrainingVideos (
+  Id INT IDENTITY PRIMARY KEY,
+  Title NVARCHAR(200),
+  Description NVARCHAR(500),
+  UploadDate DATETIME,
+  BlobUrl NVARCHAR(500)
+);
+Frontend (Angular)
+Video List Page
+ 
+Shows:
+Title
+Description
+Video player embedded (HTML5 <video> tag).
+User can click a video to stream.
+ 
+Upload Page
+ 
+Form to upload:
+Title
+Description
+Video File
+ 
+Functional Requirements
+User can upload videos to Blob Storage.
+Video metadata saved to DB.
+User can stream videos from Blob Storage.
+
+Frontend shows embedded video players.
+ 
+Azure Blob Storage
+Container: training-videos
+ 
+Upload files (MP4 recommended).
+ 
+Use either:
+Public container (for simpler streaming), or
+Generate SAS tokens for secured access.
+ 
+Tech Requirements
+.NET 8 Web API
+Angular 17
+Azure SQL/PostgreSQL
+Azure Blob Storage SDK
+Swagger for API testing
+ 
+Estimated Time Allocation (~5 Hours)
+Task	Estimated Time
+API project scaffolding, DB migration, blob config	45 min
+Upload endpoint + Blob Storage integration	45 min
+List endpoint	20 min
+Streaming endpoint (or SAS URL logic)	30 min
+Angular project scaffold	30 min
+Video List page with <video> players	45 min
+Upload form with file picker	45 min
+Buffer / Debug	20 min
+ 
+Deliverables
+Participants should submit:
+
+Backend repo with:
+Upload and list endpoints.
+Azure Blob Storage integration.
+ 
+Angular repo:
+Video list displaying embedded players.
+Upload form.
+ 
+Screenshots showing:
+Videos stored in Blob Storage.
+Videos successfully streaming in the app.

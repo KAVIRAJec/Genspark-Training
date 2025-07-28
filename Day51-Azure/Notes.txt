@@ -1,0 +1,14 @@
+Azure key vault
+
+dotnet add package Azure.Identity
+dotnet add package Azure.Security.KeyVault.Secrets
+-------
+
+Update your key vault with new secret for connection string. Access the connection string from the key-valut
+
+
+
+Add the other person as contributor in AzureRepo/Allow them to raise pull request
+Pull request is mandate
+Original author can raise bug(Azure)
+Resolve Bug and complete the feature add with 0 Bugs
