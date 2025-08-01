@@ -1,0 +1,18 @@
+.navbar-global {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 40;
+  pointer-events: auto;
+}
+
+.navbar-mobile-menu {
+  position: fixed !important;
+  inset: 0;
+  top: 3.5rem;
+  z-index: 1050;
+  width: 100vw;
+  min-height: 100vh;
+  pointer-events: auto;
+}

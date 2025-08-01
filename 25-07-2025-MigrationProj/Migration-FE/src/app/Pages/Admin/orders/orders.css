@@ -1,0 +1,49 @@
+.order-details-table {
+  margin-top: 1.5rem;
+  background: rgba(36, 44, 66, 0.85);
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.13);
+  overflow: hidden;
+}
+.order-details-table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+}
+.order-details-table th, .order-details-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.order-details-table th {
+  color: #7dd3fc;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: rgba(30, 41, 59, 0.92);
+}
+.order-details-table tr {
+  background: rgba(51, 65, 85, 0.85);
+  border-radius: 0.75rem;
+  transition: background 0.2s;
+}
+.order-details-table tr:hover {
+  background: rgba(56, 189, 248, 0.10);
+}
+.order-details-table td {
+  color: #e0e7ef;
+  font-size: 1rem;
+}
+.order-details-table .product-name {
+  font-weight: 600;
+  color: #f1f5f9;
+}
+.order-details-table .total {
+  font-weight: bold;
+  color: #38bdf8;
+}
+.glass-card {
+  background: rgba(30, 41, 59, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.08);
+}

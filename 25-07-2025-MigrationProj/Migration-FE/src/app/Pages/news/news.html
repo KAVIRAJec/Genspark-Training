@@ -1,0 +1,48 @@
+<div class="min-h-screen flex flex-col items-center bg-gradient-to-br from-[#0f172a] to-[#1e293b] pt-28" data-aos="fade-up" data-aos-duration="500">
+  <h1 class="text-3xl md:text-4xl font-bold text-white mb-10 tracking-wide drop-shadow" data-aos="fade-up" data-aos-delay="700">News</h1>
+  <!-- Search, Sort Bar -->
+  <div class="w-full max-w-6xl flex flex-wrap gap-4 items-center justify-between mb-8 px-4">
+    <input type="text" placeholder="Search news..." class="px-4 py-2 rounded-xl bg-slate-800/70 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 transition w-full sm:w-64"
+      [value]="search()" (input)="onSearchInput($event)">
+    <select class="px-4 py-2 rounded-xl bg-slate-800/70 text-white" [value]="sortBy()" (change)="onSortChange($event)">
+      <option value="">Sort By</option>
+      <option value="date-desc">Newest First</option>
+      <option value="date-asc">Oldest First</option>
+      <option value="title-asc">Title: A-Z</option>
+      <option value="title-desc">Title: Z-A</option>
+    </select>
+  </div>
+  <div *ngIf="loading()" class="text-sky-300 text-lg font-semibold animate-pulse">Loading news...</div>
+  <div *ngIf="error()" class="text-red-400 text-lg font-semibold">{{ error() }}</div>
+  <div *ngIf="!loading() && !error() && filteredNews().length === 0" class="text-slate-400 text-lg">No news found.</div>
+  <div *ngIf="!loading() && !error() && filteredNews().length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-6xl px-4">
+    <app-news-card *ngFor="let news of pagedNews(); let i = index" [news]="news" (readMore)="onReadMore($event)" [attr.data-aos]="'zoom-in-up'" [attr.data-aos-delay]="100 + (i-1) * 500"></app-news-card>
+  </div>
+  <app-pagination
+    *ngIf="!loading() && !error()"
+    [page]="page()"
+    [pageSize]="pageSize()"
+    [total]="filteredNews().length"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+</div>
+<!-- News Modal at root -->
+<ng-container *ngIf="showModal() && modalNews()">
+  <div class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div class="relative bg-gradient-to-br from-[#232946]/90 to-[#1e293b]/90 rounded-3xl shadow-2xl border border-white/10 p-8 w-full max-w-lg mx-4 animate-fade-in">
+      <button (click)="closeModal()" class="absolute top-3 right-3 text-white text-2xl font-bold bg-slate-800/60 rounded-full w-9 h-9 flex items-center justify-center hover:bg-sky-700/80 transition">&times;</button>
+      <div class="flex flex-col items-center">
+        <img *ngIf="modalNews()?.image" [src]="modalNews()?.image" alt="{{modalNews()?.title}}" class="w-32 h-32 object-cover rounded-2xl shadow-xl border-4 border-sky-400/30 mb-4">
+        <h2 class="text-2xl font-extrabold text-white mb-2 tracking-wider drop-shadow-lg text-center">{{modalNews()?.title}}</h2>
+        <div class="flex flex-wrap gap-2 mb-2 text-xs text-slate-300 justify-center">
+          <span *ngIf="modalNews()?.authorName" class="px-2 py-1 rounded bg-sky-900/40">By {{modalNews()?.authorName}}</span>
+          <span *ngIf="modalNews()?.createdDate" class="px-2 py-1 rounded bg-violet-900/40">{{modalNews()?.createdDate | date}}</span>
+          <span *ngIf="modalNews()?.isPublished" class="px-2 py-1 rounded bg-green-700/40 text-green-200">Published</span>
+          <span *ngIf="!modalNews()?.isActive" class="px-2 py-1 rounded bg-red-700/40 text-red-200">Inactive</span>
+        </div>
+        <div class="w-full text-slate-200 text-base mb-2 text-center whitespace-pre-line">{{modalNews()?.content}}</div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+

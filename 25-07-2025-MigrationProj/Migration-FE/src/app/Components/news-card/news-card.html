@@ -1,0 +1,24 @@
+<div class="relative bg-gradient-to-br from-[#232946]/80 to-[#1e293b]/80 rounded-3xl shadow-2xl border border-white/10 p-0 flex flex-col items-center glass-card hover:scale-[1.04] transition-transform duration-300 cursor-pointer group overflow-hidden" data-aos="flip-left" data-aos-duration="2000">
+  <!-- Glassy neon border ring -->
+  <div class="absolute inset-0 rounded-3xl pointer-events-none z-10 border-2 border-transparent group-hover:border-sky-400/60 group-hover:shadow-[0_0_32px_4px_rgba(56,189,248,0.25)] transition"></div>
+  <!-- News image with floating effect -->
+  <div class="relative w-full flex justify-center mt-7">
+    <img *ngIf="news.image" [src]="news.image" alt="{{news.title}}" class="w-32 h-32 object-cover rounded-2xl shadow-xl border-4 border-sky-400/30 group-hover:border-violet-400/60 transition-all duration-300 bg-white/10 backdrop-blur-lg -translate-y-4 group-hover:-translate-y-4">
+    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-24 h-6 bg-gradient-to-r from-sky-400/30 to-violet-400/30 blur-xl opacity-60 rounded-full"></div>
+  </div>
+  <!-- Card content -->
+  <div class="flex flex-col items-center w-full px-6 pt-2 pb-6">
+    <h2 class="text-2xl font-extrabold text-white mb-1 tracking-wider drop-shadow-lg text-center">{{news.title}}</h2>
+    <div class="flex flex-wrap gap-2 mb-2 text-xs text-slate-300 justify-center">
+      <span *ngIf="news.authorName" class="px-2 py-1 rounded bg-sky-900/40">By {{news.authorName}}</span>
+      <span *ngIf="news.createdDate" class="px-2 py-1 rounded bg-violet-900/40">{{news.createdDate | date}}</span>
+      <span *ngIf="news.isPublished" class="px-2 py-1 rounded bg-green-700/40 text-green-200">Published</span>
+      <span *ngIf="!news.isActive" class="px-2 py-1 rounded bg-red-700/40 text-red-200">Inactive</span>
+    </div>
+    <div class="w-full text-slate-200 text-sm mb-2 text-center truncate" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{news.summary || news.content}}</div>
+    <button type="button" (click)="onReadMore()" class="mt-2 px-5 py-2 rounded-full font-bold text-white bg-gradient-to-r from-sky-400/80 to-violet-400/80 shadow-lg hover:from-sky-400/100 hover:to-violet-400/100 transition border border-yellow-200/30 backdrop-blur cursor-pointer">Read More</button>
+  </div>
+<!-- Modal markup removed; now handled by parent -->
+  </div>
+  <!-- Animated glassy background -->
+  <div class="absolute -z-10 top-0 left-0 w-full h-full bg-gradient-to-br from-sky-400/10 to-violet-400/10 rounded-3xl blur-2xl opacity-70 pointer-events-none animate-pulse"></div>

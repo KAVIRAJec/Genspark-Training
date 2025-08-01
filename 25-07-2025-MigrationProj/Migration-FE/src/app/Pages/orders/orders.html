@@ -1,0 +1,46 @@
+<div class="min-h-screen flex flex-col items-center bg-gradient-to-br from-[#0f172a] to-[#1e293b] pt-28 pb-10">
+  <h1 class="text-3xl md:text-4xl font-bold text-white mb-10 tracking-wide drop-shadow" data-aos="fade-down" data-aos-delay="700">Your Orders</h1>
+  <div *ngIf="loading()" class="text-sky-300 text-lg font-semibold animate-pulse">Loading orders...</div>
+  <div *ngIf="!loading() && orders().length === 0" class="text-slate-400 text-lg">No orders found.</div>
+  <div *ngIf="!loading() && orders().length > 0" class="w-full max-w-3xl flex flex-col gap-10">
+    <div *ngFor="let order of pagedOrders(); let i = index" class="cart-item-box flex flex-col gap-4 px-8 sm:px-12" data-aos="fade-up" [attr.data-aos-delay]="100 + (i-1) * 500">
+      <div class="flex flex-row items-center justify-between gap-2">
+        <div class="flex flex-col">
+          <span class="text-lg font-bold text-white">Order #{{order.orderId}}</span>
+          <span class="text-slate-400 text-xs">Date: {{order.orderDate | date:'medium'}}</span>
+          <span class="text-slate-400 text-xs">Status: <span [ngClass]="{
+            'text-green-400': order.status === 'Delivered',
+            'text-yellow-400': order.status === 'Pending',
+            'text-red-400': order.status === 'Cancelled'
+          }">{{order.status}}</span></span>
+        </div>
+        <div class="text-right text-xl font-bold text-sky-300">Total: {{order.totalAmount | currency:'INR'}}</div>
+      </div>
+      <div class="flex flex-col gap-2 mt-2">
+        <div *ngFor="let detail of order.orderDetails" class="flex flex-row items-center justify-between gap-2 bg-slate-800/60 rounded-xl p-3">
+          <div class="flex flex-col md:flex-row md:items-center gap-2">
+            <span class="text-white font-semibold">{{detail.productName}}</span>
+            <span class="text-slate-400 text-xs">Qty: {{detail.quantity}}</span>
+          </div>
+          <span class="text-sky-300 font-bold">{{detail.totalPrice | currency:'INR'}}</span>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4">
+        <span class="text-slate-400 text-xs">Shipping: {{order.shippingAddress || 'N/A'}}</span>
+        <span class="text-slate-400 text-xs">Notes: {{order.notes || 'None'}}</span>
+      </div>
+      <div class="absolute inset-0 pointer-events-none z-0">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-800/30 to-purple-800/20 rounded-2xl blur-2xl"></div>
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/20 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl"></div>
+      </div>
+    </div>
+  </div>
+    <app-pagination
+    *ngIf="!loading() && orders().length > 0"
+    [page]="page()"
+    [pageSize]="pageSize()"
+    [total]="orders().length"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+</div>

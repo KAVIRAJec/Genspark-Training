@@ -1,0 +1,64 @@
+/* Glassmorphic, web3, and AOS-inspired admin products styles */
+.admin-products-page {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+.glassmorphic-box {
+  background: rgba(34, 40, 52, 0.7);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.form-input {
+  background: rgba(30, 41, 59, 0.7);
+  color: #fff;
+  border: 1px solid #38bdf8;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(56,189,248,0.08);
+}
+.form-input:focus {
+  border: 1.5px solid #a78bfa;
+  box-shadow: 0 0 0 2px #a78bfa44;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+th, td {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+th {
+  background: linear-gradient(90deg, #38bdf8 10%, #a78bfa 90%);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+tr {
+  transition: background 0.2s;
+}
+tr:hover {
+  background: rgba(56,189,248,0.08);
+}
+button {
+  transition: box-shadow 0.2s, background 0.2s;
+}
+button:active {
+  box-shadow: 0 0 0 2px #38bdf8;
+}
+.animate__animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+.animate__fadeIn {
+  animation-name: fadeIn;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}

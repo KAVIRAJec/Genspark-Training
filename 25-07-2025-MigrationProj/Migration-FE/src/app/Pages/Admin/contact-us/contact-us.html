@@ -1,0 +1,105 @@
+<div class="min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] pt-24 pb-10 px-2 md:px-10">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+      <h1 class="text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-lg" data-aos="fade-right" data-aos-delay="800">Customer Queries</h1>
+    </div>
+    <!-- Controls: Search, Sort -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+      <div class="relative w-full md:w-72" data-aos="zoom-in" data-aos-delay="1000">
+        <input type="text" [ngModel]="searchTerm()" (ngModelChange)="onSearchChange($event)" placeholder="Search queries..." class="rounded-xl px-4 py-2 bg-slate-800/70 text-white border-2 border-sky-400/30 focus:border-sky-400 outline-none w-full shadow-lg transition placeholder:text-sky-300" />
+        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sky-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </div>
+      <div class="flex gap-2 mt-2 md:mt-0 items-center" data-aos="zoom-in" data-aos-delay="1000">
+        <label for="sortBy" class="text-sky-300 font-semibold mr-2">Sort by:</label>
+        <select id="sortBy" [ngModel]="sortKey()" (ngModelChange)="onSort($event)" class="rounded-xl px-4 py-2 bg-slate-800/70 text-white border-2 border-sky-400/30 focus:border-sky-400 outline-none shadow-lg">
+          <option value="createdDate">Date</option>
+          <option value="name">Name</option>
+          <option value="email">Email</option>
+          <option value="subject">Subject</option>
+          <option value="isRead">Read/Unread</option>
+        </select>
+        <button (click)="downloadContactUsExcel()" class="ml-4 px-4 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-green-400/80 to-sky-400/80 shadow-lg hover:from-green-400/100 hover:to-sky-400/100 transition border border-yellow-200/30 backdrop-blur flex items-center gap-2">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+          Download Excel
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading()" class="flex flex-col items-center justify-center w-full py-16 animate-pulse" data-aos="animate-fade-in" data-aos-delay="700">
+      <svg class="w-12 h-12 text-sky-400 mb-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span class="text-sky-300 text-lg font-semibold">Loading queries...</span>
+    </div>
+    <!-- Error State -->
+    <div *ngIf="error()" class="flex flex-col items-center justify-center w-full py-16">
+      <span class="text-red-400 text-lg font-semibold">{{error()}}</span>
+    </div>
+    <!-- No Queries State -->
+    <div *ngIf="!loading() && queries().length === 0 && !error()" class="flex flex-col items-center justify-center w-full py-16">
+      <svg class="w-12 h-12 text-slate-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 018 0v2m-4-4v4m0 0v4m0-4H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-7z" />
+      </svg>
+      <span class="text-slate-300 text-lg font-semibold">No queries found.</span>
+    </div>
+
+    <!-- Queries List -->
+    <div *ngIf="!loading() && pagedQueries().length > 0" class="space-y-4 mt-8">
+      <div *ngFor="let q of pagedQueries(); let i = index" class="bg-gradient-to-br from-slate-800/80 to-slate-700/80 rounded-xl p-6 shadow-lg flex flex-col md:flex-row md:items-center md:justify-between gap-4 cursor-pointer hover:bg-sky-900/30 transition" (click)="openModal(q)" [attr.data-aos]="'fade-up'" [attr.data-aos-delay]="200 + i*100">
+        <div>
+          <div class="text-lg font-bold text-white">{{q.subject || 'No Subject'}}</div>
+          <div class="text-slate-300 text-sm">From: {{q.name}} ({{q.email}})</div>
+          <div class="text-slate-400 text-xs mt-1">{{q.createdDate | date:'medium'}}</div>
+        </div>
+        <div class="flex flex-col md:items-end gap-2">
+          <span class="px-3 py-1 rounded-full text-xs font-semibold" [ngClass]="q.isRead ? 'bg-green-700/40 text-green-200' : 'bg-yellow-700/40 text-yellow-200'">{{q.isRead ? 'Read' : 'Unread'}}</span>
+          <span *ngIf="!q.isActive" class="px-3 py-1 rounded-full text-xs font-semibold bg-red-700/40 text-red-200">Inactive</span>
+        </div>
+      </div>
+      <!-- Pagination -->
+      <app-pagination
+        [page]="page()"
+        [pageSize]="pageSize()"
+        [total]="totalQueriesCount()"
+        (pageChange)="onPageChange($event)">
+      </app-pagination>
+    </div>
+
+    <!-- Modal for Query Details/Respond -->
+    <div *ngIf="showModal() && selectedQuery()" class="fixed overflow-y-auto inset-0 flex items-start justify-center bg-black/60 backdrop-blur-sm z-50" data-aos="zoom-in" data-aos-delay="200">
+      <div class="relative bg-gradient-to-br from-[#232946]/95 to-[#1e293b]/95 rounded-3xl shadow-2xl border border-white/10 p-8 w-full max-w-lg mx-4 animate-fade-in mt-28 mb-8">
+        <button (click)="closeModal()" class="absolute top-3 right-3 text-white text-2xl font-bold bg-slate-800/60 rounded-full w-9 h-9 flex items-center justify-center hover:bg-sky-700/80 transition">&times;</button>
+        <h2 class="text-2xl font-extrabold text-white mb-2 tracking-wider drop-shadow-lg text-center">Query Details</h2>
+        <div class="mb-4">
+          <div class="text-slate-300 text-sm">From:</div>
+          <div class="text-white font-semibold">{{selectedQuery()?.name}} ({{selectedQuery()?.email}})</div>
+        </div>
+        <div class="mb-4">
+          <div class="text-slate-300 text-sm">Subject:</div>
+          <div class="text-white">{{selectedQuery()?.subject || 'No Subject'}}</div>
+        </div>
+        <div class="mb-4">
+          <div class="text-slate-300 text-sm">Message:</div>
+          <div class="text-white whitespace-pre-line">{{selectedQuery()?.message}}</div>
+        </div>
+        <div class="mb-4">
+          <div class="text-slate-300 text-sm">Response:</div>
+          <div *ngIf="!editMode() && selectedQuery()?.response" class="text-green-300">{{ selectedQuery()?.response }}</div>
+          <div *ngIf="!editMode() && !selectedQuery()?.response" class="text-red-300">No response yet.</div>
+          <div *ngIf="!editMode() && selectedQuery()?.responseDate" class="text-slate-400 text-sm">{{ selectedQuery()?.responseDate | date}}</div>
+          @if (editMode()) {
+            <textarea [ngModel]="responseText()" (ngModelChange)="onResponseChange($event)" class="w-full rounded-lg px-3 py-2 bg-slate-800/70 text-white border border-sky-400/30 focus:border-sky-400 outline-none min-h-[80px] mt-2"></textarea>
+          }
+        </div>
+        <div class="flex gap-4 justify-end mt-6">
+          <button *ngIf="!editMode()" (click)="editMode.set(true)" class="px-5 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-green-400/80 to-lime-400/80 shadow-lg hover:from-green-400/100 hover:to-lime-400/100 transition border border-yellow-200/30 backdrop-blur">Respond</button>
+          <button *ngIf="editMode()" (click)="saveResponse()" class="px-5 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-sky-400/80 to-violet-400/80 shadow-lg hover:from-sky-400/100 hover:to-violet-400/100 transition border border-yellow-200/30 backdrop-blur">Save</button>
+          <button *ngIf="editMode()" (click)="editMode.set(false)" class="px-5 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-slate-400/80 to-slate-600/80 shadow-lg hover:from-slate-400/100 hover:to-slate-600/100 transition border border-yellow-200/30 backdrop-blur">Cancel</button>
+          <button (click)="deleteQuery()" class="px-5 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-red-500/80 to-pink-500/80 shadow-lg hover:from-red-500/100 hover:to-pink-500/100 transition border border-yellow-200/30 backdrop-blur">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

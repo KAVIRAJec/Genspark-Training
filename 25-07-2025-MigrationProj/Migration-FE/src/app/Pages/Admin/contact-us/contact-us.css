@@ -1,0 +1,16 @@
+.contacts-page {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+.glassmorphic {
+  background: linear-gradient(135deg, rgba(56,189,248,0.15) 0%, rgba(167,139,250,0.12) 100%);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  color: #fff;
+}
+tr[data-aos] {
+  transition: box-shadow 0.2s;
+}
+tr[data-aos]:hover {
+  box-shadow: 0 2px 16px 0 #38bdf8cc;
+}

@@ -1,0 +1,13 @@
+<nav class="flex items-center justify-center gap-2 my-8 select-none">
+  <button class="px-3 py-1 rounded-lg bg-slate-800/70 text-white hover:bg-sky-700/80 transition disabled:opacity-50" [disabled]="page === 1" (click)="goTo(page - 1)">&laquo;</button>
+  <ng-container *ngFor="let p of pages">
+    <button class="px-3 py-1 rounded-lg font-semibold transition border border-transparent"
+      [ngClass]="{
+        'bg-gradient-to-r from-sky-400/80 to-violet-400/80 text-white shadow': p === page,
+        'bg-slate-800/70 text-slate-200 hover:bg-sky-700/80': p !== page
+      }"
+      (click)="goTo(p)">{{p}}
+    </button>
+  </ng-container>
+  <button class="px-3 py-1 rounded-lg bg-slate-800/70 text-white hover:bg-sky-700/80 transition disabled:opacity-50" [disabled]="page === totalPages" (click)="goTo(page + 1)">&raquo;</button>
+</nav>

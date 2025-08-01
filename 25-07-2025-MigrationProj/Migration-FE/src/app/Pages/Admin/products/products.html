@@ -1,0 +1,22 @@
+<div class="admin-products-page min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] pt-24 pb-10 px-2 md:px-24" data-aos="fade-up" data-aos-delay="700">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl md:text-4xl font-bold text-slate-100 tracking-wide drop-shadow-lg mb-8" data-aos="fade-right" data-aos-delay="800">Admin Products</h1>
+    <!-- Tab Switcher -->
+    <div class="flex justify-center flex-wrap gap-2 mb-8 w-full overflow-x-auto scrollbar-thin scrollbar-thumb-sky-700/40 scrollbar-track-transparent">
+      <button *ngFor="let tab of tabs; let i = index"
+              (click)="activeTab.set(tab.key)"
+              [ngClass]="activeTab() === tab.key ? 'bg-sky-500/80 text-white' : 'bg-slate-700/60 text-sky-200'"
+              class="flex-1 min-w-[120px] max-w-[200px] px-4 py-2 rounded-xl font-bold shadow-lg transition border border-yellow-200/30 backdrop-blur text-base md:text-lg whitespace-nowrap"
+              [attr.data-aos]="'fade-right'" [attr.data-aos-delay]="500 + (i) * 300">
+        {{tab.label}}
+      </button>
+    </div>
+    <!-- Tab Content -->
+    <div [ngSwitch]="activeTab()">
+      <app-product-table *ngSwitchCase="'products'"></app-product-table>
+      <app-model-table *ngSwitchCase="'models'"></app-model-table>
+      <app-color-table *ngSwitchCase="'colors'"></app-color-table>
+      <app-category-table *ngSwitchCase="'categories'"></app-category-table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "VGK1POPSE0Rh5qVzjotsEaBJwP0CC1FwtJwWx9hddc4=",
+  "Source": "DotnetCoreMigration",
+  "BasePath": "_content/DotnetCoreMigration",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,50 @@
+.orders-stats {
+  width: 100%;
+}
+.stat-card {
+  min-width: 180px;
+  padding: 1.5rem 2rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, rgba(56,189,248,0.18) 0%, rgba(167,139,250,0.15) 100%);
+  box-shadow: 0 4px 24px 0 rgba(31,38,135,0.25);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card:hover, .stat-card:focus {
+  box-shadow: 0 5px 12px 0 #38bff88d;
+  transform: translateY(-1px) scale(1.03);
+}
+.stat-label {
+  font-size: 1.1rem;
+  color: #38bdf8;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.stat-percent {
+  font-size: 1rem;
+  color: #a78bfa;
+  font-weight: 500;
+}
+.glassmorphic {
+  background: linear-gradient(135deg, rgba(56,189,248,0.15) 0%, rgba(167,139,250,0.12) 100%);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  color: #fff;
+}

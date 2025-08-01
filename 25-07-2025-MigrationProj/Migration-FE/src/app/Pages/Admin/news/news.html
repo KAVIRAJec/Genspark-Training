@@ -1,0 +1,125 @@
+
+<div class="admin-news-page min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] pt-20 pb-10 px-2 md:px-10" data-aos="fade-up" data-aos-delay="500">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+      <h1 class="text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-lg" data-aos="fade-right" data-aos-delay="800">Admin News</h1>
+      <button (click)="openModal('create')" class="px-6 py-2 rounded-xl font-semibold text-white bg-gradient-to-r from-sky-400/80 to-violet-400/80 shadow-lg hover:from-sky-400/100 hover:to-violet-400/100 transition border border-yellow-200/30 backdrop-blur flex items-center gap-2" data-aos="fade-left" data-aos-delay="800">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        Add News
+      </button>
+    </div>
+    <!-- News Controls: Search, Filter, Pagination -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+      <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+        <input type="text" [ngModel]="searchTerm()" (ngModelChange)="onSearchChange($event)" placeholder="Search news..." class="rounded-lg px-3 bg-slate-800/60 text-white border border-sky-400/30 focus:border-sky-400 outline-none w-full sm:w-64" />
+        <select [ngModel]="filterPublished()" (ngModelChange)="onFilterChange($event)" class="rounded-lg bg-slate-800/60 text-white border border-sky-400/30 focus:border-sky-400 outline-none w-full sm:w-48 px-4 py-2">
+          <option value="">All Status</option>
+          <option value="published">Published</option>
+          <option value="unpublished">Unpublished</option>
+        </select>
+        <button (click)="downloadNewsExcel()" class="ml-4 px-4 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-green-400/80 to-sky-400/80 shadow-lg hover:from-green-400/100 hover:to-sky-400/100 transition border border-yellow-200/30 backdrop-blur flex items-center gap-2">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+          Download Excel
+        </button>
+      </div>
+    </div>
+    <!-- News Table & States -->
+    <div class="w-full relative" data-aos="fade-up" data-aos-delay="1200">
+      <div class="overflow-x-auto min-h-[200px] flex flex-col items-center justify-center w-full" style="scrollbar-width: thin; scrollbar-color: #38bdf8 #232946; direction: rtl;">
+      <!-- Loading State -->
+      <div *ngIf="loading()" class="flex flex-col items-center justify-center w-full py-16 animate-pulse">
+        <svg class="w-12 h-12 text-sky-400 mb-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+        <span class="text-sky-300 text-lg font-semibold">Loading news...</span>
+      </div>
+      <!-- No News Found State -->
+      <div *ngIf="!loading() && newsList().length === 0" class="flex flex-col items-center justify-center w-full py-16">
+        <svg class="w-12 h-12 text-slate-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 018 0v2m-4-4v4m0 0v4m0-4H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-7z" />
+        </svg>
+        <span class="text-slate-300 text-lg font-semibold">No news found.</span>
+      </div>
+      <!-- News Table -->
+      <div *ngIf="!loading() && pagedNews().length > 0" class="w-full overflow-x-auto" style="direction: ltr;">
+        <table class="min-w-[700px] w-full bg-gradient-to-br from-[#232946]/80 to-[#1e293b]/80 rounded-2xl shadow-xl text-white">
+        <thead>
+          <tr class="text-sky-300 text-lg">
+            <th class="p-3">Title</th>
+            <th class="p-3">Summary</th>
+            <th class="p-3">Author</th>
+            <th class="p-3">Published</th>
+            <th class="p-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let n of pagedNews(); let i = index" [attr.data-aos]="'zoom-in-up'" [attr.data-aos-delay]="500 + (i-1) * 500" (click)="openDetailModal(n)" class="cursor-pointer hover:bg-sky-900/30">
+            <td class="p-3 font-semibold">{{n.title}}</td>
+            <td class="p-3 text-slate-200">{{n.summary || (n.content | slice:0:60) + (n.content.length > 60 ? '...' : '')}}</td>
+            <td class="p-3">{{n.authorName}}</td>
+            <td class="p-3">
+              <span *ngIf="n.isPublished" class="px-2 py-1 rounded bg-green-700/40 text-green-200">Yes</span>
+              <span *ngIf="!n.isPublished" class="px-2 py-1 rounded bg-yellow-700/40 text-yellow-200">No</span>
+            </td>
+            <td class="p-3 flex gap-2" (click)="$event.stopPropagation()">
+              <button (click)="openModal('edit', n)" class="px-3 py-1 rounded-lg bg-gradient-to-r from-yellow-400/80 to-orange-400/80 text-black font-bold shadow hover:from-yellow-400/100 hover:to-orange-400/100">Edit</button>
+              <button (click)="deleteNews(n.newsId)" class="px-3 py-1 rounded-lg bg-gradient-to-r from-red-500/80 to-pink-500/80 text-white font-bold shadow hover:from-red-500/100 hover:to-pink-500/100">Delete</button>
+              <button *ngIf="!n.isPublished" (click)="publishNews(n.newsId)" class="px-3 py-1 rounded-lg bg-gradient-to-r from-green-400/80 to-lime-400/80 text-white font-bold shadow hover:from-green-400/100 hover:to-lime-400/100">Publish</button>
+              <button *ngIf="n.isPublished" (click)="unpublishNews(n.newsId)" class="px-3 py-1 rounded-lg bg-gradient-to-r from-violet-400/80 to-sky-400/80 text-white font-bold shadow hover:from-violet-400/100 hover:to-sky-400/100">Unpublish</button>
+            </td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+      <!-- Pagination Component -->
+      <app-pagination
+        [page]="page()"
+        [pageSize]="pageSize()"
+        [total]="totalNews()"
+        (pageChange)="onPageChange($event)">
+      </app-pagination>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Create/Edit News -->
+  <div *ngIf="showModal()" class="fixed overflow-y-auto inset-0 flex items-start justify-center bg-black/60 backdrop-blur-sm">
+    <div class="relative bg-gradient-to-br from-[#232946]/95 to-[#1e293b]/95 rounded-3xl shadow-2xl border border-white/10 p-8 w-full max-w-lg mx-4 animate-fade-in mt-28 mb-8">
+      <button (click)="closeModal()" class="absolute top-3 right-3 text-white text-2xl font-bold bg-slate-800/60 rounded-full w-9 h-9 flex items-center justify-center hover:bg-sky-700/80 transition">&times;</button>
+      <h2 class="text-2xl font-extrabold text-white mb-4 tracking-wider drop-shadow-lg text-center">{{modalTitle()}}</h2>
+      <form (ngSubmit)="saveNews(modalNews())" autocomplete="off" class="flex flex-col gap-4">
+        <input type="text" class="form-input" placeholder="Title" [(ngModel)]="modalNews().title" name="title" required>
+        <textarea class="form-input" placeholder="Content" [(ngModel)]="modalNews().content" name="content" rows="4" required></textarea>
+        <input type="text" class="form-input" placeholder="Summary (optional)" [(ngModel)]="modalNews().summary" name="summary">
+        <input type="text" class="form-input" placeholder="Image URL (optional)" [(ngModel)]="modalNews().image" name="image">
+        <label class="flex items-center gap-2 text-white"><input type="checkbox" [(ngModel)]="modalNews().isPublished" name="isPublished"> Published</label>
+        <div class="flex gap-4 mt-2 justify-center">
+          <button type="submit" class="px-6 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-green-400/80 to-lime-400/80 shadow-lg hover:from-green-400/100 hover:to-lime-400/100 transition border border-yellow-200/30 backdrop-blur">{{modalMode() === 'create' ? 'Create' : 'Update'}}</button>
+          <button type="button" (click)="closeModal()" class="px-6 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-sky-400/80 to-violet-400/80 shadow-lg hover:from-sky-400/100 hover:to-violet-400/100 transition border border-yellow-200/30 backdrop-blur">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal for News Details -->
+  <div *ngIf="showDetailModal" class="fixed overflow-y-auto inset-0 flex items-start justify-center bg-black/60 backdrop-blur-sm">
+    <div class="relative bg-gradient-to-br from-[#232946]/95 to-[#1e293b]/95 rounded-3xl shadow-2xl border border-white/10 p-8 w-full max-w-lg mx-4 animate-fade-in mt-28 mb-8">
+      <button (click)="closeDetailModal()" class="absolute top-3 right-3 text-white text-2xl font-bold bg-slate-800/60 rounded-full w-9 h-9 flex items-center justify-center hover:bg-sky-700/80 transition">&times;</button>
+      <h2 class="text-2xl font-extrabold text-white mb-2 tracking-wider drop-shadow-lg text-center">{{detailNews?.title}}</h2>
+      <div class="flex flex-col gap-2">
+        <div *ngIf="detailNews?.summary" class="text-slate-400 text-base italic text-center mb-2">{{detailNews?.summary}}</div>
+        <img *ngIf="detailNews?.image" [src]="detailNews?.image" alt="news image" class="w-full max-h-64 object-cover rounded-xl mb-2">
+        <div class="text-slate-300 text-sm mb-1">By {{detailNews?.authorName}} | {{detailNews?.createdDate | date:'medium'}}</div>
+        <div class="text-slate-200 whitespace-pre-line mb-2">{{detailNews?.content}}</div>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <span *ngIf="detailNews?.isPublished" class="px-2 py-1 rounded bg-green-700/40 text-green-200">Published</span>
+          <span *ngIf="!detailNews?.isPublished" class="px-2 py-1 rounded bg-yellow-700/40 text-yellow-200">Not Published</span>
+          <span *ngIf="!detailNews?.isActive" class="px-2 py-1 rounded bg-red-700/40 text-red-200">Inactive</span>
+        </div>
+      </div>
+    </div>
+  </div>

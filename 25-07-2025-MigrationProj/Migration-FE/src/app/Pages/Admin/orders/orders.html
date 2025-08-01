@@ -1,0 +1,156 @@
+<div class="admin-orders-page min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] pt-20 pb-10 px-2 md:px-10">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-lg mb-8" data-aos="fade-right" data-aos-delay="800">Order Statistics</h1>
+    <app-orders-stats
+      [totalOrders]="totalOrders()"
+      [totalProducts]="totalProducts()"
+      [totalQuantity]="totalQuantity()"
+      [delivered]="delivered()"
+      [cancelled]="cancelled()"
+      [pending]="pending()"
+      [thisMonthOrders]="thisMonthOrders()"
+      [thisMonthRevenue]="thisMonthRevenue()"
+    ></app-orders-stats>
+    <!-- Orders Controls -->
+    <h1 class="text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-lg mb-8 pt-10" data-aos="fade-right" data-aos-delay="800">Order Details</h1>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+      <div class="relative w-full md:w-72" data-aos="fade-right" data-aos-delay="200">
+        <input type="text" [ngModel]="searchTerm()" (ngModelChange)="onSearchChange($event)" placeholder="Search orders..." class="rounded-xl px-4 py-2 bg-slate-800/70 text-white border-2 border-sky-400/30 focus:border-sky-400 outline-none w-full shadow-lg transition placeholder:text-sky-300" />
+        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sky-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </div>
+      <div class="flex gap-2 mt-2 md:mt-0 items-center" data-aos="fade-left" data-aos-delay="300">
+        <label for="sortBy" class="text-sky-300 font-semibold mr-2">Sort by:</label>
+        <select id="sortBy" [ngModel]="sortKey()" (ngModelChange)="onSort($event)" class="rounded-xl px-4 py-2 bg-slate-800/70 text-white border-2 border-sky-400/30 focus:border-sky-400 outline-none shadow-lg">
+          <option value="orderId">Order #</option>
+          <option value="userName">User</option>
+          <option value="orderDate">Date</option>
+          <option value="status">Status</option>
+          <option value="totalAmount">Amount</option>
+        </select>
+        <button (click)="downloadOrdersExcel()" class="ml-4 px-4 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-green-400/80 to-sky-400/80 shadow-lg hover:from-green-400/100 hover:to-sky-400/100 transition border border-yellow-200/30 backdrop-blur flex items-center gap-2">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+          Download Excel
+        </button>
+      </div>
+    </div>
+    <div *ngIf="!loading() && totalOrdersCount() > 0" class="w-full overflow-x-auto my-12" style="direction: ltr;">
+      <table class="min-w-[900px] w-full bg-gradient-to-br from-[#232946]/80 to-[#1e293b]/80 rounded-2xl shadow-xl text-white text-center">
+        <thead>
+          <tr class="text-sky-300 text-lg">
+            <th class="p-3">Order #</th>
+            <th class="p-3">User</th>
+            <th class="p-3">Date</th>
+            <th class="p-3">Status</th>
+            <th class="p-3">Total</th>
+            <th class="p-3">Items</th>
+            <th class="p-3">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let o of pagedOrders(); let i = index" [attr.data-aos]="'zoom-in-up'" [attr.data-aos-delay]="1000 + (i-1) * 500" class="hover:bg-sky-900/30">
+            <td class="p-3 font-semibold">#{{o.orderId}}</td>
+            <td class="p-3">{{o.userName || o.userId}}</td>
+            <td class="p-3">{{o.orderDate | date:'short'}}</td>
+            <td class="p-3">{{o.status}}</td>
+            <td class="p-3">{{o.totalAmount | currency:'INR'}}</td>
+            <td class="p-3">{{o.orderDetails.length}}</td>
+            <td class="p-3">
+              <button 
+                class="px-3 py-1 rounded-lg bg-gradient-to-r from-sky-400/80 to-violet-400/80 text-white font-bold shadow hover:from-sky-400/100 hover:to-violet-400/100"
+                (click)="openOrderModal(o)"
+                data-aos="zoom-in"
+                data-aos-delay="100"
+              >View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination
+      [page]="page()"
+      [pageSize]="pageSize()"
+      [total]="totalOrdersCount()"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+
+    <!-- Loading State -->
+    <div *ngIf="loading()" class="flex flex-col items-center justify-center w-full py-16 animate-pulse">
+      <svg class="w-12 h-12 text-sky-400 mb-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span class="text-sky-300 text-lg font-semibold">Loading orders...</span>
+    </div>
+    <!-- No Orders State -->
+    <div *ngIf="!loading() && orders().length === 0" class="flex flex-col items-center justify-center w-full py-16">
+      <svg class="w-12 h-12 text-slate-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 018 0v2m-4-4v4m0 0v4m0-4H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-7z" />
+      </svg>
+      <span class="text-slate-300 text-lg font-semibold">No orders found.</span>
+    </div>
+
+  <!-- Modal for Order Details -->
+  <div *ngIf="showDetailModal()" class="fixed overflow-y-auto inset-0 flex items-start justify-center bg-black/60 backdrop-blur-sm" data-aos="fade-in" data-aos-delay="200">
+    <div class="relative bg-gradient-to-br from-[#232946]/95 to-[#1e293b]/95 rounded-3xl shadow-2xl border border-white/10 p-8 w-full max-w-2xl mx-4 animate-fade-in mt-28 mb-8" data-aos="zoom-in" data-aos-delay="400">
+      <button (click)="closeOrderModal()" class="absolute top-3 right-3 text-white text-2xl font-bold bg-slate-800/60 rounded-full w-9 h-9 flex items-center justify-center hover:bg-sky-700/80 transition" data-aos="fade" data-aos-delay="800">&times;</button>
+      <h2 class="text-2xl font-extrabold text-white mb-2 tracking-wider drop-shadow-lg text-center" data-aos="fade-up" data-aos-delay="700">Order #{{detailOrder()?.orderId}}</h2>
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4" data-aos="fade-up" data-aos-delay="900">
+        <div>
+          <div class="text-slate-300 text-sm">User:</div>
+          <div class="text-white font-semibold">{{detailOrder()?.userName || detailOrder()?.userId}}</div>
+        </div>
+        <div>
+          <div class="text-slate-300 text-sm">Order Date:</div>
+          <div class="text-white">{{detailOrder()?.orderDate | date:'medium'}}</div>
+        </div>
+        <div>
+          <span class="px-3 py-1 rounded-full font-semibold text-xs" [ngClass]="{
+            'bg-green-500/80 text-white': detailOrder()?.status === 'Delivered',
+            'bg-yellow-500/80 text-white': detailOrder()?.status === 'Pending',
+            'bg-red-500/80 text-white': detailOrder()?.status === 'Cancelled',
+            'bg-slate-500/80 text-white': detailOrder()?.status !== 'Delivered' && detailOrder()?.status !== 'Pending' && detailOrder()?.status !== 'Cancelled'
+          }">{{detailOrder()?.status}}</span>
+        </div>
+      </div>
+      <div class="mb-4" data-aos="fade-up" data-aos-delay="1000">
+        <div class="text-slate-300 text-sm">Shipping Address:</div>
+        <div class="text-white">{{detailOrder()?.shippingAddress || 'N/A'}}</div>
+      </div>
+      <div class="mb-4" data-aos="fade-up" data-aos-delay="1100">
+        <div class="text-slate-300 text-sm">Notes:</div>
+        <div class="text-white">{{detailOrder()?.notes || 'None'}}</div>
+      </div>
+      <div class="mb-6 order-details-table" data-aos="fade-up" data-aos-delay="1200">
+        <div class="text-slate-300 text-sm mb-2">Order Items:</div>
+        <div *ngIf="detailOrder()?.orderDetails?.length! > 0; else noItems">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of detailOrder()?.orderDetails; let i = index">
+                <td class="product-name">{{ item.productName || item.productId }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.unitPrice | currency }}</td>
+                <td class="total">{{ item.totalPrice | currency }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-template #noItems>
+          <div class="text-slate-400 italic">No items in this order.</div>
+        </ng-template>
+      </div>
+      <div class="flex justify-end items-center gap-4">
+        <div class="text-slate-300 text-sm">Total Amount:</div>
+        <div class="text-xl font-bold text-white">{{detailOrder()?.totalAmount | currency}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>
