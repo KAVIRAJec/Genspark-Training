@@ -1,0 +1,70 @@
+Collection Type,HTTP Method,API Endpoint,Functionality,API Access,Header,Path/Query Parameter,Body,Response,,,,,,,,,,,,,,,,,
+Authentication,POST,/api/v1/auth/login,Login the user by fetching the user Details,All,,,"Email ,Password","Email , Role,Token , RefreshToken, RefreshExpiresAt",,,Freelancer,Id,ProfileURL,UserName,Email,ExperienceYears,HourlyRate,Location,IsActive,CreatedAt,UpdatedAt,DeletedAt,Skills[],,
+,POST,/api/v1/auth/logout,Logout the user,Token, Bearer Token,,,Boolean (true/false),Success/Failure,"{
+    ""success"": true,
+    ""message"": ""Success"",
+    ""data"": ""Logout successful"",
+    ""errors"": null
+}",Client,Id,ProfileURL,UserName,Email,CompanyName,Location,IsActive,CreatedAt,UpdatedAt,DeletedAt,Projects[],,,
+,POST,/api/v1/auth/refersh,Refresh the token ,Token, Bearer Token,Refresh token at Http Cookies,,"Email , Role,Token , RefreshToken, RefreshExpiresAt",,,Pagination,page,totalRecords,pageSize,totalPages,Pagination(input),page,pageSize,search,sortBy,,,,,
+,GET,/api/v1/auth/me,Get current user details,Token, Bearer Token,,,Freelancer/Client,,,,,,,,,,,,,,,,,
+Client,POST,/api/v1/client/create,Creates the Client & User,All,,,"ProfileURL , UserName*, CompanyName, Location, Email*, Password*",ClientResponse,,,ClientResponse,ID,ProfileUrl,UserName,Email,CompanyName,Location,IsActive,CreatedAt,UpdatedAt,DeletedAt,Projects[],,,
+,GET,/api/v1/client/{ClientId},Returns the Client Details by ClientID,All,,ClientId,,ClientResponse,,,,,,,,,,,,,,,,,
+,GET,/api/v1/client,Get all Client details (Pagination),All,,,,ClientResponse,,,,,,,,,,,,,,,,,
+,PUT,/api/v1/client/{ClientID},Update the Client by ClientId,Client, Bearer Token,ClientId,"ProfileURL, UserName, CompanyName, Location",ClientResponse,,,,,,,,,,,,,,,,,
+,DELETE,/api/v1/client/{ClientID},Delete the Client by ClientId,Client, Bearer Token,ClientId,,ClientResponse,Success/Failure,,,,,,,,,,,,,,,,
+Freelancer,POST,/api/v1/freelancer/create,Create the new  freelancer ,All,,,"ProfileURL, UserName*, Email*, Password*, ExperienceYears, HourlyRate, Location, Skills[]",FreelancerResponse,,,FreelancerResponse,ID,ProfileUrl,UserName,Email,ExperienceYears,HourlyRate,Location,IsActive,CreatedAt,UpdatedAt,DeletedAt,Skills[],,
+,GET,/api/v1/freelancer/{freelancerId},Returns the freelancer by FreelancerId,All,,FreelanceId,,FreelancerResponse,,,,,,,,,,,,,,,,,
+,GET,/api/v1/freelancer,GetAll Freelancers (Pagination + search),All,,,,FreelancerResponse,,,,,,,,,,,,,,,,,
+,PUT,/api/v1/freelancer/{freelancerId},Update the freelancer details,FreeLancer, Bearer Token,FreelanceId,"ProfileURL, UserName, ExperienceYears, HourlyRate, Location, Skills[]",FreelancerResponse,,,,,,,,,,,,,,,,,
+,DELETE,/api/v1/freelancer/{freelancerId},Delete the freelancer by FreelancerId,FreeLancer, Bearer Token,FreelanceId,,FreelancerResponse,Success/Failure,,,,,,,,,,,,,,,,
+Project,POST,/api/v1/project/create,Create project by refering the ClientId,Client, Bearer Token,,"Title*, Descrption,Budget*,Duration,ClientID*,RequiredSkills",ProjectResponse,,,ProjectResponse,ID,Title,Description,Budget,Duration,IsActive,Status,CreatedAt,UpdatedAt,DeletedAt,ClientId,FreelancerId,RequiredSkills,Proposals
+,GET,"/api/v1/project/{projectId}
+
+",Get Projects by Id,All,,ProjectId,,ProjectResponse,,,,,,,,,,,,,,,,,
+,GET,"/api/v1/project
+
+",Get all Projects (Pagination+search),All,,,,ProjectResponse,,,,,,,,,,,,,,,,,
+,GET,"/api/v1/project/client/{clientId}
+
+","Get AllProjects by Client ID (Pagination+search)
+",Client, Bearer Token,ClientId,,ProjectResponse,,,,,,,,,,,,,,,,,
+,GET,"/api/v1/project/freelancer/{freelancerId}
+
+","Get AllProjects by Freelacner ID (Pagination+search)
+",All,,FreelancerId,,ProjectResponse,,,,,,,,,,,,,,,,,
+,PUT,/api/v1/project/{projectId},Updates the Project by projectId,Client, Bearer Token,ProjectId,"Title, Description,Budget,Duration,RequiredSkills",ProjectResponse,,,,,,,,,,,,,,,,,
+,DELETE,"/api/v1/project/{projectId}
+
+",Delete Project by ProjectId,Client, Bearer Token,ProjectId,,ProjectResponse,Success/Failure,,,,,,,,,,,,,,,,
+Proposal,POST,"/api/v1/proposal/create
+
+",Create Proposal,FreeLancer, Bearer Token,,"Description*, ProposedAmount*, ProposedDuration, FreelancerId*, ProjectId*",ProposalResponse,,,ProposalResponse,ID,Description,Proposed Amount,Proposed Duration,IsActive,IsAccepted,IsRejected,CreatedAt,UpdatedAt,DeletedAt,Freelancer,Project,,
+,GET,"/api/v1/proposal/{proposalId}
+",Get Proposal by Proposal ID,,,ProposalId,,ProposalResponse,,,,,,,,,,,,,,,,,
+,GET,/api/v1/proposal/freelancer/{freelancerId},"Get Proposals by Freelancer ID (Pagination,search)",,,FreeLancerId,,ProposalResponse,,,,,,,,,,,,,,,,,
+,GET,/api/v1/proposal/client/{clientId},"Get Proposals by client ID (Pagination,search)",,,ClientId,,ProposalResponse,,,,,,,,,,,,,,,,,
+,GET,"/api/v1/proposal
+","Get All Proposals (Pagination,search)",,,,,ProposalResponse,,,,,,,,,,,,,,,,,
+,PUT,"/api/v1/proposal/{proposalId}
+
+
+",Update Proposal,FreeLancer, Bearer Token,ProposalId,"Description, ProposedAmount, ProposedDuration",ProposalResponse,,,,,,,,,,,,,,,,,
+,DELETE,/api/v1/proposal/{proposalId},Delete Proposal,FreeLancer, Bearer Token,ProposalId,,ProposalResponse,Success/Failure,,,,,,,,,,,,,,,,
+Project Proposal,GET,/api/v1/projectproposal/ProjectId/{projectId},"Fetch project proposal by ProjectId (Pagination, search)",All,,ProjectId,,ProposalResponse,,,,,,,,,,,,,,,,,
+,POST,/api/v1/projectproposal/Accept,Accept the request & create chat,Client, Bearer Token,,"ProjectId* , ProposalId*",ProjectResponse,,,,,,,,,,,,,,,,,
+,POST,/api/v1/projectproposal/Cancel,Cancel projectProposal & delete chat,Client, Bearer Token,,ProjectId* ,ProjectResponse,,,,,,,,,,,,,,,,,
+,POST,/api/v1/projectproposal/Reject,Rejects ProjectProposal,Client, Bearer Token,,"ProjectId* , ProposalId*",ProposalResponse,,,,,,,,,,,,,,,,,
+,POST,/api/v1/projectproposal/Complete,Completes ProjectProposal & delete chat,Client, Bearer Token,,ProjectId*,ProjectResponse,,,,,,,,,,,,,,,,,
+Image Upload,POST,/api/v1/imageupload/upload,Upload Image,Token, Bearer Token,,Image*,ImageURL,,,ChatMessageResponse,ID,Content,SendAt,UpdatedAt,DeletedAt,IsRead,IsActive,ChatRoomID,SenderID,,,,,
+,DELETE,/api/v1/imageupload/delete,Delete Image,Token, Bearer Token,,ImageURL*,Boolean (true/false),Success/Failure,,,,,,,,,,,,,,,,
+Chat Messages,POST,/api/v1/Chat/SendMessage,Sends a chat message,Only project client & freelancer, Bearer Token,,"Content*, ChatRoomId*, SenderId*",ChatMessageResponse,,,,,,,,,,,,,,,,,
+,PUT,/api/v1/Chat/UpdateMessage/{messageId},Updates a chat message,Only project client & freelancer, Bearer Token,MessageId,Content*,ChatMessageResponse,,,,,,,,,,,,,,,,,
+,PUT,/api/v1/Chat/SetMessageRead/{messageId},Set chat message as read,Only project client & freelancer, Bearer Token,MessageId,"ChatRoomId*, SenderId*",ChatMessageResponse,,,,,,,,,,,,,,,,,
+,DELETE,/api/v1/Chat/DeleteMessage/{messageId}/ChatRoom/{chatRoomId},Deletes a specific chat message from a chat room,Only project client & freelancer, Bearer Token,MessageId & ChatRoomId,,ChatMessageResponse,,,,,,,,,,,,,,,,,
+,GET,/api/v1/Chat/Messages/{chatRoomId},"Get Messages by Chat Room ID
+(Pagination)",All, Bearer Token,ChatRoomId,,ChatMessageResponse,,,,,,,,,,,,,,,,,
+,GET,/api/v1/Chat/RoomByProject/{projectId},"Get Chat Room by Project ID
+",All, Bearer Token,ProjectId,,ChatRoomMessageResponse,,,ChatRoomMessageResponse,Id,Name,CreatedAt,UpdatedAt,DeletedAt,IsActive,ClientId,FreelancerID,ProjectId,ClientName,FreelancerName,Messages,,
+,GET,/api/v1/Chat/RoomsByUser/{userId},"Get Chat Rooms by User ID
+(Pagination)",All, Bearer Token,UserId,,ChatRoomMessageResponse,,,,,,,,,,,,,,,,,
