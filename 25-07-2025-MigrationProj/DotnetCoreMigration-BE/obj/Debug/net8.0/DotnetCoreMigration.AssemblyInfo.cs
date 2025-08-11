@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DotnetCoreMigration")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c3b65fb92b9f106f5c3dae823c835f0268504c3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+96361ff732a0fa6c61655a38a8a7efac8d63a0ec")]
 [assembly: System.Reflection.AssemblyProductAttribute("DotnetCoreMigration")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DotnetCoreMigration")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
